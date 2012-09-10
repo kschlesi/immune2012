@@ -27,9 +27,14 @@ Pofy = zeros(Ldim1,Ldim2);
     for i = 1:Pdim1
         for j = 1:Pdim2
             omega_(i,j) = sum(sum(squeeze(gamma_lib(i,j,:,:)).*( N + M + E ),1),2); % size = Pdim1,Pdim2
+	    if (P(i,j)<1)
+	        dP(i,j)=-P(i,j);
+	    else
+	        dP(i,j)=r_.*P(i,j) - h_.*P(i,j).*omega_(i,j);
+	    end
         end
     end
-    dP = r_.*P - h_.*P.*omega_;
+
     % all below are size = Ldim1,Ldim2
     for i = 1:Ldim1
         for j = 1:Ldim2
