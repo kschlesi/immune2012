@@ -1,9 +1,9 @@
 % 1D pathogen diffusion code w. all lymphocytes
-% uses ode45 with finite difference equation
+% uses ode45 with @dyD1stoch
 
 clear
 
-global r_ sigma_ de_ f_ k_ days stepsize D gammas1D h_ ;
+global r_ sigma_ de_ f_ k_ days stepsize c gammas1D h_ ;
 
 r_ = 3.3;
 h_ = 10^-3;
@@ -11,10 +11,10 @@ sigma_ = 3;
 de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
-D = 30;
-b = 5;
+c = 0.5;
+b = 50;
 N0density = 3;
-days = 5;
+days = 20;
 stepsize = 0.1;
 %mrate = 0.7; % per cell per day
 
@@ -56,7 +56,7 @@ y0 = [P0;N0;E0;M0];
 
 % integrating all diffeq in time
 options = odeset('AbsTol',1e-3);
-[ts_vec,y_out] = ode45(@(t,y)dy1Dall(t,y,Pdim1,Ldim1),(0:stepsize:days),y0,options);
+[ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(0:stepsize:days),y0,options);
 n_ts = size(ts_vec,1);
 
 % create plotting functions
@@ -67,10 +67,10 @@ E_out = y_out(:,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
 M_out = y_out(:,Pdim1+2*Ldim1+1:end);
 
 % save results!!!
-dlmwrite('Pdif8.txt',P_out);
-dlmwrite('Ndif8.txt',N_out);
-dlmwrite('Edif8.txt',E_out);
-dlmwrite('Mdif8.txt',M_out);
+dlmwrite('Pdif11.txt',P_out);
+dlmwrite('Ndif11.txt',N_out);
+dlmwrite('Edif11.txt',E_out);
+dlmwrite('Mdif11.txt',M_out);
 
 
 % plot initial & final distributions

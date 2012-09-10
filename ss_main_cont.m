@@ -2,7 +2,7 @@
 
 clear
 
-global r_ sigma_ de_ f_ k_ D gammas1D h_ ;
+global r_ sigma_ de_ f_ k_ c gammas1D h_ ;
 
 r_ = 3.3;
 h_ = 10^-3;
@@ -10,13 +10,13 @@ sigma_ = 3;
 de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
-D = 30;
-days = 30;
+c = 0.05;
+days = 5;
 stepsize = 0.1;
 olddays = 10;
 oldss = 0.1;
 %mrate = 0.7; % per cell per day
-b = 5;
+b = 15;
 N0density = 3;
 x0 = 500;
 
@@ -37,10 +37,10 @@ end
 
 
 % initial inoculation in shape space
-P0in = csvread('Pdif8.txt');
-N0in = csvread('Ndif8.txt');
-E0in = csvread('Edif8.txt');
-M0in = csvread('Mdif8.txt');
+P0in = csvread('Pdif10a.txt');
+N0in = csvread('Ndif10a.txt');
+E0in = csvread('Edif10a.txt');
+M0in = csvread('Mdif10a.txt');
 P0 = shiftdim(P0in(old_ts,:),1);
 N0 = shiftdim(N0in(old_ts,:),1);
 E0 = shiftdim(E0in(old_ts,:),1);
@@ -60,7 +60,7 @@ figure
 
 % integrating all diffeq in time
 options = odeset('AbsTol',1e-3);
-[ts_vec,y_out] = ode45(@(t,y)dy1Dall(t,y,Pdim1,Ldim1),(0:stepsize:days),y0,options);
+[ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(0:stepsize:days),y0,options);
 n_ts = size(ts_vec,1);
 
 
@@ -74,13 +74,13 @@ M_out = y_out(:,Pdim1+2*Ldim1+1:end);
 
 % save results!!!
 dlmwrite('Pnewbie.txt',P_out);
-concat('Pdif8.txt','Pnewbie.txt');
+concat('Pdif10a.txt','Pnewbie.txt');
 dlmwrite('Nnewbie.txt',N_out);
-concat('Ndif8.txt','Nnewbie.txt');
+concat('Ndif10a.txt','Nnewbie.txt');
 dlmwrite('Enewbie.txt',E_out);
-concat('Edif8.txt','Enewbie.txt');
+concat('Edif10a.txt','Enewbie.txt');
 dlmwrite('Mnewbie.txt',M_out);
-concat('Mdif8.txt','Mnewbie.txt');
+concat('Mdif10a.txt','Mnewbie.txt');
 
 
 % plot initial & final distributions
