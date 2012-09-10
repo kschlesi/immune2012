@@ -72,7 +72,8 @@ y0 = [P0lin;N0lin;E0lin;M0lin];
     hold off
 
  % integrating diffeqs
- [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Pdim2,Ldim1,Ldim2),(0:stepsize:days),y0);
+ options = odeset('AbsTol',1e-3);
+ [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Pdim2,Ldim1,Ldim2),(0:stepsize:days),y0,options);
  n_ts = size(ts_vec,1);
  
 % setting final values
