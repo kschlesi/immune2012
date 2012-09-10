@@ -1,9 +1,9 @@
 % 1D pathogen diffusion code w. all lymphocytes
-% uses ode45 with @dyD1stoch
+% uses ode45 with stochastic matrix, fitness landscape
 
 clear
 
-global r_ sigma_ de_ f_ k_ days stepsize c gammas1D h_ ;
+global r_ sigma_ de_ f_ k_ days stepsize c p_ beta_ lambdas1D gammas1D h_ ;
 
 r_ = 3.3;
 h_ = 10^-3;
@@ -12,9 +12,10 @@ de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
-b = 50;
+b = 25;
+beta_ = 40;
 N0density = 3;
-days = 20;
+days = 10;
 stepsize = 0.1;
 %mrate = 0.7; % per cell per day
 
@@ -22,20 +23,22 @@ stepsize = 0.1;
 % dimensions of 1D shape space
 Pdim1 = 1000;
 Ldim1 = 1000;
-
-% gammas
-gammas1D = zeros(Pdim1,Ldim1);
-for i=1:Pdim1;
-    for j=1:Ldim1;
-        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
-    end
-end
-
+p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
 
 % center and max amount of initial gaussian inoculation in shape space
 x0 = 500;
 Pmax0 = 10;
 Pdiff0 = 12;
+
+% gammas & lambdas
+gammas1D = zeros(Pdim1,Ldim1);
+lambdas1D = zeros(Pdim1,1);
+for i=1:Pdim1;
+    lambdas1D(i) = p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+    for j=1:Ldim1;
+        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
+    end
+end
 
 % setting initial conditions for P, N, E, M;
 G0 = Pmax0.*ones(Pdiff0/2,1);
@@ -67,10 +70,10 @@ E_out = y_out(:,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
 M_out = y_out(:,Pdim1+2*Ldim1+1:end);
 
 % save results!!!
-dlmwrite('Pdif11.txt',P_out);
-dlmwrite('Ndif11.txt',N_out);
-dlmwrite('Edif11.txt',E_out);
-dlmwrite('Mdif11.txt',M_out);
+dlmwrite('Pfit3.txt',P_out);
+dlmwrite('Nfit3.txt',N_out);
+dlmwrite('Efit3.txt',E_out);
+dlmwrite('Mfit3.txt',M_out);
 
 
 % plot initial & final distributions

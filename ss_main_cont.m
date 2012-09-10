@@ -1,8 +1,8 @@
-% mutation1dall_cont
+% fitness landscape_cont
 
 clear
 
-global r_ sigma_ de_ f_ k_ c gammas1D h_ ;
+global r_ sigma_ de_ f_ k_ c gammas1D h_ p_ lambdas1D ;
 
 r_ = 3.3;
 h_ = 10^-3;
@@ -10,13 +10,14 @@ sigma_ = 3;
 de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
-c = 0.05;
-days = 5;
+c = 0.5;
+days = 50;
 stepsize = 0.1;
-olddays = 10;
+olddays = 50;
 oldss = 0.1;
 %mrate = 0.7; % per cell per day
-b = 15;
+b = 25;
+beta_ = 40; 
 N0density = 3;
 x0 = 500;
 
@@ -26,10 +27,13 @@ old_ts = size(oldt_vec,2);
 % dimensions of 1D shape space
 Pdim1 = 1000;
 Ldim1 = 1000;
+p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
 
-% gammas
+% gammas & lambdas
 gammas1D = zeros(Pdim1,Ldim1);
+lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;
+    lambdas1D(i) = p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
     for j=1:Ldim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end
@@ -37,10 +41,10 @@ end
 
 
 % initial inoculation in shape space
-P0in = csvread('Pdif10a.txt');
-N0in = csvread('Ndif10a.txt');
-E0in = csvread('Edif10a.txt');
-M0in = csvread('Mdif10a.txt');
+P0in = csvread('Pfit3.txt');
+N0in = csvread('Nfit3.txt');
+E0in = csvread('Efit3.txt');
+M0in = csvread('Mfit3.txt');
 P0 = shiftdim(P0in(old_ts,:),1);
 N0 = shiftdim(N0in(old_ts,:),1);
 E0 = shiftdim(E0in(old_ts,:),1);
@@ -74,13 +78,13 @@ M_out = y_out(:,Pdim1+2*Ldim1+1:end);
 
 % save results!!!
 dlmwrite('Pnewbie.txt',P_out);
-concat('Pdif10a.txt','Pnewbie.txt');
+concat('Pfit3.txt','Pnewbie.txt');
 dlmwrite('Nnewbie.txt',N_out);
-concat('Ndif10a.txt','Nnewbie.txt');
+concat('Nfit3.txt','Nnewbie.txt');
 dlmwrite('Enewbie.txt',E_out);
-concat('Edif10a.txt','Enewbie.txt');
+concat('Efit3.txt','Enewbie.txt');
 dlmwrite('Mnewbie.txt',M_out);
-concat('Mdif10a.txt','Mnewbie.txt');
+concat('Mfit3.txt','Mnewbie.txt');
 
 
 % plot initial & final distributions
@@ -106,23 +110,23 @@ concat('Mdif10a.txt','Mnewbie.txt');
     hold on
     surf(P_out,'MeshStyle','row')
     hold off
-    axis([0 Pdim1 0 n_ts 0 max(P0(:,x0))])
+%    axis([0 Pdim1 0 n_ts 0 max(P0(:,x0))])
 %    set(gca,'ZScale','log')
 
     figure
     hold on
     surf(N_out,'MeshStyle','row')
     hold off
-    axis([0 Ldim1 0 n_ts 0 max(N_out(:,x0))])
+%    axis([0 Ldim1 0 n_ts 0 max(N_out(:,x0))])
 
     figure
     hold on
     surf(E_out,'MeshStyle','row')
     hold off
-    axis([0 Ldim1 0 n_ts 0 max(E_out(:,x0))])
+%    axis([0 Ldim1 0 n_ts 0 max(E_out(:,x0))])
     
     figure
     hold on
     surf(M_out,'MeshStyle','row')
     hold off
-    axis([0 Ldim1 0 n_ts 0 max(M_out(:,x0))])
+%    axis([0 Ldim1 0 n_ts 0 max(M_out(:,x0))])
