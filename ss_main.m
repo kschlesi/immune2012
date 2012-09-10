@@ -70,10 +70,9 @@ y0 = [P0lin;N0lin;E0lin;M0lin];
     figure
     surf(P0)
     hold off
-    
 
  % integrating diffeqs
- [ts_vec,y_out] = ode45(@(t,y)sssDiffusedy(t,y,Pdim1,Pdim2,Ldim1,Ldim2),(0:stepsize:days),y0);
+ [ts_vec,y_out] = ode45(@(t,y)sssDiffusedy_sf1(t,y,Pdim1,Pdim2,Ldim1,Ldim2),(0:stepsize:days),y0);
  n_ts = size(ts_vec,1);
  
 % setting final values
