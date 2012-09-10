@@ -1,53 +1,38 @@
-% P_eff function handle for ode45 integration routine
-function dy = ss_dy(t,y,Pdim1,Pdim2,Ldim1,Ldim2)
+function dy = ss_dy(t,y,Pdim1,Ldim1)
 
-global r_ h_ sigma_ k_ de_ f_ gamma_lib ;
+global r_ h_ sigma_ de_ f_ k_ D gammas1D;
 
-% separate cell types
-Plin = y(1:Pdim1*Pdim2);
-Nlin = y(Pdim1*Pdim2+1:Pdim1*Pdim2+Ldim1*Ldim2);
-Elin = y(Pdim1*Pdim2+Ldim1*Ldim2+1:Pdim1*Pdim2+2*Ldim1*Ldim2);
-Mlin = y(Pdim1*Pdim2+2*Ldim1*Ldim2+1:end);
+% create separate P, N, E, M vectors
+P = y(1:Pdim1);
+N = y(Pdim1+1:Pdim1+Ldim1);
+E = y(Pdim1+Ldim1+1:Pdim1+2*Ldim1);
+M = y(Pdim1+2*Ldim1+1:end);
 
-P = reshape(Plin,Pdim1,Pdim2);
-N = reshape(Nlin,Ldim1,Ldim2);
-E = reshape(Elin,Ldim1,Ldim2);
-M = reshape(Mlin,Ldim1,Ldim2);
 
-% hold on
-% figure
-% surf(P)
-% hold off
-
-% preallocating arrays
-omega_ = zeros(Pdim1,Pdim2);
-Pofy = zeros(Ldim1,Ldim2);
-
-% calculating dCells with diffeqs
-    for i = 1:Pdim1
-        for j = 1:Pdim2
-            omega_(i,j) = sum(sum(squeeze(gamma_lib(i,j,:,:)).*( N + M + E ),1),2); % size = Pdim1,Pdim2
-        end
+dmut = zeros(Pdim1,1);
+omega = zeros(Pdim1,1);
+    for i=2:Pdim1-1
+        dmut(i) = D*(P(i-1)-2*P(i)+P(i+1));
+        omega(i) = sum(shiftdim(gammas1D(i,:)).*(N + M + E));
     end
-    dP = r_.*P - h_.*P.*omega_;
-    % all below are size = Ldim1,Ldim2
-    for i = 1:Ldim1
-        for j = 1:Ldim2
-            Pofy(i,j)= sum(sum(P.*squeeze(gamma_lib(:,:,i,j)),1),2);
-        end
+    % on boundaries, use forward/backward differences
+    dmut(1) = D*(P(1)-2*P(2)+P(3));
+    dmut(Pdim1) = D*(P(Pdim1)-2*P(Pdim1-1)+P(Pdim1-2));
+    omega(1) = sum(shiftdim(gammas1D(1,:)).*(N + M + E));
+    omega(Pdim1) = sum(shiftdim(gammas1D(Pdim1,:)).*(N + M + E));
+    
+%dP = dmut;
+dP = dmut + r_.*P - h_.*omega.*P;
+
+Pofy = zeros(Ldim1,1);
+    for j = 1:Ldim1
+        Pofy(j)= sum(P.*squeeze(gammas1D(:,j)));
     end
-    satfunc = Pofy./(k_.*ones(Ldim1,Ldim2)+Pofy);
-    dN = -sigma_.*N.*satfunc;
-    dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,Ldim2)-satfunc);
-    dM = f_.*de_.*E.*(ones(Ldim1,Ldim2)-satfunc)-sigma_.*M.*satfunc;
+satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy);
+dN = -sigma_.*N.*satfunc;
+dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,1)-satfunc);
+dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc)-sigma_.*M.*satfunc;
 
 t
-N(30,25)
-satfunc(30,25)
-    
-% reshaping and creating final dy vector
-dPlin = reshape(dP,Pdim1*Pdim2,1);
-dNlin = reshape(dN,Ldim1*Ldim2,1);
-dElin = reshape(dE,Ldim1*Ldim2,1);
-dMlin = reshape(dM,Ldim1*Ldim2,1);
-dy = [dPlin;dNlin;dElin;dMlin];
+
+dy = [dP;dN;dE;dM];

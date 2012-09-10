@@ -1,125 +1,117 @@
-% simulation: pathogen diffused in 2D shape space
-% interacts with lattice of lymphocytes
+% 1D pathogen diffusion code w. all lymphocytes
+% uses ode45 with finite difference equation
 
 clear
 
-global b_ r_ h_ sigma_ k_ de_ f_ gamma_lib days stepsize;
+global r_ sigma_ de_ f_ k_ days stepsize D gammas1D h_ ;
 
-N0density = 3; 
 r_ = 3.3;
-h_ = 10^-5;
+h_ = 10^-3;
 sigma_ = 3;
-k_ = 10^5;
 de_ = 0.35;
+k_ = 10^5;
 f_ = 0.1;
-b_ = 5;
-days = 20;
+D = 30;
+b = 5;
+N0density = 3;
+days = 5;
 stepsize = 0.1;
+%mrate = 0.7; % per cell per day
 
-% dimensions of 2D shape space
-Ldim1 = 60;
-Ldim2 = 48;
-Pdim1 = 60; 
-Pdim2 = 48;
 
-% center and max amount of initial gaussian inoculation in shape space
-x0 = [30,24];
-Pmax0 = 4;
-Pdiff0 = 5;
+% dimensions of 1D shape space
+Pdim1 = 1000;
+Ldim1 = 1000;
 
-% setting initial conditions for P, N, E, M
-%G0 = Gammas([20,20],zeros(40,40),Pmax0,Pdiff0);  % initial restricted gaussian distribution of pathogen
-%P0 = padarray(G0,[Pdim1/2-20 Pdim2/2-20],'both');
-P0 = Gammas(x0,zeros(Pdim1,Pdim2),Pmax0,Pdiff0);%+ones(Pdim1,Pdim2); % initial gaussian distribution of pathogen everywhere
-N0 = N0density.*(ones(Ldim1,Ldim2)); % initial uniform distribution of naive cells
-E0 = zeros(Ldim1,Ldim2);
-M0 = zeros(Ldim1,Ldim2);
-
-% option: restrict initial pathogen
-% for i=1:Pdim1
-%     for j=1:Pdim2
-%         if (P0(i,j)<1)
-%             P0(i,j)=0;
-%         end
-%     end
-% end
-
-% creating gamma library
-gamma_lib = zeros(Pdim1,Pdim2,Ldim1,Ldim2);
-for i = 1:Pdim1
-    for j = 1:Pdim2
-        gamma_lib(i,j,:,:) = Gammas([i,j],N0,1,b_);
+% gammas
+gammas1D = zeros(Pdim1,Ldim1);
+for i=1:Pdim1;
+    for j=1:Ldim1;
+        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end
 end
 
-% %plotting test gamma
-%         hold on
-%         figure
-%         surf(squeeze(gamma_lib(45,10,:,:)))
-%         hold off
 
-% creating vector of initial conditions
-P0lin = reshape(P0,Pdim1*Pdim2,1);
-N0lin = reshape(N0,Ldim1*Ldim2,1);
-E0lin = reshape(E0,Ldim1*Ldim2,1);
-M0lin = reshape(M0,Ldim1*Ldim2,1);
-y0 = [P0lin;N0lin;E0lin;M0lin];
+% center and max amount of initial gaussian inoculation in shape space
+x0 = 500;
+Pmax0 = 10;
+Pdiff0 = 12;
 
-% plotting initial conditions
+% setting initial conditions for P, N, E, M;
+G0 = Pmax0.*ones(Pdiff0/2,1);
+P0 = padarray(G0,Pdim1/2-Pdiff0/4,'both');
+
+N0 = N0density.*ones(Ldim1,1);
+E0 = zeros(Ldim1,1);
+M0 = zeros(Ldim1,1);
+
+% P0 = zeros(Pdim1,1); % initial gaussian distribution of pathogen
+% for i=1:Pdim1;
+%     P0(i) = Pmax0*exp(-1*((i-x0)^2)/(2*Pdiff0^2));
+% end
+
+% creating initial conditions vector
+
+y0 = [P0;N0;E0;M0];
+
+% integrating all diffeq in time
+options = odeset('AbsTol',1e-3);
+[ts_vec,y_out] = ode45(@(t,y)dy1Dall(t,y,Pdim1,Ldim1),(0:stepsize:days),y0,options);
+n_ts = size(ts_vec,1);
+
+% create plotting functions
+
+P_out = y_out(:,1:Pdim1);
+N_out = y_out(:,Pdim1+1:Pdim1+Ldim1);
+E_out = y_out(:,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
+M_out = y_out(:,Pdim1+2*Ldim1+1:end);
+
+% save results!!!
+dlmwrite('Pdif8.txt',P_out);
+dlmwrite('Ndif8.txt',N_out);
+dlmwrite('Edif8.txt',E_out);
+dlmwrite('Mdif8.txt',M_out);
+
+
+% plot initial & final distributions
+%     figure
+%     plot((1:1:Pdim1),P0)
+%     
+%     figure
+%     Pfin = squeeze(P_out(n_ts,:));
+%     plot((1:1:Pdim1),Pfin)
+    
+    figure
     hold on
-    figure
-    surf(P0)
+    surf(P_out,'MeshStyle','row')
     hold off
+    axis([0 Pdim1 0 n_ts 0 max(P_out(:,x0))])
+%    set(gca,'ZScale','log')
 
- % integrating diffeqs
- options = odeset('AbsTol',1e-3);
- [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Pdim2,Ldim1,Ldim2),(0:stepsize:days),y0,options);
- n_ts = size(ts_vec,1);
- 
-% setting final values
-P_outlin = y_out(:,1:Pdim1*Pdim2); % 2D matrices of cells per site (linear) per ts
-N_outlin = y_out(:,Pdim1*Pdim2+1:Pdim1*Pdim2+Ldim1*Ldim2);
-E_outlin = y_out(:,Pdim1*Pdim2+Ldim1*Ldim2+1:Pdim1*Pdim2+2*Ldim1*Ldim2);
-M_outlin = y_out(:,Pdim1*Pdim2+2*Ldim1*Ldim2+1:end);
-
-dlmwrite('Pout17.txt',P_outlin);
-dlmwrite('Nout17.txt',N_outlin);
-dlmwrite('Eout17.txt',E_outlin);
-dlmwrite('Mout17.txt',M_outlin);
-
-P_out = reshape(P_outlin,n_ts,Pdim1,Pdim2); % 3D matrices of cells per row per col per ts
-N_out = reshape(N_outlin,n_ts,Ldim1,Ldim2);
-E_out = reshape(E_outlin,n_ts,Ldim1,Ldim2);
-M_out = reshape(M_outlin,n_ts,Ldim1,Ldim2);
-
-P_tot = sum(P_outlin,2); % 1D vectors of total cells per ts
-N_tot = sum(N_outlin,2); 
-E_tot = sum(E_outlin,2);
-M_tot = sum(M_outlin,2);
-
-% plotting immune system response to pathogen
     figure
-        semilogy(ts_vec,P_tot,ts_vec,(M_tot + N_tot + E_tot))%,ts_vec,M_tot,ts_vec,N_tot,ts_vec,E_tot);
-        axis([0 days 1 10^10])
+    hold on
+    surf(N_out,'MeshStyle','row')
+    hold off
+    axis([0 Ldim1 0 n_ts 0 N0density])
 
-% plotting final P, N, M, and E populations
-        hold on
-        figure
-        surf(squeeze(P_out(n_ts,:,:)))
-        hold off
+    figure
+    hold on
+    surf(E_out,'MeshStyle','row')
+    hold off
+    axis([0 Ldim1 0 n_ts 0 5000])
+    
+    figure
+    hold on
+    surf(M_out,'MeshStyle','row')
+    hold off
+    axis([0 Ldim1 0 n_ts 0 400])
 
-        hold on
-        figure
-        surf(squeeze(N_out(n_ts,:,:)))
-        hold off
 
-        hold on
-        figure
-        surf(squeeze(E_out(n_ts,:,:)))
-        hold off
 
-        hold on
-        figure
-        surf(squeeze(M_out(n_ts,:,:)))
-        hold off
-        
+    Ptot = sum(P_out,2);
+    Ntot = sum(N_out,2);
+    Etot = sum(E_out,2);
+    Mtot = sum(M_out,2);
+    figure
+    semilogy(ts_vec,Ptot,ts_vec,Ntot+Mtot+Etot)
+    axis([0 days 1 10^8])
