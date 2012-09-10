@@ -1,73 +1,88 @@
-% for reading and plotting results of simulations 
-% saved in arrays from sssim_diffuse.m
+% mutation 1D plotter
 
 clear
 
-global b_ r_ h_ sigma_ k_ de_ f_ gamma_lib;
-
-days = 20;
+r_ = 3.3;
+h_ = 10^-5;
+sigma_ = 3;
+de_ = 0.35;
+k_ = 10^5;
+f_ = 0.1;
+D = 10;
+days = 12;
 stepsize = 0.1;
-ts_v = [0:stepsize:days];
-timesteps = size(ts_v,2); %number of timesteps in run to be read
+%mrate = 0.7; % per cell per day
+b = 50;
+N0density = 3;
+x0 = 100;
 
-Pdim1 = 60;
-Pdim2 = 48;
-Ldim1 = 60;
-Ldim2 = 48;
+% dimensions of 1D shape space
+Pdim1 = 1000;
+Ldim1 = 1000;
 
-% read in and reshape saved vectors
-Plin = csvread('Pout17.txt');
-Nlin = csvread('Nout17.txt');
-Elin = csvread('Eout17.txt');
-Mlin = csvread('Mout17.txt');
+% gammas
+gammas1D = zeros(Pdim1,Ldim1);
+for i=1:Pdim1;
+    for j=1:Ldim1;
+        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
+    end
+end
 
-Pplot = reshape(Plin,timesteps,Pdim1,Pdim2);
-Nplot = reshape(Nlin,timesteps,Ldim1,Ldim2);
-Eplot = reshape(Elin,timesteps,Ldim1,Ldim2);
-Mplot = reshape(Mlin,timesteps,Ldim1,Ldim2);
+% data and time vector
+Pplot = csvread('Pdif9c.txt');
+Nplot = csvread('Ndif9c.txt');
+Eplot = csvread('Edif9c.txt');
+Mplot = csvread('Mdif9c.txt');
 
-% plot, referencing data by Xplot(timestep,ssloc_x,ssloc_y)
+ts_vec = (0:stepsize:days);
+n_ts = size(ts_vec,2);
 
-    %satfunc(Peff) at particular y-points
-     repgammaliby = shiftdim(repmat(squeeze(gamma_lib(:,:,30,25)),[1,1,timesteps]),2);
-     Pofy = squeeze(sum(sum(Pplot.*repgammaliby,2),3))./(Pdim1*Pdim2);
-     newsatfunc1 = Pofy./(k_*ones(timesteps,1)+Pofy);
-%     repgammaliby = shiftdim(repmat(squeeze(gamma_lib(:,:,45,20)),[1,1,timesteps]),2);
-%     Pofy = squeeze(sum(sum(Pplot.*repgammaliby,2),3))./(Pdim1*Pdim2);
-%     newsatfunc2 = Pofy./(k_*ones(timesteps,1)+Pofy);
-%      figure
-%      semilogy(ts_v,newsatfunc1)
-%     
+% figure
+% hold on
+% surf(Pplot)
+% hold off
 
-        
-    % total P, N, E, M over time
-    Ptot = squeeze(sum(sum(Pplot,2),3));
-    Ntot = squeeze(sum(sum(Nplot,2),3));
-    Etot = squeeze(sum(sum(Eplot,2),3));
-    Mtot = squeeze(sum(sum(Mplot,2),3));
-    Ltot = Ntot+Etot+Mtot;
-      figure
-      semilogy(ts_v,Ptot,ts_v,Ltot)%,ts_v,Ntot,ts_v,Etot,ts_v,Mtot)
-      axis([0 days 1 10^10])
+
+
+
+    Ptot = sum(Pplot,2);
+    Ntot = sum(Nplot,2);
+    Etot = sum(Eplot,2);
+    Mtot = sum(Mplot,2);
+    figure
+    semilogy(ts_vec,Ptot,ts_vec,Ntot+Mtot+Etot)
+    axis([0 days 1 10^8])
     
-   %initial P     
-         hold on
-         figure
-         surf(squeeze(Pplot(1,:,:)))
-         hold off
 
-   %final N, E, M
-         hold on
-         figure
-         surf(squeeze(Nplot(timesteps,:,:)))
-         hold off
-         
-         hold on
-         figure
-         surf(squeeze(Eplot(timesteps,:,:)))
-         hold off
-         
-         hold on
-         figure
-         surf(squeeze(Pplot(timesteps,:,:)))
-         hold off
+
+    figure
+    col(:,:,1) = rand(n_ts,Pdim1);
+    col(:,:,2) = rand(n_ts,Pdim1);
+    col(:,:,3) = rand(n_ts,Pdim1);
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Pplot,v)%,'MeshStyle','row')
+%    axis([0 Pdim1 0 n_ts 0 10^5])
+%    %set(gca,'CLim',[30 85690]);
+%    v=caxis;
+%    v
+%    set(gca,'ZScale','log')
+
+%     figure
+%     hold on
+%     surf(Nplot)%,'MeshStyle','row')
+%     hold off
+%     axis([0 Ldim1 0 n_ts 0 N0density])
+% 
+%     figure
+%     hold on
+%     surf(Eplot)%,'MeshStyle','row')
+%     hold off
+%     axis([0 Ldim1 0 n_ts 0 10^4])
+%     
+%     figure
+%     hold on
+%     surf(Mplot)%,'MeshStyle','row')
+%     hold off
+%     axis([0 Ldim1 0 n_ts 0 10^3])
+% 
+% 
