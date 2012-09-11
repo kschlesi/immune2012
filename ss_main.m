@@ -8,10 +8,10 @@ global r_ h_ sigma_ de_ f_ k_ c p_ beta_ lambdas1D gammas1D ;
 days = 1;
 stepsize = 0.1;
 
-Pfilename = 'Ploop2.txt';
-Nfilename = 'Nloop2.txt';
-Efilename = 'Eloop2.txt';
-Mfilename = 'Mloop2.txt';
+Pfilename = 'Ploop3.txt';
+Nfilename = 'Nloop3.txt';
+Efilename = 'Eloop3.txt';
+Mfilename = 'Mloop3.txt';
 
 % setting necessary parameters
 r_ = 3.3;
