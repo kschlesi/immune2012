@@ -1,5 +1,5 @@
 
-function dy = Pmutn(t,y,Pdim1,Pdim2)
+function dy = ss_dy(t,y,Pdim1,Pdim2)
 
 global r_ mrate ijs;
 
