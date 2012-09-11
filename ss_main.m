@@ -1,10 +1,19 @@
-% 1D pathogen diffusion code w. all lymphocytes
-% uses ode45 with stochastic matrix, fitness landscape
+% 1D fitness/mutation test
+% with cutoff implemented by looping calls to ode45
 
 clear
 
-global r_ sigma_ de_ f_ k_ days stepsize c p_ beta_ lambdas1D gammas1D h_ ;
+global r_ h_ sigma_ de_ f_ k_ c p_ beta_ lambdas1D gammas1D ;
 
+days = 1;
+stepsize = 0.1;
+
+Pfilename = 'Ploop2.txt';
+Nfilename = 'Nloop2.txt';
+Efilename = 'Eloop2.txt';
+Mfilename = 'Mloop2.txt';
+
+% setting necessary parameters
 r_ = 3.3;
 h_ = 10^-3;
 sigma_ = 3;
@@ -13,24 +22,16 @@ k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
 b = 25;
-beta_ = 40;
-N0density = 3;
-days = 10;
-stepsize = 0.1;
-%mrate = 0.7; % per cell per day
+beta_ = 40; 
 
 
 % dimensions of 1D shape space
-Pdim1 = 1000;
-Ldim1 = 1000;
-p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
-
-% center and max amount of initial gaussian inoculation in shape space
-x0 = 500;
-Pmax0 = 10;
-Pdiff0 = 12;
+Pdim1 = 600;
+Ldim1 = 600;
+x0 = 300;
 
 % gammas & lambdas
+p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;
@@ -40,10 +41,13 @@ for i=1:Pdim1;
     end
 end
 
-% setting initial conditions for P, N, E, M;
+% initial configurations
+Pmax0 = 10;
+Pdiff0 = 12;
 G0 = Pmax0.*ones(Pdiff0/2,1);
 P0 = padarray(G0,Pdim1/2-Pdiff0/4,'both');
 
+N0density = 3;
 N0 = N0density.*ones(Ldim1,1);
 E0 = zeros(Ldim1,1);
 M0 = zeros(Ldim1,1);
@@ -54,26 +58,48 @@ M0 = zeros(Ldim1,1);
 % end
 
 % creating initial conditions vector
-
 y0 = [P0;N0;E0;M0];
 
-% integrating all diffeq in time
+dlmwrite(Pfilename,transpose(P0));
+dlmwrite(Nfilename,transpose(N0));
+dlmwrite(Efilename,transpose(E0));
+dlmwrite(Mfilename,transpose(M0));    
+
+
+% integrating diffeqs in time with a FOR LOOP
 options = odeset('AbsTol',1e-3);
-[ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(0:stepsize:days),y0,options);
-n_ts = size(ts_vec,1);
+nsteps = cast(days/stepsize,'uint16');
+n_ts = 0;
+for j=1:nsteps
+    
+    % integrate between two external steps (of size stepsize)
+    i = cast(j,'double');
+    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[(i-1)*stepsize,i*stepsize],y0,options);
 
-% create plotting functions
+    % add new internal steps to overall n_ts
+    n_ts = n_ts + size(ts_vec,1)-1;
+    
+    % save & append y-output
+    P_out = y_out(:,1:Pdim1);
+    N_out = y_out(:,Pdim1+1:Pdim1+Ldim1);
+    E_out = y_out(:,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
+    M_out = y_out(:,Pdim1+2*Ldim1+1:end);
 
-P_out = y_out(:,1:Pdim1);
-N_out = y_out(:,Pdim1+1:Pdim1+Ldim1);
-E_out = y_out(:,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
-M_out = y_out(:,Pdim1+2*Ldim1+1:end);
+    dlmwrite('Pnewfile.txt',P_out);
+    dlmwrite('Nnewfile.txt',N_out);
+    dlmwrite('Enewfile.txt',E_out);
+    dlmwrite('Mnewfile.txt',M_out);    
+    
+    concat(Pfilename,'Pnewfile.txt')
+    concat(Nfilename,'Nnewfile.txt')
+    concat(Efilename,'Enewfile.txt')
+    concat(Mfilename,'Mnewfile.txt')
+    
+    % set new initial conditions
+    y0 = y_out(size(ts_vec,1),:);
+        
+end
 
-% save results!!!
-dlmwrite('Pfit3.txt',P_out);
-dlmwrite('Nfit3.txt',N_out);
-dlmwrite('Efit3.txt',E_out);
-dlmwrite('Mfit3.txt',M_out);
 
 
 % plot initial & final distributions
@@ -117,4 +143,4 @@ dlmwrite('Mfit3.txt',M_out);
     Mtot = sum(M_out,2);
     figure
     semilogy(ts_vec,Ptot,ts_vec,Ntot+Mtot+Etot)
-    axis([0 days 1 10^8])
+%    axis([0 days 1 10^8])

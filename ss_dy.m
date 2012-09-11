@@ -38,7 +38,7 @@ Pofy = zeros(Ldim1,1);
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy);
 dN = -sigma_.*N.*satfunc;
 dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,1)-satfunc);
-dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc)-sigma_.*M.*satfunc;
+dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc) - sigma_.*M.*satfunc;
 
 t
 
