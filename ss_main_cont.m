@@ -15,7 +15,6 @@ days = 50;
 stepsize = 0.1;
 olddays = 50;
 oldss = 0.1;
-%mrate = 0.7; % per cell per day
 b = 25;
 beta_ = 40; 
 N0density = 3;
