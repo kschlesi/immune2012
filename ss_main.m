@@ -3,7 +3,8 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c p_ beta_ lambdas1D gammas1D ;
+global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
+global lambdas1D gammas1D ;
 
 days = 1;
 stepsize = 0.1;
@@ -69,7 +70,7 @@ dlmwrite(Mfilename,transpose(M0));
 % integrating diffeqs in time with a FOR LOOP
 options = odeset('AbsTol',1e-3);
 nsteps = cast(days/stepsize,'uint16');
-n_ts = 0;
+n_ts = 1;
 for j=1:nsteps
     
     % integrate between two external steps (of size stepsize)
@@ -77,7 +78,9 @@ for j=1:nsteps
     [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[(i-1)*stepsize,i*stepsize],y0,options);
 
     % add new internal steps to overall n_ts
+    size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
+    n_ts
     
     % save & append y-output
     P_out = y_out(:,1:Pdim1);
