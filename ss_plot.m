@@ -9,7 +9,7 @@ Nfilename = 'Nloop3.txt';
 Efilename = 'Eloop3.txt';
 Mfilename = 'Mloop3.txt';
 
-days = 1;        % total days run
+days = 10;        % total days run
 stepsize = 0.1;   % interval (days) at which ode45 was called
 
 % dimensions of 1D shape space
@@ -44,7 +44,7 @@ plot_vec = ts_vec.*days./n_ts;  % ts_vec rescaled to units of days (for plotting
     Etot = sum(Eplot,2);
     Mtot = sum(Mplot,2);
     figure
-    semilogy(plot_vec,Ptot,ts_vec,Ntot+Mtot+Etot)
+    semilogy(plot_vec,Ptot,plot_vec,Ntot+Mtot+Etot)
     axis([0 days 1 10^8])
     
 

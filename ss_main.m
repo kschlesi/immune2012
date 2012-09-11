@@ -52,8 +52,8 @@ N0density = 3;
 N0 = N0density.*ones(Ldim1,1);
 E0 = zeros(Ldim1,1);
 M0 = zeros(Ldim1,1);
-
-% P0 = zeros(Pdim1,1); % initial gaussian distribution of pathogen
+% % initial gaussian distribution of pathogen
+% P0 = zeros(Pdim1,1);
 % for i=1:Pdim1;
 %     P0(i) = Pmax0*exp(-1*((i-x0)^2)/(2*Pdiff0^2));
 % end
@@ -146,4 +146,3 @@ end
     Mtot = sum(M_out,2);
     figure
     semilogy(ts_vec,Ptot,ts_vec,Ntot+Mtot+Etot)
-%    axis([0 days 1 10^8])

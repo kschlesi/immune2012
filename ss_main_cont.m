@@ -2,30 +2,23 @@
 
 clear
 
-global r_ sigma_ de_ f_ k_ c gammas1D h_ p_ lambdas1D ;
+global r_ h_ sigma_ de_ f_ k_ c b beta_ p_ ;
 
-r_ = 3.3;
-h_ = 10^-3;
-sigma_ = 3;
-de_ = 0.35;
-k_ = 10^5;
-f_ = 0.1;
-c = 0.5;
-days = 50;
+days = 9;
 stepsize = 0.1;
-olddays = 50;
+olddays = 1;
 oldss = 0.1;
-b = 25;
-beta_ = 40; 
-N0density = 3;
-x0 = 500;
 
-oldt_vec = (0:oldss:olddays);
-old_ts = size(oldt_vec,2);
+% file to which new days will be appended
+Pfilename = 'Ploop3.txt';
+Nfilename = 'Nloop3.txt';
+Efilename = 'Eloop3.txt';
+Mfilename = 'Mloop3.txt';
 
 % dimensions of 1D shape space
-Pdim1 = 1000;
-Ldim1 = 1000;
+Pdim1 = 600;
+Ldim1 = 600;
+x0 = 300;
 p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
 
 % gammas & lambdas
@@ -38,12 +31,12 @@ for i=1:Pdim1;
     end
 end
 
-
 % initial inoculation in shape space
-P0in = csvread('Pfit3.txt');
-N0in = csvread('Nfit3.txt');
-E0in = csvread('Efit3.txt');
-M0in = csvread('Mfit3.txt');
+P0in = csvread(Pfilename);
+N0in = csvread(Nfilename);
+E0in = csvread(Efilename);
+M0in = csvread(Mfilename);
+old_ts = size(P0in,1);
 P0 = shiftdim(P0in(old_ts,:),1);
 N0 = shiftdim(N0in(old_ts,:),1);
 E0 = shiftdim(E0in(old_ts,:),1);
@@ -51,39 +44,48 @@ M0 = shiftdim(M0in(old_ts,:),1);
 
 
 % creating initial conditions vector
-
 y0 = [P0;N0;E0;M0];
 
-figure
- semilogy((1:Pdim1+3*Ldim1),(shiftdim(y0)))
-% semilogy((1:Ldim1),(shiftdim(N0)))
-% semilogy((1:Ldim1),(shiftdim(E0)))
-% semilogy((1:Ldim1),(shiftdim(M0)))
+% plotting initial conitions
+    % figure
+    % semilogy((1:Pdim1+3*Ldim1),(shiftdim(y0)))
 
-
-% integrating all diffeq in time
+% integrating diffeqs in time with a FOR LOOP
 options = odeset('AbsTol',1e-3);
-[ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(0:stepsize:days),y0,options);
-n_ts = size(ts_vec,1);
+nsteps = cast(days/stepsize,'uint16');
+n_ts = old_ts;
+n_ts
+for j=1:nsteps
+    
+    % integrate between two external steps (of size stepsize)
+    i = cast(j,'double');
+    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[(i-1)*stepsize,i*stepsize],y0,options);
 
+    % add new internal steps to overall n_ts
+    size(ts_vec,1)
+    n_ts = n_ts + size(ts_vec,1)-1;
+    n_ts
+    
+    % save & append y-output
+    P_out = y_out(:,1:Pdim1);
+    N_out = y_out(:,Pdim1+1:Pdim1+Ldim1);
+    E_out = y_out(:,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
+    M_out = y_out(:,Pdim1+2*Ldim1+1:end);
 
-% create plotting functions
-
-P_out = y_out(:,1:Pdim1);
-N_out = y_out(:,Pdim1+1:Pdim1+Ldim1);
-E_out = y_out(:,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
-M_out = y_out(:,Pdim1+2*Ldim1+1:end);
-
-
-% save results!!!
-dlmwrite('Pnewbie.txt',P_out);
-concat('Pfit3.txt','Pnewbie.txt');
-dlmwrite('Nnewbie.txt',N_out);
-concat('Nfit3.txt','Nnewbie.txt');
-dlmwrite('Enewbie.txt',E_out);
-concat('Efit3.txt','Enewbie.txt');
-dlmwrite('Mnewbie.txt',M_out);
-concat('Mfit3.txt','Mnewbie.txt');
+    dlmwrite('Pnewfile.txt',P_out);
+    dlmwrite('Nnewfile.txt',N_out);
+    dlmwrite('Enewfile.txt',E_out);
+    dlmwrite('Mnewfile.txt',M_out);    
+    
+    concat(Pfilename,'Pnewfile.txt')
+    concat(Nfilename,'Nnewfile.txt')
+    concat(Efilename,'Enewfile.txt')
+    concat(Mfilename,'Mnewfile.txt')
+    
+    % set new initial conditions
+    y0 = y_out(size(ts_vec,1),:);
+        
+end
 
 
 % plot initial & final distributions
@@ -91,41 +93,12 @@ concat('Mfit3.txt','Mnewbie.txt');
     plot((1:1:Pdim1),P0)
     
     figure
-    Pfin = squeeze(P_out(n_ts,:));
+    Pfin = squeeze(P_out(end,:));
     plot((1:1:Pdim1),Pfin)
     
-
-
     Ptot = sum(P_out,2);
     Ntot = sum(N_out,2);
     Etot = sum(E_out,2);
     Mtot = sum(M_out,2);
     figure
     semilogy(ts_vec,Ptot,ts_vec,Ntot+Mtot+Etot)
-    axis([0 days 1 10^8])
-    
-    
-        figure
-    hold on
-    surf(P_out,'MeshStyle','row')
-    hold off
-%    axis([0 Pdim1 0 n_ts 0 max(P0(:,x0))])
-%    set(gca,'ZScale','log')
-
-    figure
-    hold on
-    surf(N_out,'MeshStyle','row')
-    hold off
-%    axis([0 Ldim1 0 n_ts 0 max(N_out(:,x0))])
-
-    figure
-    hold on
-    surf(E_out,'MeshStyle','row')
-    hold off
-%    axis([0 Ldim1 0 n_ts 0 max(E_out(:,x0))])
-    
-    figure
-    hold on
-    surf(M_out,'MeshStyle','row')
-    hold off
-%    axis([0 Ldim1 0 n_ts 0 max(M_out(:,x0))])
