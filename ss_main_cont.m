@@ -4,16 +4,16 @@ clear
 
 global r_ h_ sigma_ de_ f_ k_ c b beta_ p_ ;
 
-days = 9;
+days = 0;
 stepsize = 0.1;
-olddays = 1;
+olddays = 5;
 oldss = 0.1;
 
 % file to which new days will be appended
-Pfilename = 'Ploop3.txt';
-Nfilename = 'Nloop3.txt';
-Efilename = 'Eloop3.txt';
-Mfilename = 'Mloop3.txt';
+Pfilename = 'Ploop5.txt';
+Nfilename = 'Nloop5.txt';
+Efilename = 'Eloop5.txt';
+Mfilename = 'Mloop5.txt';
 
 % dimensions of 1D shape space
 Pdim1 = 600;
@@ -64,9 +64,15 @@ for j=1:nsteps
     % add new internal steps to overall n_ts
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
-    n_ts
-    
-    % save & append y-output
+
+    % implement one-cell cutoff for all P
+    for pcount=1:Pdim1
+        if(y_out(end,pcount)<1)
+            y_out(end,pcount)=0;
+        end
+    end
+        
+   % save & append y-output
     P_out = y_out(:,1:Pdim1);
     N_out = y_out(:,Pdim1+1:Pdim1+Ldim1);
     E_out = y_out(:,Pdim1+Ldim1+1:Pdim1+2*Ldim1);

@@ -4,12 +4,12 @@ clear
 
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
 
-Pfilename = 'Ploop3.txt';
-Nfilename = 'Nloop3.txt';
-Efilename = 'Eloop3.txt';
-Mfilename = 'Mloop3.txt';
+Pfilename = 'Ploop5.txt';
+Nfilename = 'Nloop5.txt';
+Efilename = 'Eloop5.txt';
+Mfilename = 'Mloop5.txt';
 
-days = 10;        % total days run
+days = 5;         % total days run
 stepsize = 0.1;   % interval (days) at which ode45 was called
 
 % dimensions of 1D shape space
