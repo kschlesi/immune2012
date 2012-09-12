@@ -6,13 +6,13 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
 global lambdas1D gammas1D ;
 
-days = 5;
+days = 1;
 stepsize = 0.1;
 
-Pfilename = 'Ploop5.txt';
-Nfilename = 'Nloop5.txt';
-Efilename = 'Eloop5.txt';
-Mfilename = 'Mloop5.txt';
+Pfilename = 'Ploop6.txt';
+Nfilename = 'Nloop6.txt';
+Efilename = 'Eloop6.txt';
+Mfilename = 'Mloop6.txt';
 
 % setting necessary parameters
 r_ = 3.3;
@@ -88,21 +88,16 @@ for j=1:nsteps
         end
     end
         
-    % save & append y-output
-    P_out = y_out(:,1:Pdim1);
-    N_out = y_out(:,Pdim1+1:Pdim1+Ldim1);
-    E_out = y_out(:,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
-    M_out = y_out(:,Pdim1+2*Ldim1+1:end);
+    % save & append y-output (leaving out old init condition)
+    P_out = y_out(2:end,1:Pdim1);
+    N_out = y_out(2:end,Pdim1+1:Pdim1+Ldim1);
+    E_out = y_out(2:end,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
+    M_out = y_out(2:end,Pdim1+2*Ldim1+1:end);
 
-    dlmwrite('Pnewfile.txt',P_out);
-    dlmwrite('Nnewfile.txt',N_out);
-    dlmwrite('Enewfile.txt',E_out);
-    dlmwrite('Mnewfile.txt',M_out);    
-    
-    concat(Pfilename,'Pnewfile.txt')
-    concat(Nfilename,'Nnewfile.txt')
-    concat(Efilename,'Enewfile.txt')
-    concat(Mfilename,'Mnewfile.txt')
+    dlmwrite(Pfilename,P_out,'-append');
+    dlmwrite(Nfilename,N_out,'-append');
+    dlmwrite(Efilename,E_out,'-append');
+    dlmwrite(Mfilename,M_out,'-append');    
     
     % set new initial conditions
     y0 = y_out(end,:);
@@ -151,4 +146,4 @@ end
     Etot = sum(E_out,2);
     Mtot = sum(M_out,2);
     figure
-    semilogy(ts_vec,Ptot,ts_vec,Ntot+Mtot+Etot)
+    semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)

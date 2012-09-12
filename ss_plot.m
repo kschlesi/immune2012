@@ -1,15 +1,16 @@
 % mutation 1D plotter
+% FIX ARTIFICIAL CURVE SHAPE
 
 clear
 
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
 
-Pfilename = 'Ploop5.txt';
-Nfilename = 'Nloop5.txt';
-Efilename = 'Eloop5.txt';
-Mfilename = 'Mloop5.txt';
+Pfilename = 'Ploop6.txt';
+Nfilename = 'Nloop6.txt';
+Efilename = 'Eloop6.txt';
+Mfilename = 'Mloop6.txt';
 
-days = 5;         % total days run
+days = 10;         % total days run
 stepsize = 0.1;   % interval (days) at which ode45 was called
 
 % dimensions of 1D shape space
@@ -47,19 +48,31 @@ plot_vec = ts_vec.*days./n_ts;  % ts_vec rescaled to units of days (for plotting
     semilogy(plot_vec,Ptot,plot_vec,Ntot+Mtot+Etot)
     axis([0 days 1 10^8])
     
-
-% contour plot of P population over time
+% plot of initial and final P-distributions    
+figure
+    plot((1:Pdim1),Pplot(100,:))
+    
     figure
-    col(:,:,1) = rand(n_ts,Pdim1);
-    col(:,:,2) = rand(n_ts,Pdim1);
-    col(:,:,3) = rand(n_ts,Pdim1);
+    Pfin = squeeze(Pplot(end,:));
+    plot((1:Pdim1),Pfin)
+
+% contour plots of PNEM populations over time
+    figure
     v = [1 10 50 100 200 300 500:500:10000];
-    contour(Pplot,v)%,'MeshStyle','row')
-%    axis([0 Pdim1 0 n_ts 0 10^5])
-%    %set(gca,'CLim',[30 85690]);
-%    v=caxis;
-%    v
-%    set(gca,'ZScale','log')
+    contour(Pplot,v)
+
+    figure
+    v = [0:0.5:3];
+    contour(Nplot,v)
+    
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Eplot,v)
+
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Mplot,v)
+
 
 %     figure
 %     hold on
