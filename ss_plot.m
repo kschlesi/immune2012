@@ -1,73 +1,93 @@
-% for reading and plotting results of simulations 
-% saved in arrays from sssim_diffuse.m
+% mutation 1D plotter
+% FIX ARTIFICIAL CURVE SHAPE
 
 clear
 
-global b_ r_ h_ sigma_ k_ de_ f_ gamma_lib;
+global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
 
-days = 20;
-stepsize = 0.1;
-ts_v = [0:stepsize:days];
-timesteps = size(ts_v,2); %number of timesteps in run to be read
+Pfilename = 'Ploop6.txt';
+Nfilename = 'Nloop6.txt';
+Efilename = 'Eloop6.txt';
+Mfilename = 'Mloop6.txt';
 
-Pdim1 = 60;
-Pdim2 = 48;
-Ldim1 = 60;
-Ldim2 = 48;
+days = 10;         % total days run
+stepsize = 0.1;   % interval (days) at which ode45 was called
 
-% read in and reshape saved vectors
-Plin = csvread('Pout17.txt');
-Nlin = csvread('Nout17.txt');
-Elin = csvread('Eout17.txt');
-Mlin = csvread('Mout17.txt');
+% dimensions of 1D shape space
+Pdim1 = 600;
+Ldim1 = 600;
+x0 = 300;
 
-Pplot = reshape(Plin,timesteps,Pdim1,Pdim2);
-Nplot = reshape(Nlin,timesteps,Ldim1,Ldim2);
-Eplot = reshape(Elin,timesteps,Ldim1,Ldim2);
-Mplot = reshape(Mlin,timesteps,Ldim1,Ldim2);
+% gammas & lambdas
+gammas1D = zeros(Pdim1,Ldim1);
+lambdas1D = zeros(Pdim1,1);
+for i=1:Pdim1;
+    lambdas1D(i) = p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+    for j=1:Ldim1;
+        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
+    end
+end
 
-% plot, referencing data by Xplot(timestep,ssloc_x,ssloc_y)
+% data and time vector
+Pplot = csvread(Pfilename);
+Nplot = csvread(Nfilename);
+Eplot = csvread(Efilename);
+Mplot = csvread(Mfilename);
 
-    %satfunc(Peff) at particular y-points
-     repgammaliby = shiftdim(repmat(squeeze(gamma_lib(:,:,30,25)),[1,1,timesteps]),2);
-     Pofy = squeeze(sum(sum(Pplot.*repgammaliby,2),3))./(Pdim1*Pdim2);
-     newsatfunc1 = Pofy./(k_*ones(timesteps,1)+Pofy);
-%     repgammaliby = shiftdim(repmat(squeeze(gamma_lib(:,:,45,20)),[1,1,timesteps]),2);
-%     Pofy = squeeze(sum(sum(Pplot.*repgammaliby,2),3))./(Pdim1*Pdim2);
-%     newsatfunc2 = Pofy./(k_*ones(timesteps,1)+Pofy);
-%      figure
-%      semilogy(ts_v,newsatfunc1)
-%     
+n_ts = size(Pplot,1);
+ts_vec = (0:n_ts-1);            % vector of all internal timesteps taken by ode45
+plot_vec = ts_vec.*days./n_ts;  % ts_vec rescaled to units of days (for plotting)
 
-        
-    % total P, N, E, M over time
-    Ptot = squeeze(sum(sum(Pplot,2),3));
-    Ntot = squeeze(sum(sum(Nplot,2),3));
-    Etot = squeeze(sum(sum(Eplot,2),3));
-    Mtot = squeeze(sum(sum(Mplot,2),3));
-    Ltot = Ntot+Etot+Mtot;
-      figure
-      semilogy(ts_v,Ptot,ts_v,Ltot)%,ts_v,Ntot,ts_v,Etot,ts_v,Mtot)
-      axis([0 days 1 10^10])
+
+% plot of total pathogen v. total lymphocyte population
+    Ptot = sum(Pplot,2);
+    Ntot = sum(Nplot,2);
+    Etot = sum(Eplot,2);
+    Mtot = sum(Mplot,2);
+    figure
+    semilogy(plot_vec,Ptot,plot_vec,Ntot+Mtot+Etot)
+    axis([0 days 1 10^8])
     
-   %initial P     
-         hold on
-         figure
-         surf(squeeze(Pplot(1,:,:)))
-         hold off
+% plot of initial and final P-distributions    
+figure
+    plot((1:Pdim1),Pplot(100,:))
+    
+    figure
+    Pfin = squeeze(Pplot(end,:));
+    plot((1:Pdim1),Pfin)
 
-   %final N, E, M
-         hold on
-         figure
-         surf(squeeze(Nplot(timesteps,:,:)))
-         hold off
-         
-         hold on
-         figure
-         surf(squeeze(Eplot(timesteps,:,:)))
-         hold off
-         
-         hold on
-         figure
-         surf(squeeze(Pplot(timesteps,:,:)))
-         hold off
+% contour plots of PNEM populations over time
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Pplot,v)
+
+    figure
+    v = [0:0.5:3];
+    contour(Nplot,v)
+    
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Eplot,v)
+
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Mplot,v)
+
+
+%     figure
+%     hold on
+%     surf(Nplot)%,'MeshStyle','row')
+%     hold off
+%     axis([0 Ldim1 0 n_ts 0 N0density])
+% 
+%     figure
+%     hold on
+%     surf(Eplot)%,'MeshStyle','row')
+%     hold off
+%     axis([0 Ldim1 0 n_ts 0 10^4])
+%     
+%     figure
+%     hold on
+%     surf(Mplot)%,'MeshStyle','row')
+%     hold off
+%     axis([0 Ldim1 0 n_ts 0 10^3])

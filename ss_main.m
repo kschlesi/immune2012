@@ -1,125 +1,149 @@
-% simulation: pathogen diffused in 2D shape space
-% interacts with lattice of lymphocytes
+% 1D fitness/mutation test
+% with cutoff implemented by looping calls to ode45
 
 clear
 
-global b_ r_ h_ sigma_ k_ de_ f_ gamma_lib days stepsize;
+global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
+global lambdas1D gammas1D ;
 
-N0density = 3; 
-r_ = 3.3;
-h_ = 10^-5;
-sigma_ = 3;
-k_ = 10^5;
-de_ = 0.35;
-f_ = 0.1;
-b_ = 5;
-days = 20;
+days = 1;
 stepsize = 0.1;
 
-% dimensions of 2D shape space
-Ldim1 = 60;
-Ldim2 = 48;
-Pdim1 = 60; 
-Pdim2 = 48;
+Pfilename = 'Ploop6.txt';
+Nfilename = 'Nloop6.txt';
+Efilename = 'Eloop6.txt';
+Mfilename = 'Mloop6.txt';
 
-% center and max amount of initial gaussian inoculation in shape space
-x0 = [30,24];
-Pmax0 = 4;
-Pdiff0 = 5;
+% setting necessary parameters
+r_ = 3.3;
+h_ = 10^-3;
+sigma_ = 3;
+de_ = 0.35;
+k_ = 10^5;
+f_ = 0.1;
+c = 0.5;
+b = 25;
+beta_ = 40; 
 
-% setting initial conditions for P, N, E, M
-%G0 = Gammas([20,20],zeros(40,40),Pmax0,Pdiff0);  % initial restricted gaussian distribution of pathogen
-%P0 = padarray(G0,[Pdim1/2-20 Pdim2/2-20],'both');
-P0 = Gammas(x0,zeros(Pdim1,Pdim2),Pmax0,Pdiff0);%+ones(Pdim1,Pdim2); % initial gaussian distribution of pathogen everywhere
-N0 = N0density.*(ones(Ldim1,Ldim2)); % initial uniform distribution of naive cells
-E0 = zeros(Ldim1,Ldim2);
-M0 = zeros(Ldim1,Ldim2);
 
-% option: restrict initial pathogen
-% for i=1:Pdim1
-%     for j=1:Pdim2
-%         if (P0(i,j)<1)
-%             P0(i,j)=0;
-%         end
-%     end
-% end
+% dimensions of 1D shape space
+Pdim1 = 600;
+Ldim1 = 600;
+x0 = 300;
 
-% creating gamma library
-gamma_lib = zeros(Pdim1,Pdim2,Ldim1,Ldim2);
-for i = 1:Pdim1
-    for j = 1:Pdim2
-        gamma_lib(i,j,:,:) = Gammas([i,j],N0,1,b_);
+% gammas & lambdas
+p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
+gammas1D = zeros(Pdim1,Ldim1);
+lambdas1D = zeros(Pdim1,1);
+for i=1:Pdim1;
+    lambdas1D(i) = p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+    for j=1:Ldim1;
+        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end
 end
 
-% %plotting test gamma
-%         hold on
-%         figure
-%         surf(squeeze(gamma_lib(45,10,:,:)))
-%         hold off
+% initial configurations
+Pmax0 = 10;
+Pdiff0 = 12;
+G0 = Pmax0.*ones(Pdiff0/2,1);
+P0 = padarray(G0,Pdim1/2-Pdiff0/4,'both');
 
-% creating vector of initial conditions
-P0lin = reshape(P0,Pdim1*Pdim2,1);
-N0lin = reshape(N0,Ldim1*Ldim2,1);
-E0lin = reshape(E0,Ldim1*Ldim2,1);
-M0lin = reshape(M0,Ldim1*Ldim2,1);
-y0 = [P0lin;N0lin;E0lin;M0lin];
+N0density = 3;
+N0 = N0density.*ones(Ldim1,1);
+E0 = zeros(Ldim1,1);
+M0 = zeros(Ldim1,1);
+% % initial gaussian distribution of pathogen
+% P0 = zeros(Pdim1,1);
+% for i=1:Pdim1;
+%     P0(i) = Pmax0*exp(-1*((i-x0)^2)/(2*Pdiff0^2));
+% end
 
-% plotting initial conditions
-    hold on
-    figure
-    surf(P0)
-    hold off
+% creating initial conditions vector
+y0 = [P0;N0;E0;M0];
 
- % integrating diffeqs
- options = odeset('AbsTol',1e-3);
- [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Pdim2,Ldim1,Ldim2),(0:stepsize:days),y0,options);
- n_ts = size(ts_vec,1);
- 
-% setting final values
-P_outlin = y_out(:,1:Pdim1*Pdim2); % 2D matrices of cells per site (linear) per ts
-N_outlin = y_out(:,Pdim1*Pdim2+1:Pdim1*Pdim2+Ldim1*Ldim2);
-E_outlin = y_out(:,Pdim1*Pdim2+Ldim1*Ldim2+1:Pdim1*Pdim2+2*Ldim1*Ldim2);
-M_outlin = y_out(:,Pdim1*Pdim2+2*Ldim1*Ldim2+1:end);
+dlmwrite(Pfilename,transpose(P0));
+dlmwrite(Nfilename,transpose(N0));
+dlmwrite(Efilename,transpose(E0));
+dlmwrite(Mfilename,transpose(M0));    
 
-dlmwrite('Pout17.txt',P_outlin);
-dlmwrite('Nout17.txt',N_outlin);
-dlmwrite('Eout17.txt',E_outlin);
-dlmwrite('Mout17.txt',M_outlin);
 
-P_out = reshape(P_outlin,n_ts,Pdim1,Pdim2); % 3D matrices of cells per row per col per ts
-N_out = reshape(N_outlin,n_ts,Ldim1,Ldim2);
-E_out = reshape(E_outlin,n_ts,Ldim1,Ldim2);
-M_out = reshape(M_outlin,n_ts,Ldim1,Ldim2);
+% integrating diffeqs in time with a FOR LOOP
+options = odeset('AbsTol',1e-3);
+nsteps = cast(days/stepsize,'uint16');
+n_ts = 1;
+for j=1:nsteps
+    
+    % integrate between two external steps (of size stepsize)
+    i = cast(j,'double');
+    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[(i-1)*stepsize,i*stepsize],y0,options);
 
-P_tot = sum(P_outlin,2); % 1D vectors of total cells per ts
-N_tot = sum(N_outlin,2); 
-E_tot = sum(E_outlin,2);
-M_tot = sum(M_outlin,2);
-
-% plotting immune system response to pathogen
-    figure
-        semilogy(ts_vec,P_tot,ts_vec,(M_tot + N_tot + E_tot))%,ts_vec,M_tot,ts_vec,N_tot,ts_vec,E_tot);
-        axis([0 days 1 10^10])
-
-% plotting final P, N, M, and E populations
-        hold on
-        figure
-        surf(squeeze(P_out(n_ts,:,:)))
-        hold off
-
-        hold on
-        figure
-        surf(squeeze(N_out(n_ts,:,:)))
-        hold off
-
-        hold on
-        figure
-        surf(squeeze(E_out(n_ts,:,:)))
-        hold off
-
-        hold on
-        figure
-        surf(squeeze(M_out(n_ts,:,:)))
-        hold off
+    % add new internal steps to overall n_ts
+    size(ts_vec,1)
+    n_ts = n_ts + size(ts_vec,1)-1;
+    
+    % implement one-cell cutoff for all P
+    for pcount=1:Pdim1
+        if(y_out(end,pcount)<1)
+            y_out(end,pcount)=0;
+        end
+    end
         
+    % save & append y-output (leaving out old init condition)
+    P_out = y_out(2:end,1:Pdim1);
+    N_out = y_out(2:end,Pdim1+1:Pdim1+Ldim1);
+    E_out = y_out(2:end,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
+    M_out = y_out(2:end,Pdim1+2*Ldim1+1:end);
+
+    dlmwrite(Pfilename,P_out,'-append');
+    dlmwrite(Nfilename,N_out,'-append');
+    dlmwrite(Efilename,E_out,'-append');
+    dlmwrite(Mfilename,M_out,'-append');    
+    
+    % set new initial conditions
+    y0 = y_out(end,:);
+        
+end
+
+
+
+% plot initial & final distributions
+%     figure
+%     plot((1:1:Pdim1),P0)
+%     
+%     figure
+%     Pfin = squeeze(P_out(n_ts,:));
+%     plot((1:1:Pdim1),Pfin)
+    
+    figure
+    hold on
+    surf(P_out,'MeshStyle','row')
+    hold off
+    axis([0 Pdim1 0 n_ts 0 max(P_out(:,x0))])
+%    set(gca,'ZScale','log')
+
+    figure
+    hold on
+    surf(N_out,'MeshStyle','row')
+    hold off
+    axis([0 Ldim1 0 n_ts 0 N0density])
+
+    figure
+    hold on
+    surf(E_out,'MeshStyle','row')
+    hold off
+    axis([0 Ldim1 0 n_ts 0 5000])
+    
+    figure
+    hold on
+    surf(M_out,'MeshStyle','row')
+    hold off
+    axis([0 Ldim1 0 n_ts 0 400])
+
+
+
+    Ptot = sum(P_out,2);
+    Ntot = sum(N_out,2);
+    Etot = sum(E_out,2);
+    Mtot = sum(M_out,2);
+    figure
+    semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
