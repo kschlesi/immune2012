@@ -12,7 +12,7 @@ k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
 days = 50;
-stepsize = 0.1;
+stepsize = 0.001;
 olddays = 50;
 oldss = 0.1;
 %mrate = 0.7; % per cell per day
@@ -63,8 +63,7 @@ figure
 
 
 % integrating all diffeq in time
-options = odeset('AbsTol',1e-3);
-[ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(0:stepsize:days),y0,options);
+[ts_vec,y_out] = ode4(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(0:stepsize:days),y0);
 n_ts = size(ts_vec,1);
 
 

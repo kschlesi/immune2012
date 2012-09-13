@@ -15,9 +15,8 @@ c = 0.5;
 b = 25;
 beta_ = 40;
 N0density = 3;
-days = 10;
-stepsize = 0.1;
-%mrate = 0.7; % per cell per day
+days = 5;
+stepsize = 0.001;
 
 
 % dimensions of 1D shape space
@@ -58,8 +57,7 @@ M0 = zeros(Ldim1,1);
 y0 = [P0;N0;E0;M0];
 
 % integrating all diffeq in time
-options = odeset('AbsTol',1e-3);
-[ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(0:stepsize:days),y0,options);
+[ts_vec,y_out] = ode4(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(0:stepsize:days),y0);
 n_ts = size(ts_vec,1);
 
 % create plotting functions

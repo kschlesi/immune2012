@@ -21,14 +21,29 @@ mrates = zeros(Pdim1,Pdim1);
         iloss = sum(mrates(1,:));
         mrates(1,1) = 1-iloss;
     
+% enforcing P cutoff for calculating everything...
+Pis0 = zeros(Pdim1,1);
+for i=1:Pdim1
+    if(P(i)<1)
+        P(i)=0;
+        Pis0(i)=1;
+    end
+end
+        
 % calculate dP (all size Pdim1 x 1)        
+dP = zeros(Pdim,1);
 dmut = zeros(Pdim1,1);
 omega = zeros(Pdim1,1);
     for i=1:Pdim1
         dmut(i) = r_.*squeeze(sum(P.*squeeze(mrates(:,i))));
         omega(i) = sum(shiftdim(gammas1D(i,:)).*(N + M + E));
+        if (Pis0(i) == 0)
+            dP(i) = (squeeze(dmut(:,i)).*P).*(ones(Pdim1,1)-lambdas1D) - h_.*omega.*P;            
+        else
+            dP(i) = -P(i);
+        end
     end
-dP = dmut.*(ones(Pdim1,1)-lambdas1D) - h_.*omega.*P;
+
 
 % calculate dL's (all size Ldim1 x 1)
 Pofy = zeros(Ldim1,1);
