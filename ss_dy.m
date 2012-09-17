@@ -1,6 +1,6 @@
-function dy = ss_dy(t,y,Pdim1,Ldim1)
+function dy = ss_dy(t,y)
 
-global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D;
+global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D Pdim1 Ldim1;
 
 % create separate P, N, E, M vectors
 P = y(1:Pdim1);
@@ -31,14 +31,14 @@ for i=1:Pdim1
 end
         
 % calculate dP (all size Pdim1 x 1)        
-dP = zeros(Pdim,1);
+dP = zeros(Pdim1,1);
 dmut = zeros(Pdim1,1);
 omega = zeros(Pdim1,1);
     for i=1:Pdim1
         dmut(i) = r_.*squeeze(sum(P.*squeeze(mrates(:,i))));
         omega(i) = sum(shiftdim(gammas1D(i,:)).*(N + M + E));
         if (Pis0(i) == 0)
-            dP(i) = (squeeze(dmut(:,i)).*P).*(ones(Pdim1,1)-lambdas1D) - h_.*omega.*P;            
+            dP(i) = dmut(i).*(1-lambdas1D(i)) - h_.*omega(i).*P(i);            
         else
             dP(i) = -P(i);
         end

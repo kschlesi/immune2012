@@ -9,16 +9,16 @@ de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
 D = 10;
-days = 12;
-stepsize = 0.1;
+days = 5;
+stepsize = 0.005;
 %mrate = 0.7; % per cell per day
 b = 50;
 N0density = 3;
 x0 = 100;
 
 % dimensions of 1D shape space
-Pdim1 = 1000;
-Ldim1 = 1000;
+Pdim1 = 600;
+Ldim1 = 600;
 
 % gammas
 gammas1D = zeros(Pdim1,Ldim1);
@@ -29,10 +29,10 @@ for i=1:Pdim1;
 end
 
 % data and time vector
-Pplot = csvread('Pdif9c.txt');
-Nplot = csvread('Ndif9c.txt');
-Eplot = csvread('Edif9c.txt');
-Mplot = csvread('Mdif9c.txt');
+Pplot = csvread('Pfix1.txt');
+Nplot = csvread('Nfix1.txt');
+Eplot = csvread('Efix1.txt');
+Mplot = csvread('Mfix1.txt');
 
 ts_vec = (0:stepsize:days);
 n_ts = size(ts_vec,2);
@@ -54,6 +54,15 @@ n_ts = size(ts_vec,2);
     axis([0 days 1 10^8])
     
 
+    figure
+    plot((1:Pdim1),Pplot(1,:))
+    figure
+    plot((1:Pdim1),Pplot(100,:))
+    figure
+    plot((1:Pdim1),Pplot(500,:))
+    figure
+    plot((1:Pdim1),Pplot(1000,:))
+    
 
     figure
     col(:,:,1) = rand(n_ts,Pdim1);

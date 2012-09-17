@@ -1,9 +1,11 @@
 % 1D pathogen diffusion code w. all lymphocytes
-% uses ode45 with stochastic matrix, fitness landscape
+% uses ode4 with fixed timestep
+% diffuse stochastic matrix, fitness landscape
 
 clear
 
 global r_ sigma_ de_ f_ k_ days stepsize c p_ beta_ lambdas1D gammas1D h_ ;
+global Pdim1 Ldim1;
 
 r_ = 3.3;
 h_ = 10^-3;
@@ -16,18 +18,22 @@ b = 25;
 beta_ = 40;
 N0density = 3;
 days = 5;
-stepsize = 0.001;
+stepsize = 0.005;
 
 
 % dimensions of 1D shape space
-Pdim1 = 1000;
-Ldim1 = 1000;
+Pdim1 = 600;
+Ldim1 = 600;
 p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
 
 % center and max amount of initial gaussian inoculation in shape space
-x0 = 500;
+x0 = 300;
 Pmax0 = 10;
 Pdiff0 = 12;
+% P0 = zeros(Pdim1,1); % initial gaussian distribution of pathogen
+% for i=1:Pdim1;
+%     P0(i) = Pmax0*exp(-1*((i-x0)^2)/(2*Pdiff0^2));
+% end
 
 % gammas & lambdas
 gammas1D = zeros(Pdim1,Ldim1);
@@ -47,31 +53,25 @@ N0 = N0density.*ones(Ldim1,1);
 E0 = zeros(Ldim1,1);
 M0 = zeros(Ldim1,1);
 
-% P0 = zeros(Pdim1,1); % initial gaussian distribution of pathogen
-% for i=1:Pdim1;
-%     P0(i) = Pmax0*exp(-1*((i-x0)^2)/(2*Pdiff0^2));
-% end
-
 % creating initial conditions vector
-
 y0 = [P0;N0;E0;M0];
 
 % integrating all diffeq in time
-[ts_vec,y_out] = ode4(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(0:stepsize:days),y0);
-n_ts = size(ts_vec,1);
+tspan = (0:stepsize:days);
+y_out = ode4(@(t,y)ss_dy(t,y),tspan,y0);
+n_ts = size(tspan,1);
 
 % create plotting functions
-
 P_out = y_out(:,1:Pdim1);
 N_out = y_out(:,Pdim1+1:Pdim1+Ldim1);
 E_out = y_out(:,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
 M_out = y_out(:,Pdim1+2*Ldim1+1:end);
 
 % save results!!!
-dlmwrite('Pfit3.txt',P_out);
-dlmwrite('Nfit3.txt',N_out);
-dlmwrite('Efit3.txt',E_out);
-dlmwrite('Mfit3.txt',M_out);
+dlmwrite('Pfix1.txt',P_out);
+dlmwrite('Nfix1.txt',N_out);
+dlmwrite('Efix1.txt',E_out);
+dlmwrite('Mfix1.txt',M_out);
 
 
 % plot initial & final distributions
@@ -114,5 +114,5 @@ dlmwrite('Mfit3.txt',M_out);
     Etot = sum(E_out,2);
     Mtot = sum(M_out,2);
     figure
-    semilogy(ts_vec,Ptot,ts_vec,Ntot+Mtot+Etot)
+    semilogy(tspan,Ptot,tspan,Ntot+Mtot+Etot)
     axis([0 days 1 10^8])
