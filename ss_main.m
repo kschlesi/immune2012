@@ -3,16 +3,16 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
+global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 global lambdas1D gammas1D ;
 
-days = 1;
-stepsize = 0.1;
+days = 5;
+stepsize = 5;
 
-Pfilename = 'Ploop6.txt';
-Nfilename = 'Nloop6.txt';
-Efilename = 'Eloop6.txt';
-Mfilename = 'Mloop6.txt';
+Pfilename = 'Ploop9.txt';
+Nfilename = 'Nloop9.txt';
+Efilename = 'Eloop9.txt';
+Mfilename = 'Mloop9.txt';
 
 % setting necessary parameters
 r_ = 3.3;
@@ -24,7 +24,7 @@ f_ = 0.1;
 c = 0.5;
 b = 25;
 beta_ = 40; 
-
+mu_ = 1;
 
 % dimensions of 1D shape space
 Pdim1 = 600;
@@ -68,14 +68,14 @@ dlmwrite(Mfilename,transpose(M0));
 
 
 % integrating diffeqs in time with a FOR LOOP
-options = odeset('AbsTol',1e-3);
+options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,Pdim1));
 nsteps = cast(days/stepsize,'uint16');
 n_ts = 1;
 for j=1:nsteps
     
     % integrate between two external steps (of size stepsize)
     i = cast(j,'double');
-    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[(i-1)*stepsize,i*stepsize],y0,options);
+    [ts_vec,y_out,tE,yE,iE] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[(i-1)*stepsize,i*stepsize],y0,options);
 
     % add new internal steps to overall n_ts
     size(ts_vec,1)
@@ -89,7 +89,7 @@ for j=1:nsteps
     end
         
     % save & append y-output (leaving out old init condition)
-    P_out = y_out(2:end,1:Pdim1);
+    P_out = y_out(2:end,1:Pdim1);        %2:end just for no extss plotting ease
     N_out = y_out(2:end,Pdim1+1:Pdim1+Ldim1);
     E_out = y_out(2:end,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
     M_out = y_out(2:end,Pdim1+2*Ldim1+1:end);

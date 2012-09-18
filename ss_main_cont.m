@@ -2,7 +2,7 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b beta_ p_ ;
+global r_ h_ sigma_ de_ f_ k_ c b beta_ p_ mu_;
 
 days = 5;
 stepsize = 0.1;
@@ -54,12 +54,11 @@ y0 = [P0;N0;E0;M0];
 options = odeset('AbsTol',1e-3);
 nsteps = cast(days/stepsize,'uint16');
 n_ts = old_ts;
-n_ts
 for j=1:nsteps
     
     % integrate between two external steps (of size stepsize)
     i = cast(j,'double');
-    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[(i-1)*stepsize,i*stepsize],y0,options);
+    [ts_vec,y_out,tE,yE,iE] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[(i-1)*stepsize,i*stepsize],y0,options);
 
     % add new internal steps to overall n_ts
     size(ts_vec,1)
@@ -73,10 +72,10 @@ for j=1:nsteps
     end
         
    % save & append y-output (leaving out old init condition)
-    P_out = y_out(2:end,1:Pdim1);
-    N_out = y_out(2:end,Pdim1+1:Pdim1+Ldim1);
-    E_out = y_out(2:end,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
-    M_out = y_out(2:end,Pdim1+2*Ldim1+1:end);
+    P_out = y_out(end,1:Pdim1);
+    N_out = y_out(end,Pdim1+1:Pdim1+Ldim1);
+    E_out = y_out(end,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
+    M_out = y_out(end,Pdim1+2*Ldim1+1:end);
 
     dlmwrite(Pfilename,P_out,'-append');
     dlmwrite(Nfilename,N_out,'-append');
