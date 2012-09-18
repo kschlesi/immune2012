@@ -5,13 +5,14 @@ clear
 
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 
-Pfilename = 'Ploop9.txt';
-Nfilename = 'Nloop9.txt';
-Efilename = 'Eloop9.txt';
-Mfilename = 'Mloop9.txt';
+tfilename = 'tloop10.txt';
+Pfilename = 'Ploop10.txt';
+Nfilename = 'Nloop10.txt';
+Efilename = 'Eloop10.txt';
+Mfilename = 'Mloop10.txt';
 
-days = 5;         % total days run
-stepsize = 5;   % interval (days) at which ode45 was called
+days = 10;       % total days run
+stepsize = 0.1;   % interval (days) at which ode45 was called
 
 % dimensions of 1D shape space
 Pdim1 = 600;
@@ -29,13 +30,13 @@ for i=1:Pdim1;
 end
 
 % data and time vector
+tplot = csvread(tfilename);
 Pplot = csvread(Pfilename);
 Nplot = csvread(Nfilename);
 Eplot = csvread(Efilename);
 Mplot = csvread(Mfilename);
 
-n_ts = size(Pplot,1);
-ts_vec = (0:n_ts-1);            % vector of all external timesteps taken by ode45
+n_ts = size(tplot);
 
 
 % plot of total pathogen v. total lymphocyte population
@@ -44,7 +45,7 @@ ts_vec = (0:n_ts-1);            % vector of all external timesteps taken by ode4
     Etot = sum(Eplot,2);
     Mtot = sum(Mplot,2);
     figure
-    semilogy(ts_vec,Ptot,ts_vec,Ntot+Mtot+Etot)
+    semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
     axis([0 days 1 10^8])
     
 % plot of initial and final P-distributions    
@@ -55,6 +56,7 @@ ts_vec = (0:n_ts-1);            % vector of all external timesteps taken by ode4
     plot((1:Pdim1),Pplot)
 
 % contour plots of PNEM populations over time
+% NOTE these plots are not properly time-normalised
     figure
     v = [1 10 50 100 200 300 500:500:10000];
     contour(Pplot,v)

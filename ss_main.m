@@ -7,12 +7,12 @@ global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 global lambdas1D gammas1D ;
 
 days = 5;
-stepsize = 5;
 
-Pfilename = 'Ploop9.txt';
-Nfilename = 'Nloop9.txt';
-Efilename = 'Eloop9.txt';
-Mfilename = 'Mloop9.txt';
+tfilename = 'tloop10.txt';
+Pfilename = 'Ploop10.txt';
+Nfilename = 'Nloop10.txt';
+Efilename = 'Eloop10.txt';
+Mfilename = 'Mloop10.txt';
 
 % setting necessary parameters
 r_ = 3.3;
@@ -59,8 +59,10 @@ M0 = zeros(Ldim1,1);
 % end
 
 % creating initial conditions vector
+t0 = 0;
 y0 = [P0;N0;E0;M0];
 
+dlmwrite(tfilename,t0);
 dlmwrite(Pfilename,transpose(P0));
 dlmwrite(Nfilename,transpose(N0));
 dlmwrite(Efilename,transpose(E0));
@@ -69,38 +71,45 @@ dlmwrite(Mfilename,transpose(M0));
 
 % integrating diffeqs in time with a FOR LOOP
 options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,Pdim1));
-nsteps = cast(days/stepsize,'uint16');
 n_ts = 1;
-for j=1:nsteps
+contin = 1;
+while (contin)
     
-    % integrate between two external steps (of size stepsize)
-    i = cast(j,'double');
-    [ts_vec,y_out,tE,yE,iE] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[(i-1)*stepsize,i*stepsize],y0,options);
+    % integrate until jth event...(or days)
+    [ts_vec,y_out,tE,yE,iE] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[t0,days],y0,options);
 
     % add new internal steps to overall n_ts
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
+    n_ts
     
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1
-        if(y_out(end,pcount)<1)
+        if(y_out(end,pcount)<=1)
             y_out(end,pcount)=0;
         end
     end
         
     % save & append y-output (leaving out old init condition)
-    P_out = y_out(2:end,1:Pdim1);        %2:end just for no extss plotting ease
+    t_out = ts_vec(2:end);
+    P_out = y_out(2:end,1:Pdim1);        
     N_out = y_out(2:end,Pdim1+1:Pdim1+Ldim1);
     E_out = y_out(2:end,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
     M_out = y_out(2:end,Pdim1+2*Ldim1+1:end);
 
+    dlmwrite(tfilename,t_out,'-append');
     dlmwrite(Pfilename,P_out,'-append');
     dlmwrite(Nfilename,N_out,'-append');
     dlmwrite(Efilename,E_out,'-append');
     dlmwrite(Mfilename,M_out,'-append');    
     
     % set new initial conditions
+    t0 = ts_vec(end);
     y0 = y_out(end,:);
+    
+    if(t0>=days)
+        contin = 0;
+    end
         
 end
 

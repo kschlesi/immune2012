@@ -5,23 +5,22 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b beta_ p_ mu_;
 
 days = 5;
-stepsize = 0.1;
 olddays = 5;
-oldss = 0.1;
 
 % file to which new days will be appended
-Pfilename = 'Ploop6.txt';
-Nfilename = 'Nloop6.txt';
-Efilename = 'Eloop6.txt';
-Mfilename = 'Mloop6.txt';
+tfilename = 'tloop10.txt';
+Pfilename = 'Ploop10.txt';
+Nfilename = 'Nloop10.txt';
+Efilename = 'Eloop10.txt';
+Mfilename = 'Mloop10.txt';
 
 % dimensions of 1D shape space
 Pdim1 = 600;
 Ldim1 = 600;
 x0 = 300;
-p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
 
 % gammas & lambdas
+p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;
@@ -32,6 +31,7 @@ for i=1:Pdim1;
 end
 
 % initial inoculation in shape space
+t0in = csvread(tfilename);
 P0in = csvread(Pfilename);
 N0in = csvread(Nfilename);
 E0in = csvread(Efilename);
@@ -44,6 +44,7 @@ M0 = shiftdim(M0in(old_ts,:),1);
 
 
 % creating initial conditions vector
+t0 = t0in(end);
 y0 = [P0;N0;E0;M0];
 
 % plotting initial conitions
@@ -51,14 +52,13 @@ y0 = [P0;N0;E0;M0];
     % semilogy((1:Pdim1+3*Ldim1),(shiftdim(y0)))
 
 % integrating diffeqs in time with a FOR LOOP
-options = odeset('AbsTol',1e-3);
-nsteps = cast(days/stepsize,'uint16');
+options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,Pdim1));
 n_ts = old_ts;
-for j=1:nsteps
+contin = 1;
+while (contin)
     
-    % integrate between two external steps (of size stepsize)
-    i = cast(j,'double');
-    [ts_vec,y_out,tE,yE,iE] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[(i-1)*stepsize,i*stepsize],y0,options);
+    % integrate until jth event... (or days)
+    [ts_vec,y_out,tE,yE,iE] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[t0,days+olddays],y0,options);
 
     % add new internal steps to overall n_ts
     size(ts_vec,1)
@@ -72,18 +72,25 @@ for j=1:nsteps
     end
         
    % save & append y-output (leaving out old init condition)
-    P_out = y_out(end,1:Pdim1);
-    N_out = y_out(end,Pdim1+1:Pdim1+Ldim1);
-    E_out = y_out(end,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
-    M_out = y_out(end,Pdim1+2*Ldim1+1:end);
+    t_out = ts_vec(2:end);
+    P_out = y_out(2:end,1:Pdim1);
+    N_out = y_out(2:end,Pdim1+1:Pdim1+Ldim1);
+    E_out = y_out(2:end,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
+    M_out = y_out(2:end,Pdim1+2*Ldim1+1:end);
 
+    dlmwrite(tfilename,t_out,'-append');
     dlmwrite(Pfilename,P_out,'-append');
     dlmwrite(Nfilename,N_out,'-append');
     dlmwrite(Efilename,E_out,'-append');
     dlmwrite(Mfilename,M_out,'-append'); 
     
     % set new initial conditions
-    y0 = y_out(size(ts_vec,1),:);
+    t0 = ts_vec(end);
+    y0 = y_out(end,:);
+    
+    if (t0>=days+olddays)
+       contin = 0; 
+    end
         
 end
 

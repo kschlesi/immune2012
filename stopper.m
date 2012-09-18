@@ -6,10 +6,5 @@ value = zeros(Pdim1);
 for i=1:Pdim1
     value(i) = y(i)-mu_;
 end
-isterminal = zeros(Pdim1);
+isterminal = ones(Pdim1);
 direction = -1*ones(Pdim1);
-
-
-
-
-
