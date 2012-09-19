@@ -1,8 +1,9 @@
-% fitness landscape_cont
+% ss_main_cont
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b beta_ p_ mu_;
+%global r_ h_ sigma_ de_ f_ k_ c ;
+global b beta_ p_ mu_;
 
 days = 5;
 olddays = 5;
@@ -66,7 +67,7 @@ while (contin)
 
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1
-        if(y_out(end,pcount)<1)
+        if(y_out(end,pcount)<=mu_)
             y_out(end,pcount)=0;
         end
     end

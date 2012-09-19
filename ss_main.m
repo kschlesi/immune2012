@@ -81,11 +81,10 @@ while (contin)
     % add new internal steps to overall n_ts
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
-    n_ts
     
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1
-        if(y_out(end,pcount)<=1)
+        if(y_out(end,pcount)<=mu_)
             y_out(end,pcount)=0;
         end
     end
