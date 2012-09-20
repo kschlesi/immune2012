@@ -5,19 +5,18 @@ clear
 
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 
-tfilename = 'tloop10.txt';
-Pfilename = 'Ploop10.txt';
-Nfilename = 'Nloop10.txt';
-Efilename = 'Eloop10.txt';
-Mfilename = 'Mloop10.txt';
+tfilename = 'tloop12.txt';
+Pfilename = 'Ploop12.txt';
+Nfilename = 'Nloop12.txt';
+Efilename = 'Eloop12.txt';
+Mfilename = 'Mloop12.txt';
 
-days = 10;       % total days run
-stepsize = 0.1;   % interval (days) at which ode45 was called
+days = 20;       % total days run
 
 % dimensions of 1D shape space
-Pdim1 = 600;
-Ldim1 = 600;
-x0 = 300;
+Pdim1 = 400;
+Ldim1 = 400;
+x0 = 200;
 
 % gammas & lambdas
 gammas1D = zeros(Pdim1,Ldim1);
@@ -46,14 +45,14 @@ n_ts = size(tplot);
     Mtot = sum(Mplot,2);
     figure
     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
-    axis([0 days 1 10^8])
+    axis([0 days 1 10^9])
     
 % plot of initial and final P-distributions    
     figure
     plot((1:Pdim1),Pplot(100,:))
     
     figure
-    plot((1:Pdim1),Pplot)
+    plot((1:Pdim1),Pplot(end,:))
 
 % contour plots of PNEM populations over time
 % NOTE these plots are not properly time-normalised
@@ -61,33 +60,14 @@ n_ts = size(tplot);
     v = [1 10 50 100 200 300 500:500:10000];
     contour(Pplot,v)
 
-    figure
-    v = [0:0.5:3];
-    contour(Nplot,v)
-    
-    figure
-    v = [1 10 50 100 200 300 500:500:10000];
-    contour(Eplot,v)
-
-    figure
-    v = [1 10 50 100 200 300 500:500:10000];
-    contour(Mplot,v)
-
-
 %     figure
-%     hold on
-%     surf(Nplot)%,'MeshStyle','row')
-%     hold off
-%     axis([0 Ldim1 0 n_ts 0 N0density])
-% 
-%     figure
-%     hold on
-%     surf(Eplot)%,'MeshStyle','row')
-%     hold off
-%     axis([0 Ldim1 0 n_ts 0 10^4])
+%     v = [0:0.5:3];
+%     contour(Nplot,v)
 %     
 %     figure
-%     hold on
-%     surf(Mplot)%,'MeshStyle','row')
-%     hold off
-%     axis([0 Ldim1 0 n_ts 0 10^3])
+%     v = [1 10 50 100 200 300 500:500:10000];
+%     contour(Eplot,v)
+% 
+%     figure
+%     v = [1 10 50 100 200 300 500:500:10000];
+%     contour(Mplot,v)
