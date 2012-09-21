@@ -5,15 +5,17 @@ clear
 %global r_ h_ sigma_ de_ f_ k_ c ;
 global b beta_ p_ mu_;
 
-days = 0;
-olddays = 110;
+days = 7;
+stepsize = 0.1; % size of steps at which to save
+olddays = 5;
+oldss = 0.1;
 
 % file to which new days will be appended
-tfilename = 'tloop13.txt';
-Pfilename = 'Ploop13.txt';
-Nfilename = 'Nloop13.txt';
-Efilename = 'Eloop13.txt';
-Mfilename = 'Mloop13.txt';
+tfilename = 'tloop15.txt';
+Pfilename = 'Ploop15.txt';
+Nfilename = 'Nloop15.txt';
+Efilename = 'Eloop15.txt';
+Mfilename = 'Mloop15.txt';
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -59,11 +61,12 @@ contin = 1;
 while (contin)
     
     % integrate until jth event... (or days)
-    [ts_vec,y_out,tE,yE,iE] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),[t0,days+olddays],y0,options);
+    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(t0:stepsize:days+olddays),y0,options);
 
     % add new internal steps to overall n_ts
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
+    n_ts
 
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1

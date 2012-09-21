@@ -5,13 +5,13 @@ clear
 
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 
-tfilename = 'tloop12.txt';
-Pfilename = 'Ploop12.txt';
-Nfilename = 'Nloop12.txt';
-Efilename = 'Eloop12.txt';
-Mfilename = 'Mloop12.txt';
+tfilename = 'tloop15.txt';
+Pfilename = 'Ploop15.txt';
+Nfilename = 'Nloop15.txt';
+Efilename = 'Eloop15.txt';
+Mfilename = 'Mloop15.txt';
 
-days = 20;       % total days run
+days = 5;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -49,7 +49,7 @@ n_ts = size(tplot);
     
 % plot of initial and final P-distributions    
     figure
-    plot((1:Pdim1),Pplot(100,:))
+    plot((1:Pdim1),Pplot(10,:))
     
     figure
     plot((1:Pdim1),Pplot(end,:))
