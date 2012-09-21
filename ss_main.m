@@ -6,14 +6,14 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 global lambdas1D gammas1D ;
 
-days = 5;
+days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-tfilename = 'tloop15.txt';
-Pfilename = 'Ploop15.txt';
-Nfilename = 'Nloop15.txt';
-Efilename = 'Eloop15.txt';
-Mfilename = 'Mloop15.txt';
+tfilename = 'tloop16.txt';
+Pfilename = 'Ploop16.txt';
+Nfilename = 'Nloop16.txt';
+Efilename = 'Eloop16.txt';
+Mfilename = 'Mloop16.txt';
 
 % setting necessary parameters
 r_ = 3.3;
@@ -23,7 +23,7 @@ de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
-b = 15;
+b = 35;
 beta_ = 25; 
 mu_ = 1;
 
