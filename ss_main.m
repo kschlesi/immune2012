@@ -6,14 +6,14 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 global lambdas1D gammas1D ;
 
-days = 10;
+days = 7;
 stepsize = 0.1; % size of steps at which to save
 
-tfilename = 'tloop16.txt';
-Pfilename = 'Ploop16.txt';
-Nfilename = 'Nloop16.txt';
-Efilename = 'Eloop16.txt';
-Mfilename = 'Mloop16.txt';
+tfilename = 'tloop18.txt';
+Pfilename = 'Ploop18.txt';
+Nfilename = 'Nloop18.txt';
+Efilename = 'Eloop18.txt';
+Mfilename = 'Mloop18.txt';
 
 % setting necessary parameters
 r_ = 3.3;
@@ -23,7 +23,7 @@ de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
-b = 35;
+b = 25;
 beta_ = 25; 
 mu_ = 1;
 
@@ -71,16 +71,21 @@ dlmwrite(Mfilename,transpose(M0));
 
 % integrating diffeqs in time with a FOR LOOP
 options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,Pdim1));
+tspan = (t0:stepsize:days);
 n_ts = 1;
+nstops = 0;
 contin = 1;
 while (contin)
     
     % integrate until jth event...(or days)
-    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(t0:stepsize:days),y0,options);
+    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),tspan,y0,options);
 
     % add new internal steps to overall n_ts
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
+    nstops = nstops + 1;
+    n_ts
+    nstops
     
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1
@@ -104,7 +109,12 @@ while (contin)
     
     % set new initial conditions
     t0 = ts_vec(end);
+    tspan = (t0:stepsize:days);
     y0 = y_out(end,:);
+    
+    if(t0>=days-stepsize)
+        tspan = [t0,days];
+    end
     
     if(t0>=days)
         contin = 0;

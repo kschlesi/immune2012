@@ -5,17 +5,17 @@ clear
 %global r_ h_ sigma_ de_ f_ k_ c ;
 global b beta_ p_ mu_;
 
-days = 7;
+days = 3;
 stepsize = 0.1; % size of steps at which to save
-olddays = 5;
+olddays = 7;
 oldss = 0.1;
 
 % file to which new days will be appended
-tfilename = 'tloop15.txt';
-Pfilename = 'Ploop15.txt';
-Nfilename = 'Nloop15.txt';
-Efilename = 'Eloop15.txt';
-Mfilename = 'Mloop15.txt';
+tfilename = 'tloop18.txt';
+Pfilename = 'Ploop18.txt';
+Nfilename = 'Nloop18.txt';
+Efilename = 'Eloop18.txt';
+Mfilename = 'Mloop18.txt';
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -55,18 +55,22 @@ y0 = [P0;N0;E0;M0];
     % semilogy((1:Pdim1+3*Ldim1),(shiftdim(y0)))
 
 % integrating diffeqs in time with a FOR LOOP
+tspan = (t0:stepsize:days+olddays);
 options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,Pdim1));
 n_ts = old_ts;
 contin = 1;
+nstops = 0;
 while (contin)
     
     % integrate until jth event... (or days)
-    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),(t0:stepsize:days+olddays),y0,options);
+    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),tspan,y0,options);
 
     % add new internal steps to overall n_ts
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
+    nstops = nstops+1;
     n_ts
+    nstops
 
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1
@@ -91,11 +95,16 @@ while (contin)
     % set new initial conditions
     t0 = ts_vec(end);
     y0 = y_out(end,:);
+    tspan = (t0:stepsize:days+olddays);
+        
+    if(t0>=days+olddays-stepsize)
+        tspan = [t0,days+olddays];
+    end
     
     if (t0>=days+olddays)
        contin = 0; 
     end
-        
+
 end
 
 

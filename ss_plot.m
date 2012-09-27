@@ -5,11 +5,11 @@ clear
 
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 
-tfilename = 'tloop16.txt';
-Pfilename = 'Ploop16.txt';
-Nfilename = 'Nloop16.txt';
-Efilename = 'Eloop16.txt';
-Mfilename = 'Mloop16.txt';
+tfilename = 'tloop18.txt';
+Pfilename = 'Ploop18.txt';
+Nfilename = 'Nloop18.txt';
+Efilename = 'Eloop18.txt';
+Mfilename = 'Mloop18.txt';
 
 days = 10;       % total days run
 
