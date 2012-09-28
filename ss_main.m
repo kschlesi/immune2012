@@ -6,14 +6,14 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 global lambdas1D gammas1D ;
 
-days = 7;
+days = 3;
 stepsize = 0.1; % size of steps at which to save
 
-tfilename = 'tloop19.txt';
-Pfilename = 'Ploop19.txt';
-Nfilename = 'Nloop19.txt';
-Efilename = 'Eloop19.txt';
-Mfilename = 'Mloop19.txt';
+tfilename = 'tloop20.txt';
+Pfilename = 'Ploop20.txt';
+Nfilename = 'Nloop20.txt';
+Efilename = 'Eloop20.txt';
+Mfilename = 'Mloop20.txt';
 
 % setting necessary parameters
 r_ = 3.3;
@@ -79,7 +79,7 @@ while (contin)
     
     % integrate until jth event...(or days)
     [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),tspan,y0,options);
-
+        
     % add new internal steps to overall n_ts
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;

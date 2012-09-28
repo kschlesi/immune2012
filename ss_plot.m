@@ -11,7 +11,7 @@ Nfilename = 'Nloop19.txt';
 Efilename = 'Eloop19.txt';
 Mfilename = 'Mloop19.txt';
 
-days = 7;       % total days run
+days = 10;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -57,7 +57,7 @@ n_ts = size(tplot);
 % contour plots of PNEM populations over time
 % NOTE these plots are not properly time-normalised
     figure
-    v = [1 10 50 100 200 300 500:500:10000];
+    v = [1 10 50 100 200 300 500:500:10^6];
     contour(Pplot,v)
 
 %     figure
