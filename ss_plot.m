@@ -5,13 +5,13 @@ clear
 
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 
-tfilename = 'tloop18.txt';
-Pfilename = 'Ploop18.txt';
-Nfilename = 'Nloop18.txt';
-Efilename = 'Eloop18.txt';
-Mfilename = 'Mloop18.txt';
+tfilename = 'tloop19.txt';
+Pfilename = 'Ploop19.txt';
+Nfilename = 'Nloop19.txt';
+Efilename = 'Eloop19.txt';
+Mfilename = 'Mloop19.txt';
 
-days = 10;       % total days run
+days = 7;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;

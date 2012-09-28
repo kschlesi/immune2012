@@ -11,11 +11,11 @@ olddays = 7;
 oldss = 0.1;
 
 % file to which new days will be appended
-tfilename = 'tloop18.txt';
-Pfilename = 'Ploop18.txt';
-Nfilename = 'Nloop18.txt';
-Efilename = 'Eloop18.txt';
-Mfilename = 'Mloop18.txt';
+tfilename = 'tloop19.txt';
+Pfilename = 'Ploop19.txt';
+Nfilename = 'Nloop19.txt';
+Efilename = 'Eloop19.txt';
+Mfilename = 'Mloop19.txt';
 
 % dimensions of 1D shape space
 Pdim1 = 400;

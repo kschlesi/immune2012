@@ -9,11 +9,11 @@ global lambdas1D gammas1D ;
 days = 7;
 stepsize = 0.1; % size of steps at which to save
 
-tfilename = 'tloop18.txt';
-Pfilename = 'Ploop18.txt';
-Nfilename = 'Nloop18.txt';
-Efilename = 'Eloop18.txt';
-Mfilename = 'Mloop18.txt';
+tfilename = 'tloop19.txt';
+Pfilename = 'Ploop19.txt';
+Nfilename = 'Nloop19.txt';
+Efilename = 'Eloop19.txt';
+Mfilename = 'Mloop19.txt';
 
 % setting necessary parameters
 r_ = 3.3;
