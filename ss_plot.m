@@ -1,17 +1,16 @@
 % mutation 1D plotter
-% FIX ARTIFICIAL CURVE SHAPE
 
 clear
 
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 
-tfilename = 'tloop19.txt';
-Pfilename = 'Ploop19.txt';
-Nfilename = 'Nloop19.txt';
-Efilename = 'Eloop19.txt';
-Mfilename = 'Mloop19.txt';
+tfilename = 'tloop13.txt';
+Pfilename = 'Ploop13.txt';
+Nfilename = 'Nloop13.txt';
+Efilename = 'Eloop13.txt';
+Mfilename = 'Mloop13.txt';
 
-days = 10;       % total days run
+days = 200;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -55,19 +54,23 @@ n_ts = size(tplot);
     plot((1:Pdim1),Pplot(end,:))
 
 % contour plots of PNEM populations over time
-% NOTE these plots are not properly time-normalised
+% NOTE these plots ARE ABSOLUTELY properly time-normalised
+    
+    Yaxis = tplot;
+    Xaxis = (1:1:Pdim1);
     figure
-    v = [1 10 50 100 200 300 500:500:10^6];
-    contour(Pplot,v)
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Xaxis,Yaxis,Pplot,v)
 
+%     Xaxis = (1:1:Ldim1);
 %     figure
 %     v = [0:0.5:3];
-%     contour(Nplot,v)
+%     contour(Xaxis,Yaxis,Nplot,v)
 %     
 %     figure
 %     v = [1 10 50 100 200 300 500:500:10000];
-%     contour(Eplot,v)
+%     contour(Xaxis,Yaxis,Eplot,v)
 % 
 %     figure
 %     v = [1 10 50 100 200 300 500:500:10000];
-%     contour(Mplot,v)
+%     contour(Xaxis,Yaxis,Mplot,v)
