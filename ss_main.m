@@ -6,7 +6,7 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 global lambdas1D gammas1D ;
 
-days = 3;
+days = 10;
 stepsize = 0.1; % size of steps at which to save
 
 tfilename = 'tloop20.txt';
@@ -23,7 +23,7 @@ de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
-b = 25;
+b = 20;
 beta_ = 25; 
 mu_ = 1;
 

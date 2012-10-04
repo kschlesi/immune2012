@@ -2,30 +2,31 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
+% global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
+global mu_;
 
-tfilename = 'tloop13.txt';
-Pfilename = 'Ploop13.txt';
-Nfilename = 'Nloop13.txt';
-Efilename = 'Eloop13.txt';
-Mfilename = 'Mloop13.txt';
+tfilename = 'tloop20.txt';
+Pfilename = 'Ploop20.txt';
+Nfilename = 'Nloop20.txt';
+Efilename = 'Eloop20.txt';
+Mfilename = 'Mloop20.txt';
 
-days = 200;       % total days run
+days = 10;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
 Ldim1 = 400;
 x0 = 200;
 
-% gammas & lambdas
-gammas1D = zeros(Pdim1,Ldim1);
-lambdas1D = zeros(Pdim1,1);
-for i=1:Pdim1;
-    lambdas1D(i) = p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
-    for j=1:Ldim1;
-        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
-    end
-end
+% % gammas & lambdas
+% gammas1D = zeros(Pdim1,Ldim1);
+% lambdas1D = zeros(Pdim1,1);
+% for i=1:Pdim1;
+%     lambdas1D(i) = p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+%     for j=1:Ldim1;
+%         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
+%     end
+% end
 
 % data and time vector
 tplot = csvread(tfilename);
@@ -60,6 +61,9 @@ n_ts = size(tplot);
     Xaxis = (1:1:Pdim1);
     figure
     v = [1 10 50 100 200 300 500:500:10000];
+    contour(Xaxis,Yaxis,Pplot,v)
+    v = [ mu_ 1 ];
+    figure
     contour(Xaxis,Yaxis,Pplot,v)
 
 %     Xaxis = (1:1:Ldim1);
