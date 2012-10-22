@@ -9,11 +9,11 @@ global lambdas1D gammas1D ;
 days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-tfilename = 'ttalk2.txt';
-Pfilename = 'Ptalk2.txt';
-Nfilename = 'Ntalk2.txt';
-Efilename = 'Etalk2.txt';
-Mfilename = 'Mtalk2.txt';
+tfilename = 'ttalk.txt';
+Pfilename = 'Ptalk.txt';
+Nfilename = 'Ntalk.txt';
+Efilename = 'Etalk.txt';
+Mfilename = 'Mtalk.txt';
 
 % setting necessary parameters
 r_ = 3.3;
