@@ -5,11 +5,11 @@ clear
 % global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
 global mu_;
 
-tfilename = 'tloop20.txt';
-Pfilename = 'Ploop20.txt';
-Nfilename = 'Nloop20.txt';
-Efilename = 'Eloop20.txt';
-Mfilename = 'Mloop20.txt';
+tfilename = 'ttalk2.txt';
+Pfilename = 'Ptalk2.txt';
+Nfilename = 'Ntalk2.txt';
+Efilename = 'Etalk2.txt';
+Mfilename = 'Mtalk2.txt';
 
 days = 10;       % total days run
 
@@ -49,11 +49,21 @@ n_ts = size(tplot);
     
 % plot of initial and final P-distributions    
     figure
-    plot((1:Pdim1),Pplot(10,:))
+    plot((1:Pdim1),Pplot(1,:))
+    axis([0 Pdim1 0 12])
     
     figure
     plot((1:Pdim1),Pplot(end,:))
+    
+    figure 
+    plot((1:Pdim1),Nplot(end,:))
 
+    figure 
+    plot((1:Pdim1),Eplot(end,:))
+
+    figure 
+    plot((1:Pdim1),Mplot(end,:))
+    
 % contour plots of PNEM populations over time
 % NOTE these plots ARE ABSOLUTELY properly time-normalised
     

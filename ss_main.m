@@ -9,11 +9,11 @@ global lambdas1D gammas1D ;
 days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-tfilename = 'tloop20.txt';
-Pfilename = 'Ploop20.txt';
-Nfilename = 'Nloop20.txt';
-Efilename = 'Eloop20.txt';
-Mfilename = 'Mloop20.txt';
+tfilename = 'ttalk2.txt';
+Pfilename = 'Ptalk2.txt';
+Nfilename = 'Ntalk2.txt';
+Efilename = 'Etalk2.txt';
+Mfilename = 'Mtalk2.txt';
 
 % setting necessary parameters
 r_ = 3.3;
@@ -22,8 +22,8 @@ sigma_ = 3;
 de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
-c = 0.5;
-b = 20;
+c = 0;
+b = 25;
 beta_ = 25; 
 mu_ = 1;
 

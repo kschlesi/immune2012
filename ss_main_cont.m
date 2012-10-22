@@ -5,17 +5,17 @@ clear
 %global r_ h_ sigma_ de_ f_ k_ c ;
 global b beta_ p_ mu_;
 
-days = 40;
+days = ;
 stepsize = 0.1; % size of steps at which to save
 olddays = 10;
 oldss = 0.1;
 
 % file to which new days will be appended
-tfilename = 'tloop20.txt';
-Pfilename = 'Ploop20.txt';
-Nfilename = 'Nloop20.txt';
-Efilename = 'Eloop20.txt';
-Mfilename = 'Mloop20.txt';
+tfilename = 'ttalk1.txt';
+Pfilename = 'Ptalk1.txt';
+Nfilename = 'Ntalk1.txt';
+Efilename = 'Etalk1.txt';
+Mfilename = 'Mtalk1.txt';
 
 % dimensions of 1D shape space
 Pdim1 = 400;
