@@ -3,17 +3,17 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
+global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_ R_ dh_;
 global lambdas1D gammas1D ;
 
 days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-tfilename = 'ttalk.txt';
-Pfilename = 'Ptalk.txt';
-Nfilename = 'Ntalk.txt';
-Efilename = 'Etalk.txt';
-Mfilename = 'Mtalk.txt';
+tfilename = 'tbound3.txt';
+Pfilename = 'Pbound3.txt';
+Nfilename = 'Nbound3.txt';
+Efilename = 'Ebound3.txt';
+Mfilename = 'Mbound3.txt';
 
 % setting necessary parameters
 r_ = 3.3;
@@ -22,10 +22,12 @@ sigma_ = 3;
 de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
-c = 0;
+c = 0.5;
 b = 25;
-beta_ = 25; 
+beta_ = 15; 
 mu_ = 1;
+R_ = 10000;
+dh_ = 1;
 
 % dimensions of 1D shape space
 Pdim1 = 400;

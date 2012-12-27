@@ -5,13 +5,13 @@ clear
 % global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
 global mu_;
 
-tfilename = 'tloop12.txt';
-Pfilename = 'Ploop12.txt';
-Nfilename = 'Nloop12.txt';
-Efilename = 'Eloop12.txt';
-Mfilename = 'Mloop12.txt';
+tfilename = 'tbound2.txt';
+Pfilename = 'Pbound2.txt';
+Nfilename = 'Nbound2.txt';
+Efilename = 'Ebound2.txt';
+Mfilename = 'Mbound2.txt';
 
-days = 20;       % total days run
+days = 10;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -32,67 +32,67 @@ for i=1:Pdim1;
     end
 end
 
-figure
-plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),1-lambdas1D)
+% figure
+% plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),1-lambdas1D)
 
-% % data and time vector
-% tplot = csvread(tfilename);
-% Pplot = csvread(Pfilename);
-% Nplot = csvread(Nfilename);
-% Eplot = csvread(Efilename);
-% Mplot = csvread(Mfilename);
-% 
-% n_ts = size(tplot);
-% 
-% 
-% % plot of total pathogen v. total lymphocyte population
-%     Ptot = sum(Pplot,2);
-%     Ntot = sum(Nplot,2);
-%     Etot = sum(Eplot,2);
-%     Mtot = sum(Mplot,2);
-%     figure
-%     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
-%     axis([0 days 1 10^9])
-%     
-% % plot of initial and final P-distributions    
-%     figure
-%     plot((1:Pdim1),Pplot(1,:))
-%     axis([0 Pdim1 0 12])
-%     
-%     figure
-%     plot((1:Pdim1),Pplot(end,:))
-%     
-%     figure 
-%     plot((1:Pdim1),Nplot(end,:))
-% 
-%     figure 
-%     plot((1:Pdim1),Eplot(end,:))
-% 
-%     figure 
-%     plot((1:Pdim1),Mplot(end,:))
-%     
-% % contour plots of PNEM populations over time
-% % NOTE these plots ARE ABSOLUTELY properly time-normalised
-%     
-%     Yaxis = tplot;
-%     Xaxis = (1:1:Pdim1);
-%     figure
-%     v = [1 10 50 100 200 300 500:500:10000];
-%     contour(Xaxis,Yaxis,Pplot,v)
-%     axis([0 400 0 10])
-%     v = [ mu_ 1 ];
-%     figure
-%     contour(Xaxis,Yaxis,Pplot,v)
+% data and time vector
+tplot = csvread(tfilename);
+Pplot = csvread(Pfilename);
+Nplot = csvread(Nfilename);
+Eplot = csvread(Efilename);
+Mplot = csvread(Mfilename);
 
-%     Xaxis = (1:1:Ldim1);
-%     figure
-%     v = [0:0.5:3];
-%     contour(Xaxis,Yaxis,Nplot,v)
-%     
-%     figure
-%     v = [1 10 50 100 200 300 500:500:10000];
-%     contour(Xaxis,Yaxis,Eplot,v)
-% 
-%     figure
-%     v = [1 10 50 100 200 300 500:500:10000];
-%     contour(Xaxis,Yaxis,Mplot,v)
+n_ts = size(tplot);
+
+
+% plot of total pathogen v. total lymphocyte population
+    Ptot = sum(Pplot,2);
+    Ntot = sum(Nplot,2);
+    Etot = sum(Eplot,2);
+    Mtot = sum(Mplot,2);
+    figure
+    semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
+    axis([0 days 1 10^9])
+    
+% plot of initial and final P-distributions    
+    figure
+    plot((1:Pdim1),Pplot(1,:))
+    axis([0 Pdim1 0 12])
+    
+    figure
+    plot((1:Pdim1),Pplot(end,:))
+    
+    figure 
+    plot((1:Pdim1),Nplot(end,:))
+
+    figure 
+    plot((1:Pdim1),Eplot(end,:))
+
+    figure 
+    plot((1:Pdim1),Mplot(end,:))
+     
+% contour plots of PNEM populations over time
+% NOTE these plots ARE ABSOLUTELY properly time-normalised
+    
+    Yaxis = tplot;
+    Xaxis = (1:1:Pdim1);
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Xaxis,Yaxis,Pplot,v)
+    axis([0 400 0 days])
+    v = [ mu_ 1 ];
+    figure
+    contour(Xaxis,Yaxis,Pplot,v)
+
+    Xaxis = (1:1:Ldim1);
+    figure
+    v = [0:0.5:3];
+    contour(Xaxis,Yaxis,Nplot,v)
+    
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Xaxis,Yaxis,Eplot,v)
+
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Xaxis,Yaxis,Mplot,v)
