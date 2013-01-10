@@ -6,30 +6,30 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 global lambdas1D gammas1D ;
 
-days = 5;
+days = 200;
 
-tfilename = 'tloop10.txt';
-Pfilename = 'Ploop10.txt';
-Nfilename = 'Nloop10.txt';
-Efilename = 'Eloop10.txt';
-Mfilename = 'Mloop10.txt';
+tfilename = 'tloop13.txt';
+Pfilename = 'Ploop13.txt';
+Nfilename = 'Nloop13.txt';
+Efilename = 'Eloop13.txt';
+Mfilename = 'Mloop13.txt';
 
 % setting necessary parameters
 r_ = 3.3;
-h_ = 10^-3;
+h_ = 10^-5;
 sigma_ = 3;
 de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
-b = 25;
-beta_ = 40; 
+b = 15;
+beta_ = 25; 
 mu_ = 1;
 
 % dimensions of 1D shape space
-Pdim1 = 600;
-Ldim1 = 600;
-x0 = 300;
+Pdim1 = 400;
+Ldim1 = 400;
+x0 = 200;
 
 % gammas & lambdas
 p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
@@ -47,16 +47,15 @@ Pmax0 = 10;
 Pdiff0 = 12;
 G0 = Pmax0.*ones(Pdiff0/2,1);
 P0 = padarray(G0,Pdim1/2-Pdiff0/4,'both');
-
-N0density = 3;
-N0 = N0density.*ones(Ldim1,1);
-E0 = zeros(Ldim1,1);
-M0 = zeros(Ldim1,1);
 % % initial gaussian distribution of pathogen
 % P0 = zeros(Pdim1,1);
 % for i=1:Pdim1;
 %     P0(i) = Pmax0*exp(-1*((i-x0)^2)/(2*Pdiff0^2));
 % end
+N0density = 3;
+N0 = N0density.*ones(Ldim1,1);
+E0 = zeros(Ldim1,1);
+M0 = zeros(Ldim1,1);
 
 % creating initial conditions vector
 t0 = 0;
@@ -81,11 +80,10 @@ while (contin)
     % add new internal steps to overall n_ts
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
-    n_ts
     
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1
-        if(y_out(end,pcount)<=1)
+        if(y_out(end,pcount)<=mu_)
             y_out(end,pcount)=0;
         end
     end
@@ -116,43 +114,18 @@ end
 
 
 % plot initial & final distributions
-%     figure
-%     plot((1:1:Pdim1),P0)
-%     
-%     figure
-%     Pfin = squeeze(P_out(n_ts,:));
-%     plot((1:1:Pdim1),Pfin)
+    figure
+    plot((1:1:Pdim1),P0)
     
     figure
-    hold on
-    surf(P_out,'MeshStyle','row')
-    hold off
-    axis([0 Pdim1 0 n_ts 0 max(P_out(:,x0))])
-%    set(gca,'ZScale','log')
-
-    figure
-    hold on
-    surf(N_out,'MeshStyle','row')
-    hold off
-    axis([0 Ldim1 0 n_ts 0 N0density])
-
-    figure
-    hold on
-    surf(E_out,'MeshStyle','row')
-    hold off
-    axis([0 Ldim1 0 n_ts 0 5000])
+    plot((1:1:Pdim1),P_out(end,:))
     
-    figure
-    hold on
-    surf(M_out,'MeshStyle','row')
-    hold off
-    axis([0 Ldim1 0 n_ts 0 400])
-
-
-
-    Ptot = sum(P_out,2);
-    Ntot = sum(N_out,2);
-    Etot = sum(E_out,2);
-    Mtot = sum(M_out,2);
-    figure
-    semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
+% 
+% 
+% 
+%     Ptot = sum(P_out,2);
+%     Ntot = sum(N_out,2);
+%     Etot = sum(E_out,2);
+%     Mtot = sum(M_out,2);
+%     figure
+%     semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)

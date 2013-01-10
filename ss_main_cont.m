@@ -1,23 +1,24 @@
-% fitness landscape_cont
+% ss_main_cont
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b beta_ p_ mu_;
+%global r_ h_ sigma_ de_ f_ k_ c ;
+global b beta_ p_ mu_;
 
-days = 5;
-olddays = 5;
+days = 0;
+olddays = 110;
 
 % file to which new days will be appended
-tfilename = 'tloop10.txt';
-Pfilename = 'Ploop10.txt';
-Nfilename = 'Nloop10.txt';
-Efilename = 'Eloop10.txt';
-Mfilename = 'Mloop10.txt';
+tfilename = 'tloop13.txt';
+Pfilename = 'Ploop13.txt';
+Nfilename = 'Nloop13.txt';
+Efilename = 'Eloop13.txt';
+Mfilename = 'Mloop13.txt';
 
 % dimensions of 1D shape space
-Pdim1 = 600;
-Ldim1 = 600;
-x0 = 300;
+Pdim1 = 400;
+Ldim1 = 400;
+x0 = 200;
 
 % gammas & lambdas
 p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
@@ -66,7 +67,7 @@ while (contin)
 
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1
-        if(y_out(end,pcount)<1)
+        if(y_out(end,pcount)<=mu_)
             y_out(end,pcount)=0;
         end
     end

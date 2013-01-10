@@ -7,4 +7,4 @@ for i=1:Pdim1
     value(i) = y(i)-mu_;
 end
 isterminal = ones(Pdim1);
-direction = -1*ones(Pdim1);
+direction = zeros(Pdim1);
