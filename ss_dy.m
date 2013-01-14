@@ -1,6 +1,6 @@
 function dy = ss_dy(t,y,Pdim1,Ldim1)
 
-global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D;
+global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_;
 
 % create separate P, N, E, M vectors
 P = y(1:Pdim1);
@@ -9,18 +9,29 @@ E = y(Pdim1+Ldim1+1:Pdim1+2*Ldim1);
 M = y(Pdim1+2*Ldim1+1:end);
 
 % create stochastic mutation matrix (size Pdim1 x Pdim1)
-mrates = zeros(Pdim1,Pdim1);
-    for i=2:Pdim1
-        for j=1:i-1
-            mrates(i,j) = (1/Pdim1)*abs(randn/((i-j)^c));
-            mrates(j,i) = mrates(i,j);
-        end
-        iloss = sum(mrates(i,:));
-        mrates(i,i) = 1-iloss;
-    end
-        iloss = sum(mrates(1,:));
-        mrates(1,1) = 1-iloss;
+mrates = eye(Pdim1);
+%mrates = zeros(Pdim1,Pdim1);
+%     for i=2:Pdim1
+%         for j=1:i-1
+%             mrates(i,j) = (1/Pdim1)*abs(randn/((i-j)^c));
+%             mrates(j,i) = mrates(i,j);
+%         end
+%         iloss = sum(mrates(i,:));
+%         mrates(i,i) = 1-iloss;
+%     end
+%         iloss = sum(mrates(1,:));
+%         mrates(1,1) = 1-iloss;
     
+    
+% enforcing P cutoff for calculating everything...
+%Pis0 = zeros(Pdim1,1);
+for i=1:Pdim1
+    if(P(i)<mu_)
+        P(i)=0;
+%        Pis0(i)=1;
+    end
+end
+        
 % calculate dP (all size Pdim1 x 1)        
 dmut = zeros(Pdim1,1);
 omega = zeros(Pdim1,1);
