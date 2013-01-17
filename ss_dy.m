@@ -39,7 +39,7 @@ omega = zeros(Pdim1,1);
         dmut(i) = r_.*squeeze(sum(P.*squeeze(mrates(:,i))));
         omega(i) = sum(shiftdim(gammas1D(i,:)).*(N + M + E));
     end
-dP = dmut.*(ones(Pdim1,1)-lambdas1D) - h_.*omega.*P;
+dP = dmut.*lambdas1D - h_.*omega.*P;
 
 % calculate dL's (all size Ldim1 x 1)
 Pofy = zeros(Ldim1,1);

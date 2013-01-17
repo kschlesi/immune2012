@@ -3,19 +3,19 @@
 clear
 
 %global r_ h_ sigma_ de_ f_ k_ c ;
-global b beta_ p_ mu_;
+global b beta_ mu_;
 
-days = ;
+days = 10;
 stepsize = 0.1; % size of steps at which to save
 olddays = 10;
 oldss = 0.1;
 
 % file to which new days will be appended
-tfilename = 'ttalk1.txt';
-Pfilename = 'Ptalk1.txt';
-Nfilename = 'Ntalk1.txt';
-Efilename = 'Etalk1.txt';
-Mfilename = 'Mtalk1.txt';
+tfilename = 't.txt';
+Pfilename = 'P.txt';
+Nfilename = 'N.txt';
+Efilename = 'E.txt';
+Mfilename = 'M.txt';
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -23,11 +23,11 @@ Ldim1 = 400;
 x0 = 200;
 
 % gammas & lambdas
-p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
+p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)))^(-1);
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;
-    lambdas1D(i) = p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+    lambdas1D(i) = 1 - p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
     for j=1:Ldim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end

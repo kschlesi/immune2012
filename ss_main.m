@@ -9,11 +9,11 @@ global lambdas1D gammas1D ;
 days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-tfilename = 'ttalk.txt';
-Pfilename = 'Ptalk.txt';
-Nfilename = 'Ntalk.txt';
-Efilename = 'Etalk.txt';
-Mfilename = 'Mtalk.txt';
+tfilename = 't.txt';
+Pfilename = 'P.txt';
+Nfilename = 'N.txt';
+Efilename = 'E.txt';
+Mfilename = 'M.txt';
 
 % setting necessary parameters
 r_ = 3.3;
@@ -33,11 +33,11 @@ Ldim1 = 400;
 x0 = 200;
 
 % gammas & lambdas
-p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
+p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)))^(-1);
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;
-    lambdas1D(i) = p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+    lambdas1D(i) = 1 - p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
     for j=1:Ldim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end

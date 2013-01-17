@@ -2,14 +2,14 @@
 
 clear
 
-% global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
-global mu_;
+% global r_ h_ sigma_ de_ f_ k_ c mu_ ;
+global b beta_;
 
-tfilename = 'tloop12.txt';
-Pfilename = 'Ploop12.txt';
-Nfilename = 'Nloop12.txt';
-Efilename = 'Eloop12.txt';
-Mfilename = 'Mloop12.txt';
+tfilename = 't.txt';
+Pfilename = 'P.txt';
+Nfilename = 'N.txt';
+Efilename = 'E.txt';
+Mfilename = 'M.txt';
 
 days = 20;       % total days run
 
@@ -24,16 +24,16 @@ beta_ = 25;
 % % gammas & lambdas
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
-p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
+p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)))^(-1);
 for i=1:Pdim1;
-    lambdas1D(i) = p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+    lambdas1D(i) = 1 - p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
     for j=1:Ldim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end
 end
 
 figure
-plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),1-lambdas1D)
+plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
 
 % % data and time vector
 % tplot = csvread(tfilename);
