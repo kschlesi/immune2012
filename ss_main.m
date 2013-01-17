@@ -11,11 +11,11 @@ stepsize = 0.1; % size of steps at which to save
 
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
-tfilename = [datapath 'tpaper1.txt'];
-Pfilename = [datapath 'Ppaper1.txt'];
-Nfilename = [datapath 'Npaper1.txt'];
-Efilename = [datapath 'Epaper1.txt'];
-Mfilename = [datapath 'Mpaper1.txt'];
+tfilename = [datapath 'tpaper2.txt'];
+Pfilename = [datapath 'Ppaper2.txt'];
+Nfilename = [datapath 'Npaper2.txt'];
+Efilename = [datapath 'Epaper2.txt'];
+Mfilename = [datapath 'Mpaper2.txt'];
 
 % setting necessary parameters
 r_ = 3.3;
