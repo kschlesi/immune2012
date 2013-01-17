@@ -9,11 +9,13 @@ global lambdas1D gammas1D ;
 days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-tfilename = 't.txt';
-Pfilename = 'P.txt';
-Nfilename = 'N.txt';
-Efilename = 'E.txt';
-Mfilename = 'M.txt';
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
+tfilename = [datapath 't.txt'];
+Pfilename = [datapath 'P.txt'];
+Nfilename = [datapath 'N.txt'];
+Efilename = [datapath 'E.txt'];
+Mfilename = [datapath 'M.txt'];
 
 % setting necessary parameters
 r_ = 3.3;

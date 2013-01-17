@@ -11,11 +11,14 @@ olddays = 10;
 oldss = 0.1;
 
 % file to which new days will be appended
-tfilename = 't.txt';
-Pfilename = 'P.txt';
-Nfilename = 'N.txt';
-Efilename = 'E.txt';
-Mfilename = 'M.txt';
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
+tfilename = [datapath 't.txt'];
+Pfilename = [datapath 'P.txt'];
+Nfilename = [datapath 'N.txt'];
+Efilename = [datapath 'E.txt'];
+Mfilename = [datapath 'M.txt'];
+
 
 % dimensions of 1D shape space
 Pdim1 = 400;

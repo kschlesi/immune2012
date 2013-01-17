@@ -5,11 +5,13 @@ clear
 % global r_ h_ sigma_ de_ f_ k_ c mu_ ;
 global b beta_;
 
-tfilename = 't.txt';
-Pfilename = 'P.txt';
-Nfilename = 'N.txt';
-Efilename = 'E.txt';
-Mfilename = 'M.txt';
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
+tfilename = [datapath 't.txt'];
+Pfilename = [datapath 'P.txt'];
+Nfilename = [datapath 'N.txt'];
+Efilename = [datapath 'E.txt'];
+Mfilename = [datapath 'M.txt'];
 
 days = 20;       % total days run
 
