@@ -2,25 +2,25 @@
 
 clear
 
-% global r_ h_ sigma_ de_ f_ k_ c mu_ ;
-global b beta_;
+% global r_ h_ sigma_ de_ f_ k_ c ;
+global b beta_ mu_;
 
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 't.txt'];
-Pfilename = [datapath 'P.txt'];
-Nfilename = [datapath 'N.txt'];
-Efilename = [datapath 'E.txt'];
-Mfilename = [datapath 'M.txt'];
+tfilename = [datapath 'tpaper1.txt'];
+Pfilename = [datapath 'Ppaper1.txt'];
+Nfilename = [datapath 'Npaper1.txt'];
+Efilename = [datapath 'Epaper1.txt'];
+Mfilename = [datapath 'Mpaper1.txt'];
 
-days = 20;       % total days run
+days = 10;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
 Ldim1 = 400;
 x0 = 200;
 
-b = 15;
+b = 35;
 beta_ = 25;
 
 % % gammas & lambdas
@@ -37,25 +37,25 @@ end
 figure
 plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
 
-% % data and time vector
-% tplot = csvread(tfilename);
-% Pplot = csvread(Pfilename);
-% Nplot = csvread(Nfilename);
-% Eplot = csvread(Efilename);
-% Mplot = csvread(Mfilename);
-% 
-% n_ts = size(tplot);
-% 
-% 
-% % plot of total pathogen v. total lymphocyte population
-%     Ptot = sum(Pplot,2);
-%     Ntot = sum(Nplot,2);
-%     Etot = sum(Eplot,2);
-%     Mtot = sum(Mplot,2);
-%     figure
-%     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
-%     axis([0 days 1 10^9])
-%     
+% data and time vector
+tplot = csvread(tfilename);
+Pplot = csvread(Pfilename);
+Nplot = csvread(Nfilename);
+Eplot = csvread(Efilename);
+Mplot = csvread(Mfilename);
+
+n_ts = size(tplot);
+
+
+% plot of total pathogen v. total lymphocyte population
+    Ptot = sum(Pplot,2);
+    Ntot = sum(Nplot,2);
+    Etot = sum(Eplot,2);
+    Mtot = sum(Mplot,2);
+    figure
+    semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
+    axis([0 days 1 10^9])
+    
 % % plot of initial and final P-distributions    
 %     figure
 %     plot((1:Pdim1),Pplot(1,:))
@@ -73,18 +73,18 @@ plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
 %     figure 
 %     plot((1:Pdim1),Mplot(end,:))
 %     
-% % contour plots of PNEM populations over time
-% % NOTE these plots ARE ABSOLUTELY properly time-normalised
-%     
-%     Yaxis = tplot;
-%     Xaxis = (1:1:Pdim1);
-%     figure
-%     v = [1 10 50 100 200 300 500:500:10000];
-%     contour(Xaxis,Yaxis,Pplot,v)
-%     axis([0 400 0 10])
-%     v = [ mu_ 1 ];
-%     figure
-%     contour(Xaxis,Yaxis,Pplot,v)
+% contour plots of PNEM populations over time
+% NOTE these plots ARE ABSOLUTELY properly time-normalised
+    
+    Yaxis = tplot;
+    Xaxis = (1:1:Pdim1);
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Xaxis,Yaxis,Pplot,v)
+    axis([0 400 0 10])
+    v = [ mu_ 1 ];
+    figure
+    contour(Xaxis,Yaxis,Pplot,v)
 
 %     Xaxis = (1:1:Ldim1);
 %     figure

@@ -9,13 +9,13 @@ global lambdas1D gammas1D ;
 days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
-%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 't.txt'];
-Pfilename = [datapath 'P.txt'];
-Nfilename = [datapath 'N.txt'];
-Efilename = [datapath 'E.txt'];
-Mfilename = [datapath 'M.txt'];
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
+tfilename = [datapath 'tpaper1.txt'];
+Pfilename = [datapath 'Ppaper1.txt'];
+Nfilename = [datapath 'Npaper1.txt'];
+Efilename = [datapath 'Epaper1.txt'];
+Mfilename = [datapath 'Mpaper1.txt'];
 
 % setting necessary parameters
 r_ = 3.3;
@@ -24,8 +24,8 @@ sigma_ = 3;
 de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
-c = 0;
-b = 25;
+c = 0.5;
+b = 35;
 beta_ = 25; 
 mu_ = 1;
 
@@ -86,8 +86,8 @@ while (contin)
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
     nstops = nstops + 1;
-    n_ts
-    nstops
+%     n_ts
+%     nstops
     
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1
