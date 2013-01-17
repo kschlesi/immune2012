@@ -6,16 +6,16 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
 global lambdas1D gammas1D ;
 
-days = 50;
+days = 10;
 stepsize = 0.1; % size of steps at which to save
 
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
-tfilename = [datapath 'tpaper4.txt'];
-Pfilename = [datapath 'Ppaper4.txt'];
-Nfilename = [datapath 'Npaper4.txt'];
-Efilename = [datapath 'Epaper4.txt'];
-Mfilename = [datapath 'Mpaper4.txt'];
+tfilename = [datapath 'tpaper5.txt'];
+Pfilename = [datapath 'Ppaper5.txt'];
+Nfilename = [datapath 'Npaper5.txt'];
+Efilename = [datapath 'Epaper5.txt'];
+Mfilename = [datapath 'Mpaper5.txt'];
 
 % setting necessary parameters
 r_ = 3.3;
@@ -25,8 +25,8 @@ de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
-b = 15;
-beta_ = 25; 
+b = 25;
+beta_ = 15; 
 mu_ = 1;
 
 % dimensions of 1D shape space
