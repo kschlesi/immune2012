@@ -5,19 +5,19 @@ clear
 %global r_ h_ sigma_ de_ f_ k_ c ;
 global b beta_ mu_;
 
-days = 20;      % new days to append to file
+days = 100;      % new days to append to file
 stepsize = 0.1; % size of steps at which to save
-olddays = 30;   % days already run & saved in file
+olddays = 100;   % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 'tpaper3.txt'];
-Pfilename = [datapath 'Ppaper3.txt'];
-Nfilename = [datapath 'Npaper3.txt'];
-Efilename = [datapath 'Epaper3.txt'];
-Mfilename = [datapath 'Mpaper3.txt'];
+tfilename = [datapath 'tpaper4.txt'];
+Pfilename = [datapath 'Ppaper4.txt'];
+Nfilename = [datapath 'Npaper4.txt'];
+Efilename = [datapath 'Epaper4.txt'];
+Mfilename = [datapath 'Mpaper4.txt'];
 
 
 % dimensions of 1D shape space
