@@ -5,19 +5,19 @@ clear
 %global r_ h_ sigma_ de_ f_ k_ c ;
 global b beta_ mu_;
 
-days = 10;
+days = 20;      % new days to append to file
 stepsize = 0.1; % size of steps at which to save
-olddays = 10;
+olddays = 30;   % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 't.txt'];
-Pfilename = [datapath 'P.txt'];
-Nfilename = [datapath 'N.txt'];
-Efilename = [datapath 'E.txt'];
-Mfilename = [datapath 'M.txt'];
+tfilename = [datapath 'tpaper3.txt'];
+Pfilename = [datapath 'Ppaper3.txt'];
+Nfilename = [datapath 'Npaper3.txt'];
+Efilename = [datapath 'Epaper3.txt'];
+Mfilename = [datapath 'Mpaper3.txt'];
 
 
 % dimensions of 1D shape space
@@ -72,8 +72,8 @@ while (contin)
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
     nstops = nstops+1;
-    n_ts
-    nstops
+%     n_ts
+%     nstops
 
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1
