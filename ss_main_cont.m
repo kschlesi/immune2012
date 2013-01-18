@@ -13,12 +13,16 @@ oldss = 0.1;
 % file to which new days will be appended
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 'tpaper7.txt'];
-Pfilename = [datapath 'Ppaper7.txt'];
-Nfilename = [datapath 'Npaper7.txt'];
-Efilename = [datapath 'Epaper7.txt'];
-Mfilename = [datapath 'Mpaper7.txt'];
+tfilename = [datapath 'tpaper8.txt'];
+Pfilename = [datapath 'Ppaper8.txt'];
+Nfilename = [datapath 'Npaper8.txt'];
+Efilename = [datapath 'Epaper8.txt'];
+Mfilename = [datapath 'Mpaper8.txt'];
 
+% ensuring file existence
+if isequal(exist(tfilename),0)
+    error('File to be continued does not exist!');
+end
 
 % dimensions of 1D shape space
 Pdim1 = 400;
