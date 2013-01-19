@@ -9,6 +9,7 @@ E = y(Pdim1+Ldim1+1:Pdim1+2*Ldim1);
 M = y(Pdim1+2*Ldim1+1:end);
 
 % create stochastic mutation matrix (size Pdim1 x Pdim1)
+%mrates = eye(Pdim1);
 mrates = zeros(Pdim1,Pdim1);
     for i=2:Pdim1
         for j=1:i-1
@@ -47,7 +48,7 @@ omega = zeros(Pdim1,1);
         dmut(i) = r_.*squeeze(sum(P.*squeeze(mrates(:,i))));
         omega(i) = sum(shiftdim(gammas1D(i,:)).*(N + M + E));
     end
-dP = dmut.*(ones(Pdim1,1)-lambdas1D) - h_.*omega.*P;
+dP = dmut.*lambdas1D - h_.*omega.*P;
 
 % calculate dL's (all size Ldim1 x 1)
 Hsat = heaviside(sum(N + E + M) - R_);

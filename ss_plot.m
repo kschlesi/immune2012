@@ -2,14 +2,16 @@
 
 clear
 
-% global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
-global mu_;
+% global r_ h_ sigma_ de_ f_ k_ c ;
+global b beta_ mu_;
 
-tfilename = 'tbound4.txt';
-Pfilename = 'Pbound4.txt';
-Nfilename = 'Nbound4.txt';
-Efilename = 'Ebound4.txt';
-Mfilename = 'Mbound4.txt';
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
+tfilename = [datapath 'tbound4.txt'];
+Pfilename = [datapath 'Pbound4.txt'];
+Nfilename = [datapath 'Nbound4.txt'];
+Efilename = [datapath 'Ebound4.txt'];
+Mfilename = [datapath 'Mbound4.txt'];
 
 days = 10;       % total days run
 
@@ -18,15 +20,12 @@ Pdim1 = 400;
 Ldim1 = 400;
 x0 = 200;
 
-b = 15;
-beta_ = 25;
-
 % % gammas & lambdas
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
-p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)));
+p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)))^(-1);
 for i=1:Pdim1;
-    lambdas1D(i) = p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+    lambdas1D(i) = 1 - p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
     for j=1:Ldim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end
@@ -70,7 +69,8 @@ n_ts = size(tplot);
 % 
 %     figure 
 %     plot((1:Pdim1),Mplot(end,:))
-%      
+
+
 % contour plots of PNEM populations over time
 % NOTE these plots ARE ABSOLUTELY properly time-normalised
     

@@ -13,11 +13,11 @@ oldss = 0.1;
 % file to which new days will be appended
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 'tbound4.txt'];
-Pfilename = [datapath 'Pbound4.txt'];
-Nfilename = [datapath 'Nbound4.txt'];
-Efilename = [datapath 'Ebound4.txt'];
-Mfilename = [datapath 'Mbound4.txt'];
+tfilename = [datapath 'tpaper10.txt'];
+Pfilename = [datapath 'Ppaper10.txt'];
+Nfilename = [datapath 'Npaper10.txt'];
+Efilename = [datapath 'Epaper10.txt'];
+Mfilename = [datapath 'Mpaper10.txt'];
 
 % ensuring file existence
 if isequal(exist(tfilename),0)
