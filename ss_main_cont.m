@@ -11,11 +11,11 @@ olddays = 10;
 oldss = 0.1;
 
 % file to which new days will be appended
-tfilename = 'ttalk1.txt';
-Pfilename = 'Ptalk1.txt';
-Nfilename = 'Ntalk1.txt';
-Efilename = 'Etalk1.txt';
-Mfilename = 'Mtalk1.txt';
+tfilename = 'tbound4.txt';
+Pfilename = 'Pbound4.txt';
+Nfilename = 'Nbound4.txt';
+Efilename = 'Ebound4.txt';
+Mfilename = 'Mbound4.txt';
 
 % dimensions of 1D shape space
 Pdim1 = 400;

@@ -5,11 +5,11 @@ clear
 % global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ ;
 global mu_;
 
-tfilename = 'tbound2.txt';
-Pfilename = 'Pbound2.txt';
-Nfilename = 'Nbound2.txt';
-Efilename = 'Ebound2.txt';
-Mfilename = 'Mbound2.txt';
+tfilename = 'tbound4.txt';
+Pfilename = 'Pbound4.txt';
+Nfilename = 'Nbound4.txt';
+Efilename = 'Ebound4.txt';
+Mfilename = 'Mbound4.txt';
 
 days = 10;       % total days run
 
@@ -54,23 +54,23 @@ n_ts = size(tplot);
     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
     axis([0 days 1 10^9])
     
-% plot of initial and final P-distributions    
-    figure
-    plot((1:Pdim1),Pplot(1,:))
-    axis([0 Pdim1 0 12])
-    
-    figure
-    plot((1:Pdim1),Pplot(end,:))
-    
-    figure 
-    plot((1:Pdim1),Nplot(end,:))
-
-    figure 
-    plot((1:Pdim1),Eplot(end,:))
-
-    figure 
-    plot((1:Pdim1),Mplot(end,:))
-     
+% % plot of initial and final P-distributions    
+%     figure
+%     plot((1:Pdim1),Pplot(1,:))
+%     axis([0 Pdim1 0 12])
+%     
+%     figure
+%     plot((1:Pdim1),Pplot(end,:))
+%     
+%     figure 
+%     plot((1:Pdim1),Nplot(end,:))
+% 
+%     figure 
+%     plot((1:Pdim1),Eplot(end,:))
+% 
+%     figure 
+%     plot((1:Pdim1),Mplot(end,:))
+%      
 % contour plots of PNEM populations over time
 % NOTE these plots ARE ABSOLUTELY properly time-normalised
     
@@ -84,15 +84,15 @@ n_ts = size(tplot);
     figure
     contour(Xaxis,Yaxis,Pplot,v)
 
-    Xaxis = (1:1:Ldim1);
-    figure
-    v = [0:0.5:3];
-    contour(Xaxis,Yaxis,Nplot,v)
-    
-    figure
-    v = [1 10 50 100 200 300 500:500:10000];
-    contour(Xaxis,Yaxis,Eplot,v)
-
-    figure
-    v = [1 10 50 100 200 300 500:500:10000];
-    contour(Xaxis,Yaxis,Mplot,v)
+%     Xaxis = (1:1:Ldim1);
+%     figure
+%     v = [0:0.5:3];
+%     contour(Xaxis,Yaxis,Nplot,v)
+%     
+%     figure
+%     v = [1 10 50 100 200 300 500:500:10000];
+%     contour(Xaxis,Yaxis,Eplot,v)
+% 
+%     figure
+%     v = [1 10 50 100 200 300 500:500:10000];
+%     contour(Xaxis,Yaxis,Mplot,v)

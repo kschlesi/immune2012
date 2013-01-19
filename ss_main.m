@@ -3,17 +3,17 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_ R_ dh_;
+global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_ R_ dh_ dg_;
 global lambdas1D gammas1D ;
 
 days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-tfilename = 'tbound3.txt';
-Pfilename = 'Pbound3.txt';
-Nfilename = 'Nbound3.txt';
-Efilename = 'Ebound3.txt';
-Mfilename = 'Mbound3.txt';
+tfilename = 'tbound4.txt';
+Pfilename = 'Pbound4.txt';
+Nfilename = 'Nbound4.txt';
+Efilename = 'Ebound4.txt';
+Mfilename = 'Mbound4.txt';
 
 % setting necessary parameters
 r_ = 3.3;
@@ -26,8 +26,8 @@ c = 0.5;
 b = 25;
 beta_ = 15; 
 mu_ = 1;
-R_ = 10000;
 dh_ = 1;
+dg_ = 1;
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -59,6 +59,7 @@ N0density = 3;
 N0 = N0density.*ones(Ldim1,1);
 E0 = zeros(Ldim1,1);
 M0 = zeros(Ldim1,1);
+R_ = Pdim1*N0density;
 
 % creating initial conditions vector
 t0 = 0;
