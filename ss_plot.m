@@ -13,7 +13,7 @@ Nfilename = [datapath 'Npaper8.txt'];
 Efilename = [datapath 'Epaper8.txt'];
 Mfilename = [datapath 'Mpaper8.txt'];
 
-days = 100;       % total days run
+days = 400;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;

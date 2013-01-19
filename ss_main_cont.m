@@ -6,8 +6,8 @@ clear
 global b beta_ mu_;
 
 days = 100;      % new days to append to file
-stepsize = 0.1; % size of steps at which to save
-olddays = 100;   % days already run & saved in file
+stepsize = 0.1;  % size of steps at which to save
+olddays = 300;   % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
