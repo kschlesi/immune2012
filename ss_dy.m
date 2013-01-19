@@ -50,13 +50,13 @@ omega = zeros(Pdim1,1);
 dP = dmut.*(ones(Pdim1,1)-lambdas1D) - h_.*omega.*P;
 
 % calculate dL's (all size Ldim1 x 1)
-Hsat = heaviside(sum(N + M + E) - R_);
+Hsat = heaviside(sum(N + E + M) - R_);
 Pofy = zeros(Ldim1,1);
     for j = 1:Ldim1
         Pofy(j)= sum(P.*squeeze(gammas1D(:,j)));
     end
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy);
-dN = -sigma_.*N.*satfunc - dh_.*N.*Hsat;
+dN = -sigma_.*N.*satfunc + (dg_ - (dg_ + dh_)*Hsat).*N;
 dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,1)-satfunc) - dh_.*E.*Hsat;
 dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc) - sigma_.*M.*satfunc - dh_.*M.*Hsat;
 
