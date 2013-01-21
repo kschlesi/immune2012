@@ -51,7 +51,7 @@ omega = zeros(Pdim1,1);
 dP = dmut.*lambdas1D - h_.*omega.*P;
 
 % calculate dL's (all size Ldim1 x 1)
-Hsat = heaviside(sum(N + E + M) - R_);
+Hsat = gt(sum(N + E + M),R_);
 Pofy = zeros(Ldim1,1);
     for j = 1:Ldim1
         Pofy(j)= sum(P.*squeeze(gammas1D(:,j)));

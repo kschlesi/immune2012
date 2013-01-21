@@ -6,7 +6,7 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_ R_ dh_ dg_;
 global lambdas1D gammas1D ;
 
-days = 20;
+days = 10;
 stepsize = 0.1; % size of steps at which to save
 
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
@@ -18,7 +18,7 @@ Efilename = [datapath 'Ebound4.txt'];
 Mfilename = [datapath 'Mbound4.txt'];
 
 % ensuring no overwrite
-if isequal(exist(tfilename),2)
+if isequal(exist(tfilename,'file'),2)
     error('Existing file; cannot overwrite!');
 end
 

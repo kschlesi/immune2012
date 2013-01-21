@@ -13,7 +13,7 @@ Nfilename = [datapath 'Nbound4.txt'];
 Efilename = [datapath 'Ebound4.txt'];
 Mfilename = [datapath 'Mbound4.txt'];
 
-days = 10;       % total days run
+days = 20;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -51,7 +51,7 @@ n_ts = size(tplot);
     Mtot = sum(Mplot,2);
     figure
     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
-    axis([0 days 1 10^9])
+    axis([0 days 1 10^10])
     
 % % plot of initial and final P-distributions    
 %     figure
