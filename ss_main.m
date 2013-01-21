@@ -6,16 +6,16 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_ R_ dh_ dg_;
 global lambdas1D gammas1D ;
 
-days = 100;
+days = 20;
 stepsize = 0.1; % size of steps at which to save
 
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
-tfilename = [datapath 'tbound5.txt'];
-Pfilename = [datapath 'Pbound5.txt'];
-Nfilename = [datapath 'Nbound5.txt'];
-Efilename = [datapath 'Ebound5.txt'];
-Mfilename = [datapath 'Mbound5.txt'];
+tfilename = [datapath 'tbound6.txt'];
+Pfilename = [datapath 'Pbound6.txt'];
+Nfilename = [datapath 'Nbound6.txt'];
+Efilename = [datapath 'Ebound6.txt'];
+Mfilename = [datapath 'Mbound6.txt'];
 
 % ensuring no overwrite
 if isequal(exist(tfilename,'file'),2)
@@ -31,7 +31,7 @@ k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
 b = 25;
-beta_ = 25; 
+beta_ = 20; 
 mu_ = 1;
 dh_ = 1;
 dg_ = 1;

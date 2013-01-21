@@ -7,13 +7,13 @@ global b beta_ mu_;
 
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 'tbound5.txt'];
-Pfilename = [datapath 'Pbound5.txt'];
-Nfilename = [datapath 'Nbound5.txt'];
-Efilename = [datapath 'Ebound5.txt'];
-Mfilename = [datapath 'Mbound5.txt'];
+tfilename = [datapath 'tbound6.txt'];
+Pfilename = [datapath 'Pbound6.txt'];
+Nfilename = [datapath 'Nbound6.txt'];
+Efilename = [datapath 'Ebound6.txt'];
+Mfilename = [datapath 'Mbound6.txt'];
 
-days = 100;       % total days run
+days = 20;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
