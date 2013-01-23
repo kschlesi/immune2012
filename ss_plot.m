@@ -7,11 +7,11 @@ global b beta_ mu_;
 
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 'tbound7.txt'];
-Pfilename = [datapath 'Pbound7.txt'];
-Nfilename = [datapath 'Nbound7.txt'];
-Efilename = [datapath 'Ebound7.txt'];
-Mfilename = [datapath 'Mbound7.txt'];
+tfilename = [datapath 'tbound8.txt'];
+Pfilename = [datapath 'Pbound8.txt'];
+Nfilename = [datapath 'Nbound8.txt'];
+Efilename = [datapath 'Ebound8.txt'];
+Mfilename = [datapath 'Mbound8.txt'];
 
 days = 20;       % total days run
 

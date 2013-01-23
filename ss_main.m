@@ -11,11 +11,11 @@ stepsize = 0.1; % size of steps at which to save
 
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
-tfilename = [datapath 'tbound7.txt'];
-Pfilename = [datapath 'Pbound7.txt'];
-Nfilename = [datapath 'Nbound7.txt'];
-Efilename = [datapath 'Ebound7.txt'];
-Mfilename = [datapath 'Mbound7.txt'];
+tfilename = [datapath 'tbound8.txt'];
+Pfilename = [datapath 'Pbound8.txt'];
+Nfilename = [datapath 'Nbound8.txt'];
+Efilename = [datapath 'Ebound8.txt'];
+Mfilename = [datapath 'Mbound8.txt'];
 
 % ensuring no overwrite
 if isequal(exist(tfilename,'file'),2)
@@ -31,10 +31,10 @@ k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
 b = 25;
-beta_ = 20; 
+beta_ = 25; 
 mu_ = 1;
-dh_ = 1;
-dg_ = 1;
+dh_ = 10^-5;
+dg_ = 10^-5;
 
 % dimensions of 1D shape space
 Pdim1 = 400;
