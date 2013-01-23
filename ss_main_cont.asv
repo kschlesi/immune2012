@@ -14,10 +14,10 @@ oldss = 0.1;
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
 tfilename = [datapath 'tbound11.txt'];
-Pfilename = [datapath 'Pbound11.txt'];
-Nfilename = [datapath 'Nbound11.txt'];
-Efilename = [datapath 'Ebound11.txt'];
-Mfilename = [datapath 'Mbound11.txt'];
+Pfilename = [datapath 'Pbound.txt'];
+Nfilename = [datapath 'Nbound10.txt'];
+Efilename = [datapath 'Ebound10.txt'];
+Mfilename = [datapath 'Mbound10.txt'];
 
 % ensuring file existence
 if isequal(exist(tfilename),0)
