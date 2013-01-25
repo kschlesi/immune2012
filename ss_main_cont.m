@@ -11,8 +11,8 @@ olddays = 20;    % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
-datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
-%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
+%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
+datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
 tfilename = [datapath 'tpaper10.txt'];
 Pfilename = [datapath 'Ppaper10.txt'];
 Nfilename = [datapath 'Npaper10.txt'];
