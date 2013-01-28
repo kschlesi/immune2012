@@ -8,13 +8,13 @@ global b beta_ mu_;
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
 datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\';
-tfilename = [datapath 'tpaper3.txt'];
-Pfilename = [datapath 'Ppaper3.txt'];
-Nfilename = [datapath 'Npaper3.txt'];
-Efilename = [datapath 'Epaper3.txt'];
-Mfilename = [datapath 'Mpaper3.txt'];
+tfilename = [datapath 'tpaper6.txt'];
+Pfilename = [datapath 'Ppaper6.txt'];
+Nfilename = [datapath 'Npaper6.txt'];
+Efilename = [datapath 'Epaper6.txt'];
+Mfilename = [datapath 'Mpaper6.txt'];
 
-days = 50;       % total days run
+days = 200;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -89,7 +89,7 @@ n_ts = size(tplot);
     Yaxis = tplot;
     Xaxis = (1:1:Pdim1);
     figure
-    v = [1 100:50000:100000000];
+    v = [1 10:50000:100000000];
     contour(Xaxis,Yaxis,Pplot,v)
     axis([0 400 0 days])
     title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
