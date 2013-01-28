@@ -7,13 +7,13 @@ global b beta_ mu_;
 
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 'tbound16.txt'];
-Pfilename = [datapath 'Pbound16.txt'];
-Nfilename = [datapath 'Nbound16.txt'];
-Efilename = [datapath 'Ebound16.txt'];
-Mfilename = [datapath 'Mbound16.txt'];
+tfilename = [datapath 'tbound17.txt'];
+Pfilename = [datapath 'Pbound17.txt'];
+Nfilename = [datapath 'Nbound17.txt'];
+Efilename = [datapath 'Ebound17.txt'];
+Mfilename = [datapath 'Mbound17.txt'];
 
-days = 50;       % total days run
+days = 1000;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -80,9 +80,9 @@ n_ts = size(tplot);
     v = [1 10 50 100 200 300 500:500:10000];
     contour(Xaxis,Yaxis,Pplot,v)
     axis([0 400 0 days])
-    v = [ mu_ 1 ];
-    figure
-    contour(Xaxis,Yaxis,Pplot,v)
+%     v = [ mu_ 1 ];
+%     figure
+%     contour(Xaxis,Yaxis,Pplot,v)
 
 %     Xaxis = (1:1:Ldim1);
 %     figure

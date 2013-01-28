@@ -5,19 +5,19 @@ clear
 %global r_ h_ sigma_ de_ f_ k_ c ;
 global b beta_ mu_;
 
-days = 100;      % new days to append to file
+days = 200;      % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
-olddays = 100;    % days already run & saved in file
+olddays = 800;    % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 'tbound16.txt'];
-Pfilename = [datapath 'Pbound16.txt'];
-Nfilename = [datapath 'Nbound16.txt'];
-Efilename = [datapath 'Ebound16.txt'];
-Mfilename = [datapath 'Mbound16.txt'];
+tfilename = [datapath 'tbound17.txt'];
+Pfilename = [datapath 'Pbound17.txt'];
+Nfilename = [datapath 'Nbound17.txt'];
+Efilename = [datapath 'Ebound17.txt'];
+Mfilename = [datapath 'Mbound17.txt'];
 
 % ensuring file existence
 if isequal(exist(tfilename),0)
