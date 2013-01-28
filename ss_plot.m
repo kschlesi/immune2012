@@ -8,13 +8,13 @@ global b beta_ mu_;
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
 datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\';
-tfilename = [datapath 'tpaper9.txt'];
-Pfilename = [datapath 'Ppaper9.txt'];
-Nfilename = [datapath 'Npaper9.txt'];
-Efilename = [datapath 'Epaper9.txt'];
-Mfilename = [datapath 'Mpaper9.txt'];
+tfilename = [datapath 'tpaper3.txt'];
+Pfilename = [datapath 'Ppaper3.txt'];
+Nfilename = [datapath 'Npaper3.txt'];
+Efilename = [datapath 'Epaper3.txt'];
+Mfilename = [datapath 'Mpaper3.txt'];
 
-days = 20;       % total days run
+days = 50;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -59,7 +59,7 @@ n_ts = size(tplot);
     Mtot = sum(Mplot,2);
     figure
     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
-    axis([0 10 1 10^9])
+    axis([0 days 1 10^9])
     title(['Single-Infection Cell Populations, \phi = ' num2str(beta_)])
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
@@ -91,18 +91,17 @@ n_ts = size(tplot);
     figure
     v = [1 100:50000:100000000];
     contour(Xaxis,Yaxis,Pplot,v)
-    axis([0 400 0 10])
+    axis([0 400 0 days])
     title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
     xlabel('position in shape space (site)')
     ylabel('duration of infection (days)')
-%    legend('Pathogen','All Lymphocytes','Location','Northeast')
-    v = [ mu_ 1 ];
-    figure
-    contour(Xaxis,Yaxis,Pplot,v)
-    title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
-    xlabel('position in shape space (site)')
-    ylabel('duration of infection (days)')
-    legend('Pathogen = \mu','Location','Northeast')
+%     v = [ mu_ 1 ];
+%     figure
+%     contour(Xaxis,Yaxis,Pplot,v)
+%     title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
+%     xlabel('position in shape space (site)')
+%     ylabel('duration of infection (days)')
+%     legend('Pathogen = \mu','Location','Northeast')
 
 % %     Xaxis = (1:1:Ldim1);
 % %     figure
