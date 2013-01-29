@@ -5,15 +5,15 @@ clear
 % global r_ h_ sigma_ de_ f_ k_ c ;
 global b beta_ mu_;
 
-%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 'tbound17.txt'];
-Pfilename = [datapath 'Pbound17.txt'];
-Nfilename = [datapath 'Nbound17.txt'];
-Efilename = [datapath 'Ebound17.txt'];
-Mfilename = [datapath 'Mbound17.txt'];
+tfilename = [datapath 'tbound18.txt'];
+Pfilename = [datapath 'Pbound18.txt'];
+Nfilename = [datapath 'Nbound18.txt'];
+Efilename = [datapath 'Ebound18.txt'];
+Mfilename = [datapath 'Mbound18.txt'];
 
-days = 1000;       % total days run
+days = 300;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -89,19 +89,20 @@ n_ts = size(tplot);
     Yaxis = tplot;
     Xaxis = (1:1:Pdim1);
     figure
-    v = [1 10:50000:100000000];
-    contour(Xaxis,Yaxis,Pplot,v)
-    axis([0 400 0 days])
+%    v = [1 10:50000:100000000];
+%    contour(Xaxis,Yaxis,Pplot,v)
+    contour(Xaxis,Yaxis,Pplot,100)
+    axis([0 400 50 days])
     title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
     xlabel('position in shape space (site)')
     ylabel('duration of infection (days)')
-%     v = [ mu_ 1 ];
-%     figure
-%     contour(Xaxis,Yaxis,Pplot,v)
-%     title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
-%     xlabel('position in shape space (site)')
-%     ylabel('duration of infection (days)')
-%     legend('Pathogen = \mu','Location','Northeast')
+    v = [ mu_ 1 ];
+    figure
+    contour(Xaxis,Yaxis,Pplot,v)
+    title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
+    xlabel('position in shape space (site)')
+    ylabel('duration of infection (days)')
+    legend('Pathogen = \mu','Location','Northeast')
 
 % %     Xaxis = (1:1:Ldim1);
 % %     figure
