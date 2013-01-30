@@ -3,18 +3,20 @@
 clear
 
 % global r_ h_ sigma_ de_ f_ k_ c ;
-global b beta_ mu_;
+% global b beta_ ;
+global mu_ ;
 
-%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
-%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\';
-tfilename = [datapath 'tpaper6.txt'];
-Pfilename = [datapath 'Ppaper6.txt'];
-Nfilename = [datapath 'Npaper6.txt'];
-Efilename = [datapath 'Epaper6.txt'];
-Mfilename = [datapath 'Mpaper6.txt'];
+%datapath = 'C:\Documents and
+%Settings\kimberly\Desktop\MATLAB\immune2012_data\'; % MOTHRA datapath
+datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; % laptop datapath
+%datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
+tfilename = [datapath 'tpaper11.txt'];
+Pfilename = [datapath 'Ppaper11.txt'];
+Nfilename = [datapath 'Npaper11.txt'];
+Efilename = [datapath 'Epaper11.txt'];
+Mfilename = [datapath 'Mpaper11.txt'];
 
-days = 200;       % total days run
+days = 10;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -22,27 +24,37 @@ Ldim1 = 400;
 x0 = 200;
 
 % % gammas & lambdas
+b = 25;
+betas = [15;25;35];
 gammas1D = zeros(Pdim1,Ldim1);
-lambdas1D = zeros(Pdim1,1);
-p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)))^(-1);
-for i=1:Pdim1;
-    lambdas1D(i) = 1 - p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
-    for j=1:Ldim1;
-        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
+lambdas = zeros(Pdim1,size(betas,1));
+size(lambdas)
+for k=1:size(betas,1)
+    lambdas1D = zeros(Pdim1,1);
+    p_ = (1-exp(-1*((Pdim1)^2)/(8*(betas(k))^2)))^(-1);
+    for i=1:Pdim1;
+        lambdas1D(i) = 1 - p_*(1-exp(-1*((i-x0)^2)/(2*(betas(k))^2)));
+        for j=1:Ldim1;
+            gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
+        end
     end
+    lambdas(:,k) = lambdas1D;
 end
 
-% figure
-% plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
-% title(['Affinity (b = ' num2str(b) ') v. Fitness (\phi = ' num2str(beta_) ')'])
-% xlabel('position in shape space (site)')
-% ylabel('value of affinity and fitness factors')
-% legend('Affinity \gamma(x,x_0)','Fitness \lambda(x)','Location','Northwest')
+
+
+figure
+hold on
+plot((1:Pdim1),gammas1D(:,x0+100),(1:Pdim1),lambdas(:,1),(1:Pdim1),lambdas(:,2),(1:Pdim1),lambdas(:,3))
+title('Affinity (\gamma(x,x_0)) v. Fitness (\lambda(x))')
+xlabel('position in shape space (site)')
+ylabel('value of affinity and fitness factors')
+legend(['\gamma(x,x_0 = 300), b = ' num2str(b)],['\lambda(x), \phi = ' num2str(betas(1))],['\lambda(x), \phi = ' num2str(betas(2))],['\lambda(x), \phi = ' num2str(betas(3))],'Location','Northwest')
 
 
 
 
-% % data and time vector
+% data and time vector
 tplot = csvread(tfilename);
 Pplot = csvread(Pfilename);
 Nplot = csvread(Nfilename);
@@ -52,7 +64,7 @@ Mplot = csvread(Mfilename);
 n_ts = size(tplot);
 
 
-% % plot of total pathogen v. total lymphocyte population
+% plot of total pathogen v. total lymphocyte population
     Ptot = sum(Pplot,2);
     Ntot = sum(Nplot,2);
     Etot = sum(Eplot,2);
@@ -60,31 +72,31 @@ n_ts = size(tplot);
     figure
     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
     axis([0 days 1 10^9])
-    title(['Single-Infection Cell Populations, \phi = ' num2str(beta_)])
+    title('Single-Infection Cell Populations, no mutation')%\phi = ' num2str(beta_)])
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
     legend('Pathogen','All Lymphocytes','Location','Northeast')
 
     
-% % % plot of initial and final P-distributions    
-% %     figure
-% %     plot((1:Pdim1),Pplot(1,:))
-% %     axis([0 Pdim1 0 12])
-% %     
-% %     figure
-% %     plot((1:Pdim1),Pplot(end,:))
-% %     
-% %     figure 
-% %     plot((1:Pdim1),Nplot(end,:))
-% % 
-% %     figure 
-% %     plot((1:Pdim1),Eplot(end,:))
-% % 
-% %     figure 
-% %     plot((1:Pdim1),Mplot(end,:))
-% %     
-% % contour plots of PNEM populations over time
-% % NOTE these plots ARE ABSOLUTELY properly time-normalised
+% % plot of initial and final P-distributions    
+%     figure
+%     plot((1:Pdim1),Pplot(1,:))
+%     axis([0 Pdim1 0 12])
+%     
+%     figure
+%     plot((1:Pdim1),Pplot(end,:))
+%     
+%     figure 
+%     plot((1:Pdim1),Nplot(end,:))
+% 
+%     figure 
+%     plot((1:Pdim1),Eplot(end,:))
+% 
+%     figure 
+%     plot((1:Pdim1),Mplot(end,:))
+%     
+% contour plots of PNEM populations over time
+% NOTE these plots ARE ABSOLUTELY properly time-normalised
     
     Yaxis = tplot;
     Xaxis = (1:1:Pdim1);
@@ -92,26 +104,26 @@ n_ts = size(tplot);
     v = [1 10:50000:100000000];
     contour(Xaxis,Yaxis,Pplot,v)
     axis([0 400 0 days])
+    title('Pathogen Evolution in Shape Space, no mutation')%\phi = ' num2str(beta_)])
+    xlabel('position in shape space (site)')
+    ylabel('duration of infection (days)')
+    v = [ mu_ 1 ];
+    figure
+    contour(Xaxis,Yaxis,Pplot,v)
     title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
     xlabel('position in shape space (site)')
     ylabel('duration of infection (days)')
-%     v = [ mu_ 1 ];
-%     figure
-%     contour(Xaxis,Yaxis,Pplot,v)
-%     title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
-%     xlabel('position in shape space (site)')
-%     ylabel('duration of infection (days)')
-%     legend('Pathogen = \mu','Location','Northeast')
+    legend('Pathogen = \mu','Location','Northeast')
 
-% %     Xaxis = (1:1:Ldim1);
-% %     figure
-% %     v = [0:0.5:3];
-% %     contour(Xaxis,Yaxis,Nplot,v)
-% %     
-% %     figure
-% %     v = [1 10 50 100 200 300 500:500:10000];
-% %     contour(Xaxis,Yaxis,Eplot,v)
-% % 
-% %     figure
-% %     v = [1 10 50 100 200 300 500:500:10000];
-% %     contour(Xaxis,Yaxis,Mplot,v)
+%     Xaxis = (1:1:Ldim1);
+%     figure
+%     v = [0:0.5:3];
+%     contour(Xaxis,Yaxis,Nplot,v)
+%     
+%     figure
+%     v = [1 10 50 100 200 300 500:500:10000];
+%     contour(Xaxis,Yaxis,Eplot,v)
+% 
+%     figure
+%     v = [1 10 50 100 200 300 500:500:10000];
+%     contour(Xaxis,Yaxis,Mplot,v)
