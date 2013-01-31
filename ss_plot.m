@@ -8,13 +8,13 @@ global b beta_ mu_;
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
 datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
-tfilename = [datapath 'tbound15.txt'];
-Pfilename = [datapath 'Pbound15.txt'];
-Nfilename = [datapath 'Nbound15.txt'];
-Efilename = [datapath 'Ebound15.txt'];
-Mfilename = [datapath 'Mbound15.txt'];
+tfilename = [datapath 'tbound18.txt'];
+Pfilename = [datapath 'Pbound18.txt'];
+Nfilename = [datapath 'Nbound18.txt'];
+Efilename = [datapath 'Ebound18.txt'];
+Mfilename = [datapath 'Mbound18.txt'];
 
-days = 50;       % total days run
+days = 300;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -33,9 +33,17 @@ for i=1:Pdim1;
 end
 
 % figure
-% plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),1-lambdas1D)
+% plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
+% title(['Affinity (b = ' num2str(b) ') v. Fitness (\phi = ' num2str(beta_) ')'])
+% xlabel('position in shape space (site)')
+% ylabel('value of affinity and fitness factors')
+% legend('Affinity \gamma(x,x_0)','Fitness \lambda(x)','Location','Northwest')
 
-% data and time vector
+
+
+
+
+% % data and time vector
 tplot = csvread(tfilename);
 Pplot = csvread(Pfilename);
 Nplot = csvread(Nfilename);
@@ -45,55 +53,67 @@ Mplot = csvread(Mfilename);
 n_ts = size(tplot);
 
 
-% plot of total pathogen v. total lymphocyte population
+% % plot of total pathogen v. total lymphocyte population
     Ptot = sum(Pplot,2);
     Ntot = sum(Nplot,2);
     Etot = sum(Eplot,2);
     Mtot = sum(Mplot,2);
     figure
     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
-    axis([0 days 1 10^10])
+    axis([0 days 1 10^9])
+    title(['Single-Infection Cell Populations, \phi = ' num2str(beta_)])
+    xlabel('duration of infection (days)')
+    ylabel('total population (cells)')
+    legend('Pathogen','All Lymphocytes','Location','Northeast')
+
     
-% % plot of initial and final P-distributions    
-%     figure
-%     plot((1:Pdim1),Pplot(1,:))
-%     axis([0 Pdim1 0 12])
-%     
-%     figure
-%     plot((1:Pdim1),Pplot(end,:))
-%     
-%     figure 
-%     plot((1:Pdim1),Nplot(end,:))
-% 
-%     figure 
-%     plot((1:Pdim1),Eplot(end,:))
-% 
-%     figure 
-%     plot((1:Pdim1),Mplot(end,:))
-
-
-% contour plots of PNEM populations over time
-% NOTE these plots ARE ABSOLUTELY properly time-normalised
+% % % plot of initial and final P-distributions    
+% %     figure
+% %     plot((1:Pdim1),Pplot(1,:))
+% %     axis([0 Pdim1 0 12])
+% %     
+% %     figure
+% %     plot((1:Pdim1),Pplot(end,:))
+% %     
+% %     figure 
+% %     plot((1:Pdim1),Nplot(end,:))
+% % 
+% %     figure 
+% %     plot((1:Pdim1),Eplot(end,:))
+% % 
+% %     figure 
+% %     plot((1:Pdim1),Mplot(end,:))
+% %     
+% % contour plots of PNEM populations over time
+% % NOTE these plots ARE ABSOLUTELY properly time-normalised
     
     Yaxis = tplot;
     Xaxis = (1:1:Pdim1);
     figure
-    v = [1 10 50 100 200 300 500:500:10000];
-    contour(Xaxis,Yaxis,Pplot,v)
-    axis([0 400 0 days])
+%    v = [1 10:50000:100000000];
+%    contour(Xaxis,Yaxis,Pplot,v)
+    contour(Xaxis,Yaxis,Pplot,100)
+    axis([0 400 50 days])
+    title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
+    xlabel('position in shape space (site)')
+    ylabel('duration of infection (days)')
     v = [ mu_ 1 ];
     figure
     contour(Xaxis,Yaxis,Pplot,v)
+    title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
+    xlabel('position in shape space (site)')
+    ylabel('duration of infection (days)')
+    legend('Pathogen = \mu','Location','Northeast')
 
-%     Xaxis = (1:1:Ldim1);
-%     figure
-%     v = [0:0.5:3];
-%     contour(Xaxis,Yaxis,Nplot,v)
-%     
-%     figure
-%     v = [1 10 50 100 200 300 500:500:10000];
-%     contour(Xaxis,Yaxis,Eplot,v)
-% 
-%     figure
-%     v = [1 10 50 100 200 300 500:500:10000];
-%     contour(Xaxis,Yaxis,Mplot,v)
+% %     Xaxis = (1:1:Ldim1);
+% %     figure
+% %     v = [0:0.5:3];
+% %     contour(Xaxis,Yaxis,Nplot,v)
+% %     
+% %     figure
+% %     v = [1 10 50 100 200 300 500:500:10000];
+% %     contour(Xaxis,Yaxis,Eplot,v)
+% % 
+% %     figure
+% %     v = [1 10 50 100 200 300 500:500:10000];
+% %     contour(Xaxis,Yaxis,Mplot,v)
