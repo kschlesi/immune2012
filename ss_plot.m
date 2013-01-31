@@ -5,8 +5,9 @@ clear
 % global r_ h_ sigma_ de_ f_ k_ c ;
 global b beta_ mu_;
 
-datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
-%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
+%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
+datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
 tfilename = [datapath 'tbound15.txt'];
 Pfilename = [datapath 'Pbound15.txt'];
 Nfilename = [datapath 'Nbound15.txt'];
