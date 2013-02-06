@@ -1,6 +1,6 @@
 function dy = ss_dy(t,y,Pdim1,Ldim1)
 
-global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ dg_ ;
+global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ ;
 
 % create separate P, N, E, M vectors
 P = y(1:Pdim1);

@@ -2,8 +2,8 @@
 
 clear
 
-%global r_ h_ sigma_ de_ f_ k_ c ;
-global b beta_ mu_;
+%global r_ h_ sigma_ de_ f_ k_ c dh_;
+global b eps_ mu_;
 
 days = 250;      % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
@@ -11,16 +11,18 @@ olddays = 50;    % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
+runnum = 1;
+basecode = 'flat';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-tfilename = [datapath 'tbound18.txt'];
-Pfilename = [datapath 'Pbound18.txt'];
-Nfilename = [datapath 'Nbound18.txt'];
-Efilename = [datapath 'Ebound18.txt'];
-Mfilename = [datapath 'Mbound18.txt'];
+tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
+Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
+Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
+Efilename = [datapath 'E' basecode num2str(runnum) '.txt'];
+Mfilename = [datapath 'M' basecode num2str(runnum) '.txt'];
 
 % ensuring file existence
-if isequal(exist(tfilename),0)
+if isequal(exist(tfilename,'file'),0)
     error('File to be continued does not exist!');
 end
 
@@ -30,11 +32,10 @@ Ldim1 = 400;
 x0 = 200;
 
 % gammas & lambdas
-p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)))^(-1);
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;
-    lambdas1D(i) = 1 - p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+    lambdas1D(i) = 1 - (2*eps_)/(Pdim1 + 2*eps_ - abs(Pdim1-2*i));
     for j=1:Ldim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end

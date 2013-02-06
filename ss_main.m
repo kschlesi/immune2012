@@ -3,19 +3,21 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_ R_ dh_ dg_;
+global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ ;
 global lambdas1D gammas1D ;
 
 days = 50;
 stepsize = 0.1; % size of steps at which to save
 
+runnum = 1;
+basecode = 'flat';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
-tfilename = [datapath 'tbound18.txt'];
-Pfilename = [datapath 'Pbound18.txt'];
-Nfilename = [datapath 'Nbound18.txt'];
-Efilename = [datapath 'Ebound18.txt'];
-Mfilename = [datapath 'Mbound18.txt'];
+tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
+Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
+Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
+Efilename = [datapath 'E' basecode num2str(runnum) '.txt'];
+Mfilename = [datapath 'M' basecode num2str(runnum) '.txt'];
 
 % ensuring no overwrite
 if isequal(exist(tfilename,'file'),2)
@@ -31,10 +33,9 @@ k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
 b = 25;
-beta_ = 35; 
+eps_ = 4; 
 mu_ = 1;
 dh_ = 10^-7;
-dg_ = 10^-7;
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -42,11 +43,10 @@ Ldim1 = 400;
 x0 = 200;
 
 % gammas & lambdas
-p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)))^(-1);
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;
-    lambdas1D(i) = 1 - p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+    lambdas1D(i) = 1 - (2*eps_)/(Pdim1 + 2*eps_ - abs(Pdim1-2*i));
     for j=1:Ldim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end
