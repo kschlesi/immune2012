@@ -8,9 +8,9 @@ global b eps_ mu_ k_ ;
 
 runnum = 1;
 basecode = 'flat';
-%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
-datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
+%datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
@@ -25,6 +25,7 @@ Ldim1 = 400;
 x0 = 200;
 
 % gammas & lambdas
+eps_ = 4;
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;
@@ -63,7 +64,7 @@ n_ts = size(tplot);
     figure
     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
     axis([0 days 1 10^9])
-    title(['Single-Infection Cell Populations, \phi = ' num2str(beta_)])
+    title(['Single-Infection Cell Populations, \epsilon = ' num2str(eps_)])
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
     legend('Pathogen','All Lymphocytes','Location','Northeast')
@@ -105,43 +106,43 @@ n_ts = size(tplot);
     legend
 
 
-% % contour plots of PNEM populations over time
-% % NOTE these plots ARE ABSOLUTELY properly time-normalised
-%     Yaxis = tplot;
-%     Xaxis = (1:1:Pdim1);
-%     figure
-%     v = [1 10:50000:100000000];
-%     contour(Xaxis,Yaxis,Pplot,v)
-%     axis([0 400 50 days])
-%     title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
-%     xlabel('position in shape space (site)')
-%     ylabel('duration of infection (days)')
+% contour plots of PNEM populations over time
+% NOTE these plots ARE ABSOLUTELY properly time-normalised
+    Yaxis = tplot;
+    Xaxis = (1:1:Pdim1);
+    figure
+    v = [1 10:50000:100000000];
+    contour(Xaxis,Yaxis,Pplot,v)
+    axis([0 400 50 days])
+    title(['Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    xlabel('position in shape space (site)')
+    ylabel('duration of infection (days)')
     v = [ mu_ 1 ];
-%     figure
-%     contour(Xaxis,Yaxis,Pplot,v)
-%     title(['Pathogen Evolution in Shape Space, \phi = ' num2str(beta_)])
-%     xlabel('position in shape space (site)')
-%     ylabel('duration of infection (days)')
-%     legend('Pathogen = \mu','Location','Northeast')
-% 
-%     Xaxis = (1:1:Ldim1);
-%     figure
-%     v = (0:0.5:3);
-%     contour(Xaxis,Yaxis,Nplot,v)
-%     title(['Naive Cell Evolution in Shape Space, \phi = ' num2str(beta_)])
-%     xlabel('position in shape space (site)')
-%     ylabel('duration of infection (days)')
-%     
-%     figure
-%     v = [1 10 50 100 200 300 500:500:10000];
-%     contour(Xaxis,Yaxis,Eplot,v)
-%     title(['Effector Evolution in Shape Space, \phi = ' num2str(beta_)])
-%     xlabel('position in shape space (site)')
-%     ylabel('duration of infection (days)')
-%     
-%     figure
-%     v = [1 10 50 100 200 300 500:500:10000];
-%     contour(Xaxis,Yaxis,Mplot,v)
-%     title(['Memory Evolution in Shape Space, \phi = ' num2str(beta_)])
-%     xlabel('position in shape space (site)')
-%     ylabel('duration of infection (days)')
+    figure
+    contour(Xaxis,Yaxis,Pplot,v)
+    title(['Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    xlabel('position in shape space (site)')
+    ylabel('duration of infection (days)')
+    legend('Pathogen = \mu','Location','Northeast')
+
+    Xaxis = (1:1:Ldim1);
+    figure
+    v = (0:0.5:3);
+    contour(Xaxis,Yaxis,Nplot,v)
+    title(['Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    xlabel('position in shape space (site)')
+    ylabel('duration of infection (days)')
+    
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Xaxis,Yaxis,Eplot,v)
+    title(['Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    xlabel('position in shape space (site)')
+    ylabel('duration of infection (days)')
+    
+    figure
+    v = [1 10 50 100 200 300 500:500:10000];
+    contour(Xaxis,Yaxis,Mplot,v)
+    title(['Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    xlabel('position in shape space (site)')
+    ylabel('duration of infection (days)')
