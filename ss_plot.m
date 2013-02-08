@@ -6,8 +6,8 @@ clear
 global b eps_ mu_ k_ ;
 
 
-runnum = 1;
-basecode = 'flat';
+runnum = 4;
+basecode = 'bound';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
 datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
@@ -17,7 +17,7 @@ Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
 Efilename = [datapath 'E' basecode num2str(runnum) '.txt'];
 Mfilename = [datapath 'M' basecode num2str(runnum) '.txt'];
 
-days = 300;       % total days run
+days = 10;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -34,12 +34,12 @@ for i=1:Pdim1;
     end
 end
 
-figure
-plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
-title(['Affinity (b = ' num2str(b) ') v. Fitness (\epsilon = ' num2str(eps_) ')'])
-xlabel('position in shape space (site)')
-ylabel('value of affinity and fitness factors')
-legend('Affinity \gamma(x,x_0)','Fitness \lambda(x)','Location','Northwest')
+% figure
+% plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
+% title(['Affinity (b = ' num2str(b) ') v. Fitness (\epsilon = ' num2str(eps_) ')'])
+% xlabel('position in shape space (site)')
+% ylabel('value of affinity and fitness factors')
+% legend('Affinity \gamma(x,x_0)','Fitness \lambda(x)','Location','Northwest')
 
 
 
@@ -63,7 +63,7 @@ n_ts = size(tplot);
     figure
     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
     axis([0 days 1 10^9])
-    title(['Single-Infection Cell Populations, \phi = ' num2str(beta_)])
+    title(['Single-Infection Cell Populations, \epsilon = ' num2str(eps_)])
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
     legend('Pathogen','All Lymphocytes','Location','Northeast')
