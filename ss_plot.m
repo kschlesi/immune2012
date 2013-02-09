@@ -60,13 +60,13 @@ n_ts = size(tplot,1);
     Ntot = sum(Nplot,2);
     Etot = sum(Eplot,2);
     Mtot = sum(Mplot,2);
-    figure
-    semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
-    axis([0 days 1 10^10])
-    title(['Single-Infection Cell Populations, \epsilon = ' num2str(eps_)])
-    xlabel('duration of infection (days)')
-    ylabel('total population (cells)')
-    legend('Pathogen','All Lymphocytes','Location','Northeast')
+%     figure
+%     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot)
+%     axis([0 days 1 10^10])
+%     title(['Single-Infection Cell Populations, \epsilon = ' num2str(eps_)])
+%     xlabel('duration of infection (days)')
+%     ylabel('total population (cells)')
+%     legend('Pathogen','All Lymphocytes','Location','Northeast')
 
     
 % % plot of initial and final PNEM-distributions    
@@ -109,13 +109,13 @@ n_ts = size(tplot,1);
 % NOTE these plots ARE ABSOLUTELY properly time-normalised
     Xaxis = tplot;
     Yaxis = (1:1:Pdim1);
-    figure
-    v = [0 1 10:50000:100000000];
-    contourf(Xaxis,Yaxis,transpose(Pplot),v)
-    axis([0 days 0 Pdim1])
-    title(['Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
+%     figure
+%     v = [0 1 10:50000:100000000];
+%     contourf(Xaxis,Yaxis,transpose(Pplot),v)
+%     axis([0 days 0 Pdim1])
+%     title(['Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
     v = [ mu_ 1 ];
     figure
     contourf(Xaxis,Yaxis,transpose(Pplot),v)
@@ -124,14 +124,14 @@ n_ts = size(tplot,1);
     xlabel('duration of infection (days)')
     legend('Pathogen = \mu','Location','Northeast')
 
-    Yaxis = (1:1:Ldim1);
-    figure
-    v = (0:0.5:3);
-    contourf(Xaxis,Yaxis,transpose(Nplot),v)
-    title(['Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    
+%     Yaxis = (1:1:Ldim1);
+%     figure
+%     v = (0:0.5:3);
+%     contourf(Xaxis,Yaxis,transpose(Nplot),v)
+%     title(['Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     
 %     figure
 %     v = [0 1 10 50 100 200 300 500:500:10000];
 %     contourf(Xaxis,Yaxis,transpose(Eplot),v)
@@ -145,3 +145,45 @@ n_ts = size(tplot,1);
 %     title(['Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
 %     ylabel('position in shape space (site)')
 %     xlabel('duration of infection (days)')
+
+    
+% contourf plots, of PNEM evolution over time, normalised by total number
+% of cells at each timestep
+
+    Ptotal = repmat(Ptot,1,Pdim1);
+    Ntotal = repmat(Ntot,1,Ldim1);
+    Etotal = repmat(Etot,1,Ldim1);
+    Mtotal = repmat(Mtot,1,Ldim1);
+
+    Xaxis = tplot;
+    Yaxis = (1:1:Pdim1);
+    figure
+%    v = [0:0.01:1];
+    contourf(Xaxis,Yaxis,transpose(Pplot./Ptotal),20)
+    axis([0 days 0 Pdim1])
+    title(['Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+
+    Yaxis = (1:1:Ldim1);
+    figure
+%    v = (0:0.5:3)/3;
+    contourf(Xaxis,Yaxis,transpose(Nplot./Ntotal),20)
+    axis([0 days 0 Ldim1])
+    title(['Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    
+    figure
+    contourf(Xaxis,Yaxis,transpose(Eplot./Etotal),20)
+    axis([0 days 0 Ldim1])
+    title(['Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    
+    figure
+    contourf(Xaxis,Yaxis,transpose(Mplot./Mtotal),20)
+    axis([0 days 0 Ldim1])
+    title(['Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
