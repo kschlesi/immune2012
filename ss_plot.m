@@ -6,8 +6,8 @@ clear
 global b eps_ mu_ k_ ;
 
 
-runnum = 4;
-basecode = 'bound';
+runnum = 11;
+basecode = 'paper';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
 datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
@@ -109,13 +109,13 @@ n_ts = size(tplot,1);
 % NOTE these plots ARE ABSOLUTELY properly time-normalised
     Xaxis = tplot;
     Yaxis = (1:1:Pdim1);
-%     figure
-%     v = [0 1 10:50000:100000000];
-%     contourf(Xaxis,Yaxis,transpose(Pplot),v)
-%     axis([0 days 0 Pdim1])
-%     title(['Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
+    figure
+%    v = [0 1 10:50000:100000000];
+    contourf(Xaxis,Yaxis,transpose(Pplot),50)
+    axis([0 days 0 Pdim1])
+    title(['Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
     v = [ mu_ 1 ];
     figure
     contourf(Xaxis,Yaxis,transpose(Pplot),v)
@@ -124,27 +124,27 @@ n_ts = size(tplot,1);
     xlabel('duration of infection (days)')
     legend('Pathogen = \mu','Location','Northeast')
 
-%     Yaxis = (1:1:Ldim1);
-%     figure
-%     v = (0:0.5:3);
-%     contourf(Xaxis,Yaxis,transpose(Nplot),v)
-%     title(['Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
-%     
-%     figure
-%     v = [0 1 10 50 100 200 300 500:500:10000];
-%     contourf(Xaxis,Yaxis,transpose(Eplot),v)
-%     title(['Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
-%     
-%     figure
-%     v = [0 1 10 50 100 200 300 500:500:10000];
-%     contourf(Xaxis,Yaxis,transpose(Mplot),v)
-%     title(['Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
+    Yaxis = (1:1:Ldim1);
+    figure
+%    v = (0:0.5:3);
+    contourf(Xaxis,Yaxis,transpose(Nplot),25)
+    title(['Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    
+    figure
+%    v = [0 1 10 50 100 200 300 500:500:10000];
+    contourf(Xaxis,Yaxis,transpose(Eplot),25)
+    title(['Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    
+    figure
+    v = [0 1 10 50 100 200 300 500:500:10000];
+    contourf(Xaxis,Yaxis,transpose(Mplot),25)
+    title(['Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
 
     
 % contourf plots, of PNEM evolution over time, normalised by total number
