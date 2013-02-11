@@ -6,7 +6,7 @@ clear
 global b eps_ mu_ k_ ;
 
 
-runnum = 3;
+runnum = 4;
 basecode = 'flat';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
