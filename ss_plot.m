@@ -6,7 +6,7 @@ clear
 global b eps_ mu_ k_ ;
 
 
-runnum = 2.1;
+runnum = 7;
 basecode = 'flat';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
@@ -17,7 +17,7 @@ Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
 Efilename = [datapath 'E' basecode num2str(runnum) '.txt'];
 Mfilename = [datapath 'M' basecode num2str(runnum) '.txt'];
 
-days = 20;       % total days run
+days = 70;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -66,7 +66,7 @@ n_ts = size(tplot,1);
     title(['Single-Infection Cell Populations, \epsilon = ' num2str(eps_)])
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
-    legend('Pathogen','All Lymphocytes','Location','Northeast')
+    legend('Pathogen','All Lymphocytes','Location','NorthWest')
 
     
 % % plot of initial and final PNEM-distributions    
