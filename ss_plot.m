@@ -6,7 +6,7 @@ clear
 global b eps_ mu_ k_ ;
 
 
-runnum = 6;
+runnum = 2.1;
 basecode = 'flat';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
@@ -25,7 +25,6 @@ Ldim1 = 400;
 x0 = 200;
 
 % gammas & lambdas
-eps_ = 4;
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;

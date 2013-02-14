@@ -11,7 +11,7 @@ olddays = 50;    % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
-runnum = 1;
+runnum = 2.1;
 basecode = 'flat';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';

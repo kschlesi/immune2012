@@ -9,7 +9,7 @@ global lambdas1D gammas1D ;
 days = 20;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 6;
+runnum = 2.1;
 basecode = 'flat';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
@@ -32,7 +32,7 @@ de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
 c = 0.5;
-b = 22;
+b = 25;
 eps_ = 4; 
 mu_ = 1;
 dh_ = 10^-7;
@@ -147,4 +147,4 @@ end
 %     Etot = sum(E_out,2);
 %     Mtot = sum(M_out,2);
 %     figure
-%     semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
+%    semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
