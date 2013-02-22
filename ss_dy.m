@@ -50,9 +50,9 @@ omega = zeros(Pdim1,1);
     end
 dP = dmut.*lambdas1D - h_.*omega.*P;
 ndP = 0;
-for i=1:Pdim1
-    if(Pis0(i)==1 && dP(i)<mu_)
-        dP(i)=0;
+for i=1:Pdim1   %% IF Pis0 (that is, we COUNT no P there, or P < mu_)  
+    if(Pis0(i)==1 && dP(i)<mu_)  %% THEN P cannot show up there (dP = 0)
+        dP(i)=0;                 %% UNLESS dP > mu_ (perday... may want to change)
         ndP = ndP+1;
     end
 end

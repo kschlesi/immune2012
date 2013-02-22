@@ -7,11 +7,11 @@ global b eps_ mu_;
 
 days = 5;      % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
-olddays = 10;    % days already run & saved in file
+olddays = 5;    % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
-runnum = 2;
+runnum = 3;
 basecode = 'quant';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
