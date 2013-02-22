@@ -3,11 +3,12 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ ;
+global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ ;
 global lambdas1D gammas1D ;
 
-days = 20;
+days = 5;
 stepsize = 0.1; % size of steps at which to save
+
 
 runnum = 8;
 basecode = 'flat';
@@ -31,11 +32,10 @@ sigma_ = 3;
 de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
-c = 2;
-b = 50;
+c = 3;
+b = 25;
 eps_ = 4; 
 mu_ = 1;
-dh_ = 10^-7;
 
 % dimensions of 1D shape space
 Pdim1 = 400;
