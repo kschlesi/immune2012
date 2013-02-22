@@ -110,8 +110,8 @@ n_ts = size(tplot,1);
     Xaxis = tplot;
     Yaxis = (1:1:Pdim1);
     figure
-%    v = [0 1 10:50000:100000000];
-    contourf(Xaxis,Yaxis,transpose(Pplot),50)
+    v = [1 10:50000:10000000];
+    contourf(Xaxis,Yaxis,transpose(Pplot),v)
     axis([0 days 0 Pdim1])
     title(['Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
     ylabel('position in shape space (site)')
@@ -154,40 +154,40 @@ n_ts = size(tplot,1);
 % contourf plots, of PNEM evolution over time, normalised by total number
 % of cells at each timestep
 
-    Ptotal = repmat(Ptot,1,Pdim1);
-    Ntotal = repmat(Ntot,1,Ldim1);
-    Etotal = repmat(Etot,1,Ldim1);
-    Mtotal = repmat(Mtot,1,Ldim1);
-
-    Xaxis = tplot;
-    Yaxis = (1:1:Pdim1);
-    figure
-%    v = [0:0.01:1];
-    contourf(Xaxis,Yaxis,transpose(Pplot./Ptotal),20)
-    axis([0 days 0 Pdim1])
-    title(['Normalised Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-
-    Yaxis = (1:1:Ldim1);
-    figure
-%    v = (0:0.5:3)/3;
-    contourf(Xaxis,Yaxis,transpose(Nplot./Ntotal),20)
-    axis([0 days 0 Ldim1])
-    title(['Normalised Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    
-    figure
-    contourf(Xaxis,Yaxis,transpose(Eplot./Etotal),20)
-    axis([0 days 0 Ldim1])
-    title(['Normalised Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    
-    figure
-    contourf(Xaxis,Yaxis,transpose(Mplot./Mtotal),20)
-    axis([0 days 0 Ldim1])
-    title(['Normalised Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
+%     Ptotal = repmat(Ptot,1,Pdim1);
+%     Ntotal = repmat(Ntot,1,Ldim1);
+%     Etotal = repmat(Etot,1,Ldim1);
+%     Mtotal = repmat(Mtot,1,Ldim1);
+% 
+%     Xaxis = tplot;
+%     Yaxis = (1:1:Pdim1);
+%     figure
+% %    v = [0:0.01:1];
+%     contourf(Xaxis,Yaxis,transpose(Pplot./Ptotal),20)
+%     axis([0 days 0 Pdim1])
+%     title(['Normalised Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+% 
+%     Yaxis = (1:1:Ldim1);
+%     figure
+% %    v = (0:0.5:3)/3;
+%     contourf(Xaxis,Yaxis,transpose(Nplot./Ntotal),20)
+%     axis([0 days 0 Ldim1])
+%     title(['Normalised Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     
+%     figure
+%     contourf(Xaxis,Yaxis,transpose(Eplot./Etotal),20)
+%     axis([0 days 0 Ldim1])
+%     title(['Normalised Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     
+%     figure
+%     contourf(Xaxis,Yaxis,transpose(Mplot./Mtotal),20)
+%     axis([0 days 0 Ldim1])
+%     title(['Normalised Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
