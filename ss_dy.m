@@ -13,7 +13,7 @@ M = y(Pdim1+2*Ldim1+1:end);
 mrates = zeros(Pdim1,Pdim1);
     for i=2:Pdim1
         for j=1:i-1
-            mrates(i,j) = (1/Pdim1)*abs(randn/((i-j)^c));
+            mrates(i,j) = (1/Pdim1)*exprnd((abs(i-j))^(-c));
             mrates(j,i) = mrates(i,j);
         end
         iloss = sum(mrates(i,:));
