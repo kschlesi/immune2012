@@ -9,7 +9,7 @@ global lambdas1D gammas1D ;
 days = 5;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 4;
+runnum = 5;
 basecode = 'quant';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
