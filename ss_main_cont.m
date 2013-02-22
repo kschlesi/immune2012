@@ -11,10 +11,10 @@ olddays = 5;    % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
-runnum = ;
+runnum = 9;
 basecode = 'quant';
-%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
-datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];

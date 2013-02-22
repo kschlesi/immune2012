@@ -13,7 +13,7 @@ M = y(Pdim1+2*Ldim1+1:end);
 mrates = zeros(Pdim1,Pdim1);
     for i=2:Pdim1
         for j=1:i-1
-            mrates(i,j) = (1/Pdim1)*exprnd((abs(i-j))^(-c));
+            mrates(i,j) = (1/Pdim1)*abs(randn/(i-j)^c)*10^-1;
             mrates(j,i) = mrates(i,j);
         end
         iloss = sum(mrates(i,:));
@@ -21,6 +21,7 @@ mrates = zeros(Pdim1,Pdim1);
     end
         iloss = sum(mrates(1,:));
         mrates(1,1) = 1-iloss;
+%mrates = mrates*gt(1,mrates); %requires mrates < 1
     
     
 % enforcing P cutoff for calculating everything...
