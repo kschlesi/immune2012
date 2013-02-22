@@ -6,13 +6,13 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ ;
 global lambdas1D gammas1D ;
 
-days = 5;
+days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 7;
+runnum = 13;
 basecode = 'quant';
-%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
-datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
@@ -31,7 +31,7 @@ sigma_ = 3;
 de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
-c = 3;
+c = 2;
 b = 25;
 eps_ = 4; 
 mu_ = 1;
@@ -146,4 +146,4 @@ end
 %     Etot = sum(E_out,2);
 %     Mtot = sum(M_out,2);
 %     figure
-%     semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
+%    semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
