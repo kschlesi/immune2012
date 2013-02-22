@@ -24,11 +24,9 @@ mrates = zeros(Pdim1,Pdim1);
     
     
 % enforcing P cutoff for calculating everything...
-%Pis0 = zeros(Pdim1,1);
 for i=1:Pdim1
     if(P(i)<mu_)
         P(i)=0;
-%        Pis0(i)=1;
     end
     if(N(i)<mu_)
         N(i)=0;
@@ -49,18 +47,24 @@ omega = zeros(Pdim1,1);
         omega(i) = sum(shiftdim(gammas1D(i,:)).*(N + M + E));
     end
 dP = dmut.*lambdas1D - h_.*omega.*P;
+ndP = 0;
+for i=1:Pdim1
+    if(dP(i)<mu_)
+        dP(i)=0;
+        ndP = ndP+1000
+    end
+end
 
 % calculate dL's (all size Ldim1 x 1)
-Hsat = sum(N + E + M) - R_;
 Pofy = zeros(Ldim1,1);
     for j = 1:Ldim1
         Pofy(j)= sum(P.*squeeze(gammas1D(:,j)));
     end
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy);
-dN = -sigma_.*N.*satfunc - dh_*Hsat.*N;
-dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,1)-satfunc) - dh_.*E.*Hsat;
-dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc) - sigma_.*M.*satfunc - dh_.*M.*Hsat;
+dN = -sigma_.*N.*satfunc;
+dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,1)-satfunc);
+dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc) - sigma_.*M.*satfunc;
 
-t
+t+ndP
 
 dy = [dP;dN;dE;dM];
