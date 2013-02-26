@@ -13,7 +13,7 @@ M = y(Pdim1+2*Ldim1+1:end);
 mrates = zeros(Pdim1,Pdim1);
     for i=2:Pdim1
         for j=1:i-1
-            mrates(i,j) = (1/Pdim1)*abs(randn/((i-j)^c));
+            mrates(i,j) = (1/Pdim1)*abs(randn/(i-j)^c)/10;
             mrates(j,i) = mrates(i,j);
         end
         iloss = sum(mrates(i,:));
@@ -21,14 +21,15 @@ mrates = zeros(Pdim1,Pdim1);
     end
         iloss = sum(mrates(1,:));
         mrates(1,1) = 1-iloss;
+%mrates = mrates*gt(1,mrates); %requires mrates < 1
     
     
 % enforcing P cutoff for calculating everything...
-%Pis0 = zeros(Pdim1,1);
+Pis0 = zeros(Pdim1,1);
 for i=1:Pdim1
     if(P(i)<mu_)
         P(i)=0;
-%        Pis0(i)=1;
+        Pis0(i)=1;
     end
     if(N(i)<mu_)
         N(i)=0;
@@ -49,6 +50,13 @@ omega = zeros(Pdim1,1);
         omega(i) = sum(shiftdim(gammas1D(i,:)).*(N + M + E));
     end
 dP = dmut.*lambdas1D - h_.*omega.*P;
+ndP = 0;
+for i=1:Pdim1   %% IF Pis0 (that is, we COUNT no P there, or P < mu_)  
+    if(Pis0(i)==1 && dP(i)<mu_)  %% THEN P cannot show up there (dP = 0)
+        dP(i)=0;                 %% UNLESS dP > mu_ (perday... may want to change)
+        ndP = ndP+1;
+    end
+end
 
 % calculate dL's (all size Ldim1 x 1)
 Hsat = sum(N + E + M) - R_;
@@ -57,10 +65,11 @@ Pofy = zeros(Ldim1,1);
         Pofy(j)= sum(P.*squeeze(gammas1D(:,j)));
     end
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy);
-dN = -sigma_.*N.*satfunc - dh_*Hsat.*N;
-dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,1)-satfunc) - dh_.*E.*Hsat;
-dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc) - sigma_.*M.*satfunc - dh_.*M.*Hsat;
+dN = -sigma_.*N.*satfunc - dh_.*Hsat.*N;
+dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,1)-satfunc) - dh_.*Hsat.*E;
+dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc) - sigma_.*M.*satfunc - dh_.*Hsat.*M;
 
 t
+ndP
 
 dy = [dP;dN;dE;dM];

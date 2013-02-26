@@ -5,14 +5,14 @@ clear
 %global r_ h_ sigma_ de_ f_ k_ c dh_;
 global b eps_ mu_;
 
-days = 20;      % new days to append to file
+days = 10;      % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
-olddays = 50;    % days already run & saved in file
+olddays = 30;    % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
-runnum = 7;
-basecode = 'flat';
+runnum = 13;
+basecode = 'quant';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
