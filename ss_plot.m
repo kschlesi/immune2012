@@ -6,11 +6,11 @@ clear
 global b eps_ mu_ k_ ;
 
 
-runnum = 8;
+runnum = 4;
 basecode = 'flat';
-datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
-%datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
+datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
@@ -153,7 +153,11 @@ n_ts = size(tplot,1);
     
 % contourf plots, of PNEM evolution over time, normalised by total number
 % of cells at each timestep
+<<<<<<< HEAD
 
+=======
+% 
+>>>>>>> 7af7e3edc3c6078560df3d92d6c7a9ad37802bef
 %     Ptotal = repmat(Ptot,1,Pdim1);
 %     Ntotal = repmat(Ntot,1,Ldim1);
 %     Etotal = repmat(Etot,1,Ldim1);
