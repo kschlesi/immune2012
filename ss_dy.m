@@ -49,7 +49,8 @@ omega = zeros(Pdim1,1);
         dmut(i) = squeeze(sum(P.*squeeze(mrates(:,i))));
         omega(i) = sum(shiftdim(gammas1D(i,:)).*(N + M + E));
     end
-dP = r_.*dmut.*lambdas1D.*(ones(size(P))-dmut./K_) - h_.*omega.*P;
+Ptot = sum(P);
+dP = r_.*dmut.*lambdas1D.*(1-Ptot/K_) - h_.*omega.*P;
 ndP = 0;
 for i=1:Pdim1   %% IF Pis0 (that is, we COUNT no P there, or P < mu_)  
     if(Pis0(i)==1 && dP(i)<mu_)  %% THEN P cannot show up there (dP = 0)
