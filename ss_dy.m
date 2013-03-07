@@ -1,6 +1,6 @@
 function dy = ss_dy(t,y,Pdim1,Ldim1)
 
-global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ ;
+global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ ;
 
 % create separate P, N, E, M vectors
 P = y(1:Pdim1);
@@ -46,10 +46,10 @@ end
 dmut = zeros(Pdim1,1);
 omega = zeros(Pdim1,1);
     for i=1:Pdim1
-        dmut(i) = r_.*squeeze(sum(P.*squeeze(mrates(:,i))));
+        dmut(i) = squeeze(sum(P.*squeeze(mrates(:,i))));
         omega(i) = sum(shiftdim(gammas1D(i,:)).*(N + M + E));
     end
-dP = dmut.*lambdas1D - h_.*omega.*P;
+dP = r_.*dmut.*lambdas1D.*(ones(size(P))-dmut./K_) - h_.*omega.*P;
 ndP = 0;
 for i=1:Pdim1   %% IF Pis0 (that is, we COUNT no P there, or P < mu_)  
     if(Pis0(i)==1 && dP(i)<mu_)  %% THEN P cannot show up there (dP = 0)
