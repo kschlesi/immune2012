@@ -5,18 +5,18 @@ clear
 % global r_ h_ sigma_ de_ f_ c ;
 global b eps_ mu_ k_ ;
 
-runnum = 13;
-basecode = 'quant';
-%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+runnum = 1;
+basecode = 'edge';
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
-datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
+%datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
 Efilename = [datapath 'E' basecode num2str(runnum) '.txt'];
 Mfilename = [datapath 'M' basecode num2str(runnum) '.txt'];
 
-days = 40;       % total days run
+days = 420;       % total days run
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -154,6 +154,14 @@ n_ts = size(tplot,1);
     surf(Xaxis,Yaxis,transpose(Mplot),'EdgeColor','none')
     axis([0 days 0 Ldim1])
     title(['Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    
+    figure
+    v = [0 1 10 50 100 200 300 500:500:10000];
+    surf(Xaxis,Yaxis,transpose(Nplot+Mplot+Eplot),'EdgeColor','none')
+    axis([0 days 0 Ldim1])
+    title(['Total Lymphocyte Evolution in Shape Space, \epsilon = ' num2str(eps_)])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
 
