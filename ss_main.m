@@ -6,10 +6,10 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ ;
 global lambdas1D gammas1D ;
 
-days = 20;
+days = 1;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 1;
+runnum = 22;
 basecode = 'edge';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
@@ -35,7 +35,7 @@ c = 2;
 b = 25;
 eps_ = 4; 
 mu_ = 1;
-dh_ = 10^-7;
+dh_ = 10^-6;
 
 % dimensions of 1D shape space
 Pdim1 = 400;
