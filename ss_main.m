@@ -3,22 +3,24 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b p_ beta_ mu_;
+global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ capon hsaton ;
 global lambdas1D gammas1D ;
 
 days = 10;
 stepsize = 0.1; % size of steps at which to save
 
+runnum = 3;
+basecode = 'ccap';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
-datapath = 'C:\Users\Kimberly\Dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
-tfilename = [datapath 'tpaper11.txt'];
-Pfilename = [datapath 'Ppaper11.txt'];
-Nfilename = [datapath 'Npaper11.txt'];
-Efilename = [datapath 'Epaper11.txt'];
-Mfilename = [datapath 'Mpaper11.txt'];
+datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
+tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
+Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
+Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
+Efilename = [datapath 'E' basecode num2str(runnum) '.txt'];
+Mfilename = [datapath 'M' basecode num2str(runnum) '.txt'];
 
 % ensuring no overwrite
-if isequal(exist(tfilename),2)
+if isequal(exist(tfilename,'file'),2)
     error('Existing file; cannot overwrite!');
 end
 
@@ -29,10 +31,15 @@ sigma_ = 3;
 de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
-c = 0.5;
+c = 2;
 b = 25;
-beta_ = 25; 
+%beta_ = 25; 
+eps_ = 4; 
 mu_ = 1;
+dh_ = 10^-7;
+K_ = 10^7;
+capon = 1;
+hsaton = 1;
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -40,21 +47,18 @@ Ldim1 = 400;
 x0 = 200;
 
 % gammas & lambdas
-p_ = (1-exp(-1*((Pdim1)^2)/(8*beta_^2)))^(-1);
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;
-    lambdas1D(i) = 1 - p_*(1-exp(-1*((i-x0)^2)/(2*beta_^2)));
+    lambdas1D(i) = 1 - (2*eps_)/(Pdim1 + 2*eps_ - abs(Pdim1-2*i));
     for j=1:Ldim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end
 end
 
 % initial configurations
-Pmax0 = 10;
-Pdiff0 = 12;
-G0 = Pmax0.*ones(Pdiff0/2,1);
-P0 = padarray(G0,Pdim1/2-Pdiff0/4,'both');
+P0 = zeros(Pdim1,1);
+P0(eps_:2*eps_) = 3;
 % % initial gaussian distribution of pathogen
 % P0 = zeros(Pdim1,1);
 % for i=1:Pdim1;
@@ -64,6 +68,7 @@ N0density = 3;
 N0 = N0density.*ones(Ldim1,1);
 E0 = zeros(Ldim1,1);
 M0 = zeros(Ldim1,1);
+R_ = Pdim1*N0density;
 
 % creating initial conditions vector
 t0 = 0;
@@ -146,4 +151,4 @@ end
 %     Etot = sum(E_out,2);
 %     Mtot = sum(M_out,2);
 %     figure
-%     semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
+%    semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
