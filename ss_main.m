@@ -3,7 +3,7 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ ;
+global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ capon ;
 global lambdas1D gammas1D ;
 
 days = 20;
@@ -37,6 +37,7 @@ eps_ = 4;
 mu_ = 1;
 dh_ = 10^-7;
 K_ = 10^7;
+capon = 1;
 
 % dimensions of 1D shape space
 Pdim1 = 400;
