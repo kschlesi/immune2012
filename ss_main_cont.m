@@ -2,20 +2,20 @@
 
 clear
 
-%global r_ h_ sigma_ de_ f_ k_ c dh_;
-global b eps_ mu_ capon;
+%global r_ h_ sigma_ de_ f_ k_ c dh_ capon;
+global b eps_ mu_ ;
 
-days = 60;      % new days to append to file
+days = 1;      % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
-olddays = 40;    % days already run & saved in file
+olddays = 1;    % days already run & saved in file
 oldss = 0.1;
 
 % file to which new days will be appended
-runnum = 13;
-basecode = 'quant';
-%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
+runnum = 3;
+basecode = 'edge';
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
-datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
+%datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
