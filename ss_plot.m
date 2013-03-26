@@ -2,27 +2,25 @@
 
 clear
 
-% global r_ h_ sigma_ de_ f_ c beta_ ;
-global b eps_ mu_ k_ ;
+% global r_ h_ sigma_ de_ f_ c beta_ x0 ;
+global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
-runnum = 3;
-
-basecode = 'edge';
-datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
-%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
+runnum = 5;
+basecode = 'param';
+%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
 %datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
+afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
 Efilename = [datapath 'E' basecode num2str(runnum) '.txt'];
 Mfilename = [datapath 'M' basecode num2str(runnum) '.txt'];
 
-days = 200;       % total days run
-
-% dimensions of 1D shape space
-Pdim1 = 400;
-Ldim1 = 400;
-x0 = 200;
+% set parameters, read in days
+params = setparams(afilename);
+days = params{end,2};    % total days run & saved in file
+days = 7.236;
 
 % % gammas & lambdas (for beta_ landscape)
 % b = 25;
@@ -61,13 +59,13 @@ end
 % ylabel('value of affinity and fitness factors')
 % legend(['\gamma(x,x_0 = 300), b = ' num2str(b)],['\lambda(x), \phi = ' num2str(betas(1))],['\lambda(x), \phi = ' num2str(betas(2))],['\lambda(x), \phi = ' num2str(betas(3))],'Location','Northwest')
 
-% plot of affinity v. fitness curve (for eps_ landscape)
-figure
-plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
-title(['Affinity (b = ' num2str(b) ') v. Fitness (\epsilon = ' num2str(eps_) ')'])
-xlabel('position in shape space (site)')
-ylabel('value of affinity and fitness factors')
-legend('Affinity \gamma(x,x_0)','Fitness \lambda(x)','Location','Northwest')
+% % plot of affinity v. fitness curve (for eps_ landscape)
+% figure
+% plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
+% title(['Affinity (b = ' num2str(b) ') v. Fitness (\epsilon = ' num2str(eps_) ')'])
+% xlabel('position in shape space (site)')
+% ylabel('value of affinity and fitness factors')
+% legend('Affinity \gamma(x,x_0)','Fitness \lambda(x)','Location','Northwest')
 
 % data and time vector
 tplot = csvread(tfilename);
@@ -77,7 +75,6 @@ Eplot = csvread(Efilename);
 Mplot = csvread(Mfilename);
 
 n_ts = size(tplot,1);
-tplot(end)
 
 % plot of total pathogen v. total lymphocyte population
     Ptot = sum(Pplot,2);
@@ -179,7 +176,6 @@ tplot(end)
     xlabel('duration of infection (days)')
     
     figure
-    v = [0 1 10 50 100 200 300 500:500:10000];
     surf(Xaxis,Yaxis,transpose(Nplot+Mplot+Eplot),'EdgeColor','none')
     axis([0 days 0 Ldim1])
     title(['Total Lymphocyte Evolution in Shape Space, \epsilon = ' num2str(eps_)])
@@ -187,43 +183,43 @@ tplot(end)
     xlabel('duration of infection (days)')
 
     
-% % contourf plots, of PNEM evolution over time, normalised by total number
-% % of cells at each timestep
+% contourf plots, of PNEM evolution over time, normalised by total number
+% of cells at each timestep
+
+%     Ptotal = repmat(Ptot,1,Pdim1);
+%     Ntotal = repmat(Ntot,1,Ldim1);
+%     Etotal = repmat(Etot,1,Ldim1);
+%     Mtotal = repmat(Mtot,1,Ldim1);
 % 
-% %     Ptotal = repmat(Ptot,1,Pdim1);
-% %     Ntotal = repmat(Ntot,1,Ldim1);
-% %     Etotal = repmat(Etot,1,Ldim1);
-% %     Mtotal = repmat(Mtot,1,Ldim1);
-% % 
-% %     Xaxis = tplot;
-% %     Yaxis = (1:1:Pdim1);
-% %     figure
-% % %    v = [0:0.01:1];
-% %     contourf(Xaxis,Yaxis,transpose(Pplot./Ptotal),20)
-% %     axis([0 days 0 Pdim1])
-% %     title(['Normalised Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-% %     ylabel('position in shape space (site)')
-% %     xlabel('duration of infection (days)')
-% % 
-% %     Yaxis = (1:1:Ldim1);
-% %     figure
-% % %    v = (0:0.5:3)/3;
-% %     contourf(Xaxis,Yaxis,transpose(Nplot./Ntotal),20)
-% %     axis([0 days 0 Ldim1])
-% %     title(['Normalised Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-% %     ylabel('position in shape space (site)')
-% %     xlabel('duration of infection (days)')
-% %     
-% %     figure
-% %     contourf(Xaxis,Yaxis,transpose(Eplot./Etotal),20)
-% %     axis([0 days 0 Ldim1])
-% %     title(['Normalised Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-% %     ylabel('position in shape space (site)')
-% %     xlabel('duration of infection (days)')
-% %     
-% %     figure
-% %     contourf(Xaxis,Yaxis,transpose(Mplot./Mtotal),20)
-% %     axis([0 days 0 Ldim1])
-% %     title(['Normalised Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-% %     ylabel('position in shape space (site)')
-% %     xlabel('duration of infection (days)')
+%     Xaxis = tplot;
+%     Yaxis = (1:1:Pdim1);
+%     figure
+% %    v = [0:0.01:1];
+%     contourf(Xaxis,Yaxis,transpose(Pplot./Ptotal),20)
+%     axis([0 days 0 Pdim1])
+%     title(['Normalised Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+% 
+%     Yaxis = (1:1:Ldim1);
+%     figure
+% %    v = (0:0.5:3)/3;
+%     contourf(Xaxis,Yaxis,transpose(Nplot./Ntotal),20)
+%     axis([0 days 0 Ldim1])
+%     title(['Normalised Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     
+%     figure
+%     contourf(Xaxis,Yaxis,transpose(Eplot./Etotal),20)
+%     axis([0 days 0 Ldim1])
+%     title(['Normalised Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     
+%     figure
+%     contourf(Xaxis,Yaxis,transpose(Mplot./Mtotal),20)
+%     axis([0 days 0 Ldim1])
+%     title(['Normalised Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')

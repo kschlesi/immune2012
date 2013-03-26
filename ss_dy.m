@@ -9,19 +9,19 @@ E = y(Pdim1+Ldim1+1:Pdim1+2*Ldim1);
 M = y(Pdim1+2*Ldim1+1:end);
 
 % create stochastic mutation matrix (size Pdim1 x Pdim1)
-%mrates = eye(Pdim1);
-mrates = zeros(Pdim1,Pdim1);
-    for i=2:Pdim1
-        for j=1:i-1
-            mrates(i,j) = (1/Pdim1)*abs(randn/(i-j)^c)/10;
-            mrates(j,i) = mrates(i,j);
-        end
-        iloss = sum(mrates(i,:));
-        mrates(i,i) = 1-iloss;
-    end
-        iloss = sum(mrates(1,:));
-        mrates(1,1) = 1-iloss;
-%mrates = mrates*gt(1,mrates); %requires mrates < 1
+mrates = eye(Pdim1);
+% mrates = zeros(Pdim1,Pdim1);
+%     for i=2:Pdim1
+%         for j=1:i-1
+%             mrates(i,j) = (1/Pdim1)*abs(randn/(i-j)^c)/10;
+%             mrates(j,i) = mrates(i,j);
+%         end
+%         iloss = sum(mrates(i,:));
+%         mrates(i,i) = 1-iloss;
+%     end
+%         iloss = sum(mrates(1,:));
+%         mrates(1,1) = 1-iloss;
+% %mrates = mrates*gt(1,mrates); %requires mrates < 1
     
 % enforcing P cutoff for calculating everything...
 Pis0 = zeros(Pdim1,1);
@@ -59,7 +59,11 @@ for i=1:Pdim1   %% IF Pis0 (that is, we COUNT no P there, or P < mu_)
 end
 
 % calculate dL's (all size Ldim1 x 1)
-Hsat = hsaton*(sum(N + E + M) - R_);
+if hsaton
+    Hsat = (sum(N + E + M) - R_);
+else
+    Hsat = 0;
+end
 Pofy = zeros(Ldim1,1);
     for j = 1:Ldim1
         Pofy(j)= sum(P.*squeeze(gammas1D(:,j)));

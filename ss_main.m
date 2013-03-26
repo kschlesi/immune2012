@@ -6,13 +6,14 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ capon hsaton ;
 global lambdas1D gammas1D ;
 
-days = 200;
+days = 5;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 3;
-basecode = 'edge';
-datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
-%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
+runnum = 6;
+basecode = 'param';
+%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
+afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
@@ -33,13 +34,13 @@ k_ = 10^5;
 f_ = 0.1;
 c = 2;
 b = 25;
-%beta_ = 25; 
-eps_ = 4; 
+beta_ = NaN; 
+eps_ = 40; 
 mu_ = 1;
-dh_ = 10^-6;
+dh_ = 0;
 K_ = 10^9;
-capon = 1;
-hsaton = 1;
+capon = 0;
+hsaton = 0;
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -69,6 +70,10 @@ N0 = N0density.*ones(Ldim1,1);
 E0 = zeros(Ldim1,1);
 M0 = zeros(Ldim1,1);
 R_ = Pdim1*N0density;
+
+% saving/writing params to paramfile
+a0 = [r_;h_;sigma_;de_;k_;f_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;Pdim1;Ldim1;x0];
+writeparams(afilename,a0) % creates paramfile for run; returns error if file already exists
 
 % creating initial conditions vector
 t0 = 0;
@@ -130,11 +135,15 @@ while (contin)
     
     if(t0>=days)
         contin = 0;
+        t0
+        tend = cell(1,3);
+        tend{1,1} = 'days';
+        tend{1,2} = t0;
+        tend{1,3} = 'days';
+        cell2csv(afilename,tend,1); % appends cell line 'tend' to paramsfile
     end
-        
+
 end
-
-
 
 % plot initial & final distributions
     figure

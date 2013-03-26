@@ -3,19 +3,18 @@
 clear
 
 %global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton ;
-global b eps_ mu_ ;
+global b eps_ mu_ Pdim1 Ldim1 x0;
 
 days = 1;      % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
-olddays = 1;    % days already run & saved in file
-oldss = 0.1;
 
 % file to which new days will be appended
 runnum = 3;
-basecode = 'edge';
-datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\';
-%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';
+basecode = 'param';
+%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA
+datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop
 %datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
+afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
@@ -27,10 +26,9 @@ if isequal(exist(tfilename,'file'),0)
     error('File to be continued does not exist!');
 end
 
-% dimensions of 1D shape space
-Pdim1 = 400;
-Ldim1 = 400;
-x0 = 200;
+% set parameters, read in olddays
+params = setparams(afilename);
+olddays = params{end,2};    % days already run & saved in file
 
 % gammas & lambdas
 gammas1D = zeros(Pdim1,Ldim1);
@@ -48,7 +46,7 @@ P0in = csvread(Pfilename);
 N0in = csvread(Nfilename);
 E0in = csvread(Efilename);
 M0in = csvread(Mfilename);
-old_ts = size(P0in,1);
+old_ts = size(t0in,1);
 P0 = shiftdim(P0in(old_ts,:),1);
 N0 = shiftdim(N0in(old_ts,:),1);
 E0 = shiftdim(E0in(old_ts,:),1);
@@ -112,6 +110,12 @@ while (contin)
     
     if (t0>=days+olddays)
        contin = 0; 
+       t0
+       tend = cell(1,3);
+       tend{1,1} = 'days';
+       tend{1,2} = t0;
+       tend{1,3} = 'days';
+       cell2csv(afilename,tend,1); % appends cell line 'tend' to paramsfile
     end
 
 end
@@ -125,9 +129,9 @@ end
     Pfin = squeeze(P_out(end,:));
     plot((1:1:Pdim1),Pfin)
     
-    Ptot = sum(P_out,2);
-    Ntot = sum(N_out,2);
-    Etot = sum(E_out,2);
-    Mtot = sum(M_out,2);
-    figure
-    semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
+%     Ptot = sum(P_out,2);
+%     Ntot = sum(N_out,2);
+%     Etot = sum(E_out,2);
+%     Mtot = sum(M_out,2);
+%     figure
+%     semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
