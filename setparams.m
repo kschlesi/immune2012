@@ -37,6 +37,6 @@ Pdim1 = pmatrix{17,2};
 Ldim1 = pmatrix{18,2};
 x0 = pmatrix{19,2};
 
-fclose(fid)
+fclose(fid);
 
 end

@@ -5,7 +5,7 @@ clear
 % global r_ h_ sigma_ de_ f_ c beta_ x0 ;
 global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
-runnum = 3;
+runnum = 6;
 basecode = 'edge';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
@@ -122,7 +122,6 @@ n_ts = size(tplot,1);
     title('P_{sat} evolution over time')
     ylabel('y-position in shape space')
     xlabel('duration of infection (days)')
-    legend
 
 
 % contour plots of PNEM populations over time
