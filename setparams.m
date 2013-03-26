@@ -11,12 +11,10 @@ C = textscan(fid,'%s %n %s','delimiter',',');
 nparams = size(C{1,1},1);
 pmatrix = cell(nparams,3);
 for i=1:nparams
-    pmatrix{i,1} = C{1,1}(i,:);
-    pmatrix{i,2} = C{1,2}(i,:);
-    pmatrix{i,3} = C{1,3}(i,:);
+    for j=1:3
+        pmatrix{i,j} = C{1,j}(i,:);
+    end
 end
-
-%pmatrix = nparams;
 
 % setting global parameter values
 r_ = pmatrix{1,2};
