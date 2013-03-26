@@ -5,8 +5,8 @@ clear
 % global r_ h_ sigma_ de_ f_ c beta_ x0 ;
 global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
-runnum = 5;
-basecode = 'param';
+runnum = 3;
+basecode = 'edge';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
 %datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
@@ -20,7 +20,6 @@ Mfilename = [datapath 'M' basecode num2str(runnum) '.txt'];
 % set parameters, read in days
 params = setparams(afilename);
 days = params{end,2};    % total days run & saved in file
-days = 7.236;
 
 % % gammas & lambdas (for beta_ landscape)
 % b = 25;
