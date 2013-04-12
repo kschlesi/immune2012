@@ -3,7 +3,7 @@
 clear
 
 %global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton ;
-global b eps_ mu_ Pdim1 Ldim1 x0;
+global b eps_ mu_ Pdim1 Ldim1 x0 chi_ ;
 
 days = 5;        % new days to append to file
 stepsize = 0.1;  % size of steps at which to save

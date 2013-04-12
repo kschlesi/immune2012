@@ -3,7 +3,7 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ capon hsaton ;
+global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ chi_ capon hsaton ;
 global lambdas1D gammas1D ;
 
 days = 300;
@@ -33,6 +33,7 @@ de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
 c = 2;
+chi_ = 10;
 b = 25;
 beta_ = NaN; 
 eps_ = 4; 
