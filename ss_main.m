@@ -9,10 +9,10 @@ global lambdas1D gammas1D ;
 days = 300;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 6;
-basecode = 'edge';
-%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
-datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
+runnum = 1;
+basecode = 'final';
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -36,7 +36,7 @@ c = 2;
 chi_ = 10;
 b = 25;
 beta_ = NaN; 
-eps_ = 4; 
+eps_ = 2; 
 mu_ = 1;
 dh_ = 10^-6;
 K_ = 10^10;
@@ -60,7 +60,7 @@ end
 
 % initial configurations
 P0 = zeros(Pdim1,1);
-P0(eps_:2*eps_) = 3;
+P0(x0-eps_:x0+eps_) = 3;
 % % initial gaussian distribution of pathogen
 % P0 = zeros(Pdim1,1);
 % for i=1:Pdim1;
@@ -73,7 +73,7 @@ M0 = zeros(Ldim1,1);
 R_ = Pdim1*N0density;
 
 % saving/writing params to paramfile
-a0 = [r_;h_;sigma_;de_;k_;f_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;Pdim1;Ldim1;x0];
+a0 = [r_;h_;sigma_;de_;k_;f_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;Pdim1;Ldim1;x0;chi_];
 writeparams(afilename,a0); % creates paramfile for run; returns error if file already exists
 
 % creating initial conditions vector
