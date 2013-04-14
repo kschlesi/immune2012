@@ -2,15 +2,15 @@
 
 clear
 
-%global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton ;
-global b eps_ mu_ Pdim1 Ldim1 x0 chi_ ;
+global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton ;
+global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep;
 
-days = 5;        % new days to append to file
+days = 15;        % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % file to which new days will be appended
-runnum = 6;
-basecode = 'edge';
+runnum = 2;
+basecode = 'qstep';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA
 datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop
 %datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant

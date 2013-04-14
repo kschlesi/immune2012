@@ -3,14 +3,14 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ chi_ capon hsaton ;
-global lambdas1D gammas1D ;
+global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton ;
+global lambdas1D gammas1D tgone mrates ;
 
-days = 30;
+days = 5;
 stepsize = 0.1; % size of steps at which to save
 
 runnum = 2;
-basecode = 'final';
+basecode = 'qstep';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
@@ -34,6 +34,7 @@ k_ = 10^5;
 f_ = 0.1;
 c = 2;
 chi_ = 100;
+Qstep = 0.1;
 b = 25;
 beta_ = NaN; 
 eps_ = 2; 
@@ -73,7 +74,7 @@ M0 = zeros(Ldim1,1);
 R_ = Pdim1*N0density;
 
 % saving/writing params to paramfile
-a0 = [r_;h_;sigma_;de_;k_;f_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;Pdim1;Ldim1;x0;chi_];
+a0 = [r_;h_;sigma_;de_;k_;f_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;Pdim1;Ldim1;x0;chi_;Qstep];
 writeparams(afilename,a0); % creates paramfile for run; returns error if file already exists
 
 % creating initial conditions vector
@@ -93,6 +94,8 @@ tspan = (t0:stepsize:days);
 n_ts = 1;
 nstops = 0;
 contin = 1;
+tgone = 0;
+mrates = eye(Pdim1);
 while (contin)
     
     % integrate until jth event...(or days)
@@ -130,11 +133,11 @@ while (contin)
     tspan = (t0:stepsize:days);
     y0 = y_out(end,:);
     
-    if(t0>=days-stepsize)
+    if(t0>=days-stepsize) % if within one stepsize of final days
         tspan = [t0,days];
     end
     
-    if(t0>=days)
+    if(t0>=days) % check stopping condition
         contin = 0;
         t0
         tend = cell(1,3);
