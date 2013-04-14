@@ -58,48 +58,48 @@ end
 % ylabel('value of affinity and fitness factors')
 % legend(['\gamma(x,x_0 = 300), b = ' num2str(b)],['\lambda(x), \phi = ' num2str(betas(1))],['\lambda(x), \phi = ' num2str(betas(2))],['\lambda(x), \phi = ' num2str(betas(3))],'Location','Northwest')
 
-% plot of affinity v. fitness curve (for eps_ landscape)
-figure
-plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
-title(['Affinity (b = ' num2str(b) ') v. Fitness (\epsilon = ' num2str(eps_) ')'])
-xlabel('position in shape space (site)')
-ylabel('value of affinity and fitness factors')
-legend('Affinity \gamma(x,x_0)','Fitness \lambda(x)','Location','Northwest')
-
-% plot of lambdas_ for several eps_ values
-epsvec_ = [1;5;15;25];
-lambdasvec_ = zeros(Pdim1,size(epsvec_,1));
-M = cell(size(epsvec_,1),1);
-for i=1:Pdim1;
-    for j=1:size(epsvec_,1)
-        lambdasvec_(i,j) = 1 - (2*epsvec_(j))/(Pdim1 + 2*epsvec_(j) - abs(Pdim1-2*i));
-    end
-end
-
-figure
-for i=1:size(epsvec_,1)
-    size(lambdasvec_(i,:))
-    plot((1:Pdim1),lambdasvec_(:,i));
-    hold on;
-    hold all;
-    M{i} = ['\epsilon = ' num2str(Pdim1-epsvec_(i))];
-end
-title('Fitness Landscape \lambda(x)')
-xlabel('position in shape space (site)')
-%ylabel('value of affinity and fitness factors')
-ylabel('value of fitness function')
-legend(M{1},M{2},M{3},M{4},'Location','SouthEast')
+% % plot of affinity v. fitness curve (for eps_ landscape)
+% figure
+% plot((1:Pdim1),gammas1D(:,x0),(1:Pdim1),lambdas1D)
+% title(['Affinity (b = ' num2str(b) ') v. Fitness (\epsilon = ' num2str(eps_) ')'])
+% xlabel('position in shape space (site)')
+% ylabel('value of affinity and fitness factors')
+% legend('Affinity \gamma(x,x_0)','Fitness \lambda(x)','Location','Northwest')
+% 
+% % plot of lambdas_ for several eps_ values
+% epsvec_ = [1;5;15;25];
+% lambdasvec_ = zeros(Pdim1,size(epsvec_,1));
+% M = cell(size(epsvec_,1),1);
+% for i=1:Pdim1;
+%     for j=1:size(epsvec_,1)
+%         lambdasvec_(i,j) = 1 - (2*epsvec_(j))/(Pdim1 + 2*epsvec_(j) - abs(Pdim1-2*i));
+%     end
+% end
+% 
+% figure
+% for i=1:size(epsvec_,1)
+%     size(lambdasvec_(i,:))
+%     plot((1:Pdim1),lambdasvec_(:,i));
+%     hold on;
+%     hold all;
+%     M{i} = ['\epsilon = ' num2str(Pdim1-epsvec_(i))];
+% end
+% title('Fitness Landscape \lambda(x)')
+% xlabel('position in shape space (site)')
+% %ylabel('value of affinity and fitness factors')
+% ylabel('value of fitness function')
+% legend(M{1},M{2},M{3},M{4},'Location','SouthEast')
 
 
 
 % data and time vector
-% tplot = csvread(tfilename);
-% Pplot = csvread(Pfilename);
-% Nplot = csvread(Nfilename);
-% Eplot = csvread(Efilename);
-% Mplot = csvread(Mfilename);
-% 
-% n_ts = size(tplot,1);
+tplot = csvread(tfilename);
+Pplot = csvread(Pfilename);
+Nplot = csvread(Nfilename);
+Eplot = csvread(Efilename);
+Mplot = csvread(Mfilename);
+
+n_ts = size(tplot,1);
 % 
 % for i=1:size(Nplot,1)
 %     for j=1:size(Nplot,2)
