@@ -91,7 +91,6 @@ end
 % legend(M{1},M{2},M{3},M{4},'Location','SouthEast')
 
 
-
 % data and time vector
 tplot = csvread(tfilename);
 Pplot = csvread(Pfilename);
@@ -108,6 +107,25 @@ for i=1:size(Nplot,1)
         end
     end
 end
+
+
+% data and time vector
+tplot = csvread(tfilename);
+Pplot = csvread(Pfilename);
+Nplot = csvread(Nfilename);
+Eplot = csvread(Efilename);
+Mplot = csvread(Mfilename);
+
+n_ts = size(tplot,1);
+% 
+% for i=1:size(Nplot,1)
+%     for j=1:size(Nplot,2)
+%         if Nplot(i,j) < 1
+%             Nplot(i,j) = 0;
+%         end
+%     end
+% end
+% 
 
 % plot of total pathogen v. total lymphocyte population
     Ptot = sum(Pplot,2);
