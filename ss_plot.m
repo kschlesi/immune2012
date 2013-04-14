@@ -5,7 +5,7 @@ clear
 global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 ;
 global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
-runnum = 1;
+runnum = 2;
 basecode = 'qstep';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
