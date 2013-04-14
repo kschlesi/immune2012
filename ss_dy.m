@@ -1,6 +1,7 @@
 function dy = ss_dy(t,y,Pdim1,Ldim1)
 
-global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ chi_ capon hsaton ;
+global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ ;
+global chi_ Qstep tgone capon hsaton mrates ;
 
 % create separate P, N, E, M vectors
 P = y(1:Pdim1);
@@ -10,7 +11,8 @@ M = y(Pdim1+2*Ldim1+1:end);
 
 % create stochastic mutation matrix (size Pdim1 x Pdim1)
 % mrates = eye(Pdim1);
-mrates = zeros(Pdim1,Pdim1);
+if (t-tgone)>=Qstep
+    mrates = zeros(Pdim1,Pdim1);
     for i=2:Pdim1
         for j=1:i-1
             mrates(i,j) = (1/Pdim1)*abs(randn/(i-j)^c)/chi_;
@@ -19,9 +21,10 @@ mrates = zeros(Pdim1,Pdim1);
         iloss = sum(mrates(i,:));
         mrates(i,i) = 1-iloss;
     end
-        iloss = sum(mrates(1,:));
-        mrates(1,1) = 1-iloss;
-%mrates = mrates*gt(1,mrates); %requires mrates < 1
+    iloss = sum(mrates(1,:));
+    mrates(1,1) = 1-iloss;
+    tgone = t;   
+end
     
 % enforcing P cutoff for calculating everything...
 Pis0 = zeros(Pdim1,1);

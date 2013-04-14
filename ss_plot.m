@@ -2,7 +2,7 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ c beta_ chi_ x0 ;
+global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 ;
 global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
 runnum = 3;

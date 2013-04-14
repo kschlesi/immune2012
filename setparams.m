@@ -4,7 +4,8 @@ function pmatrix = setparams(afilename)
 % returns pmatrix, a size (nparams x 3) cell array with 
 % [name(str), value(num), units(str)] in each parameter row.
 
-global r_ h_ sigma_ de_ k_ f_ c b beta_ eps_ mu_ dh_ K_ R_ chi_ capon hsaton Pdim1 Ldim1 x0;
+global r_ h_ sigma_ de_ k_ f_ c b beta_ eps_ mu_ dh_ K_ ;
+global R_ chi_ capon Qstep hsaton Pdim1 Ldim1 x0 ;
 
 fid = fopen(afilename,'r');
 C = textscan(fid,'%s %n %s','delimiter',',');
@@ -37,6 +38,7 @@ Pdim1 = pmatrix{17,2};
 Ldim1 = pmatrix{18,2};
 x0 = pmatrix{19,2};
 chi_ = pmatrix{20,2};
+Qstep = pmatrix{21,2};
 
 fclose(fid);
 
