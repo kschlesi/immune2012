@@ -5,11 +5,11 @@ clear
 global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 ;
 global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
-runnum = 11;
+runnum = 14;
 basecode = 'qstep';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
-%datapath = 'C:\Users\Kimberly\Desktop\immune2012_data\'; %M-l transplant
+%datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -159,47 +159,52 @@ n_ts = size(tplot,1);
 %     ylabel('y-position in shape space')
 %     xlabel('duration of infection (days)')
 % 
-% contour plots of PNEM populations over time
-% NOTE these plots ARE ABSOLUTELY properly time-normalised
-    Plog = ones(size(Pplot));
-    for i=1:size(Plog,1)
-        for j=1:size(Plog,2)
-            if Pplot(i,j)>1
-                Plog(i,j) = log(Pplot(i,j));
-            end
-        end
-    end
-    Xaxis = tplot;
-    Yaxis = (1:1:Pdim1);
-    figure
-    surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
-    axis([0 days 0 Pdim1])
-    title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ' (color on log scale)'])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    v = [ mu_ 1 ];
-    figure
-    contourf(Xaxis,Yaxis,transpose(Pplot),v)
-    axis([0 days 0 Pdim1])
-    title(['Pathogen Evolution in Shape Space, \mu = ' num2str(mu_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    legend('Pathogen = \mu','Location','Northeast')
-% 
-%     Yaxis = (1:1:Ldim1);
+% % 
+% % contour plots of PNEM populations over time
+% % NOTE these plots ARE ABSOLUTELY properly time-normalised
+%     Plog = ones(size(Pplot));
+%     Elog = ones(size(Eplot));
+%     for i=1:size(Plog,1)
+%         for j=1:size(Plog,2)
+%             if Pplot(i,j)>1
+%                 Plog(i,j) = log(Pplot(i,j));
+%             end
+%             if Eplot(i,j)>1
+%                 Elog(i,j) = log(Eplot(i,j));
+%             end
+%         end
+%     end
+%     Xaxis = tplot;
+%     Yaxis = (1:1:Pdim1);
 %     figure
-%     surf(Xaxis,Yaxis,transpose(Nplot),'EdgeColor','none')
+%     surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
 %     axis([0 days 0 Ldim1])
-%     title(['Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ' (color on log scale)'])
 %     ylabel('position in shape space (site)')
 %     xlabel('duration of infection (days)')
-%     size(Nplot)
-%     Nplot(250,50)
-%     
+% %     v = [ mu_ 1 ];
+% %     figure
+% %     contourf(Xaxis,Yaxis,transpose(Pplot),v)
+% %     axis([0 days 0 Pdim1])
+% %     title(['Pathogen Evolution in Shape Space, \mu = ' num2str(mu_)])
+% %     ylabel('position in shape space (site)')
+% %     xlabel('duration of infection (days)')
+% %     legend('Pathogen = \mu','Location','Northeast')
+% % % 
+% % %     Yaxis = (1:1:Ldim1);
+% % %     figure
+% % %     surf(Xaxis,Yaxis,transpose(Nplot),'EdgeColor','none')
+% % %     axis([0 days 0 Ldim1])
+% % %     title(['Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+% % %     ylabel('position in shape space (site)')
+% % %     xlabel('duration of infection (days)')
+% % %     size(Nplot)
+% % %     Nplot(250,50)
+% % %     
 %     figure
-%     surf(Xaxis,Yaxis,transpose(Eplot),'EdgeColor','none')
+%     surf(Xaxis,Yaxis,transpose(Elog),'EdgeColor','none')
 %     axis([0 days 0 Ldim1])
-%     title(['Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     title(['Effector Evolution in Shape Space, \epsilon = ' num2str(eps_) ', color on log scale'])
 %     ylabel('position in shape space (site)')
 %     xlabel('duration of infection (days)')
 %     

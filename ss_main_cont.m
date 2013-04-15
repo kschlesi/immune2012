@@ -5,11 +5,11 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton mrates ;
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep gammas1D lambdas1D;
 
-days = 250;        % new days to append to file
+days = 20;        % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % file to which new days will be appended
-runnum = 11;
+runnum = 14;
 basecode = 'qstep';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop
@@ -122,7 +122,6 @@ while (contin)
     
     if (t0>=days+olddays)
        contin = 0; 
-       t0
        tend = cell(1,3);
        tend{1,1} = 'days';
        tend{1,2} = t0;
