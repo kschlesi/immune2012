@@ -1,45 +1,40 @@
+clear
 
-Pdim1 = 400;
-c = 0.5;
-d = 5;
-N = 10000;
+global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 ;
+global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
-% mtest = randn(N,1)./(d^c);
-% figure
-% hist(mtest,N/5)
-% 
-% rtest = zeros(Pdim1,1);
-% for i=1:Pdim1
-%     rtest(i) = randn/((i-(Pdim1/2))^c);
-% end
-% figure
-% plot((1:Pdim1),rtest)
-% 
-% 
-% stest = zeros(Pdim1,N);
-%     for i=1:Pdim1
-%         stest(i,:) = randn(N,1)./((i-(Pdim1/2))^c);
-%     end
-% figure
-% plot((1:Pdim1),sum(stest,2)/N)
+runnum = 14;
+basecode = 'qstep';
+%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
+datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
+afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
+tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
+Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
+Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
+Efilename = [datapath 'E' basecode num2str(runnum) '.txt'];
+Mfilename = [datapath 'M' basecode num2str(runnum) '.txt'];
 
+% set parameters, read in days
+params = setparams(afilename);
+days = params{end,2};    % total days run & saved in file
 
-mrates = zeros(Pdim1,Pdim1);
-mrates2 = zeros(Pdim1,Pdim1);
-mrates3 = zeros(Pdim1,Pdim1);
-    for i=2:Pdim1
-        for j=1:i-1
-            mrates(i,j) = (1/Pdim1)*abs(randn/((i-j)^c));
-            mrates2(i,j) = abs(randn/((i-j)^c));
-            mrates3(i,j) = randn/((i-j)^c);
-            mrates(j,i) = mrates(i,j);
-            mrates2(j,i) = mrates2(i,j);
-            mrates3(j,i) = mrates3(i,j);
+% data and time vector
+tplot = csvread(tfilename);
+Pplot = csvread(Pfilename);
+Nplot = csvread(Nfilename);
+Eplot = csvread(Efilename);
+Mplot = csvread(Mfilename);
+
+n_ts = size(tplot,1);
+
+for i=1:size(Nplot,1)
+    for j=1:size(Nplot,2)
+        if Nplot(i,j) < 1
+            Nplot(i,j) = 0;
         end
     end
-figure    
-contour(mrates)
+end
+
 figure
-contour(mrates2)
-figure 
-contour(mrates3)
+plot((1:1:Ldim1),Eplot(25,:))

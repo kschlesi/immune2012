@@ -99,8 +99,7 @@ Nplot = csvread(Nfilename);
 Eplot = csvread(Efilename);
 Mplot = csvread(Mfilename);
 
-n_ts = size(tplot,1)
-days = tplot(end)
+n_ts = size(tplot,1);
 
 for i=1:size(Nplot,1)
     for j=1:size(Nplot,2)
@@ -127,14 +126,14 @@ end
     Ntot(end)+Etot(end)+Mtot(end)
     
 % plots of initial and final PNEM-distributions    
-    figure
-    plot((1:Pdim1),Pplot(1,:))
-    axis([0 Pdim1 0 12])
-    
-    figure
-    plot((1:Pdim1),Pplot(end,:))
+%     figure
+%     plot((1:Pdim1),Pplot(1,:))
+%     axis([0 Pdim1 0 12])
 %     
-%     figure 
+%     figure
+%     plot((1:Pdim1),Pplot(end,:))
+% %     
+% %     figure 
 %     plot((1:Pdim1),Nplot(end,:))
 % 
 %     figure 
@@ -161,7 +160,7 @@ end
 % 
 % % 
 % % contour plots of PNEM populations over time
-% % NOTE these plots ARE ABSOLUTELY properly time-normalised
+% % % NOTE these plots ARE ABSOLUTELY properly time-normalised
 %     Plog = ones(size(Pplot));
 %     Elog = ones(size(Eplot));
 %     for i=1:size(Plog,1)
@@ -178,32 +177,24 @@ end
 %     Yaxis = (1:1:Pdim1);
 %     figure
 %     surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
-%     axis([0 days 0 Ldim1])
+%     axis([0 days 0 400])
 %     title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ' (color on log scale)'])
 %     ylabel('position in shape space (site)')
 %     xlabel('duration of infection (days)')
-% %     v = [ mu_ 1 ];
-% %     figure
-% %     contourf(Xaxis,Yaxis,transpose(Pplot),v)
-% %     axis([0 days 0 Pdim1])
-% %     title(['Pathogen Evolution in Shape Space, \mu = ' num2str(mu_)])
-% %     ylabel('position in shape space (site)')
-% %     xlabel('duration of infection (days)')
-% %     legend('Pathogen = \mu','Location','Northeast')
-% % % 
-% % %     Yaxis = (1:1:Ldim1);
-% % %     figure
-% % %     surf(Xaxis,Yaxis,transpose(Nplot),'EdgeColor','none')
-% % %     axis([0 days 0 Ldim1])
-% % %     title(['Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-% % %     ylabel('position in shape space (site)')
-% % %     xlabel('duration of infection (days)')
-% % %     size(Nplot)
-% % %     Nplot(250,50)
-% % %     
+% 
+%     Yaxis = (1:1:Ldim1);
+%     figure
+%     surf(Xaxis,Yaxis,transpose(Nplot),'EdgeColor','none')
+%     axis([0 days 0 Ldim1])
+%     title(['Naive Cell Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     size(Nplot)
+%     Nplot(250,50)
+%     
 %     figure
 %     surf(Xaxis,Yaxis,transpose(Elog),'EdgeColor','none')
-%     axis([0 days 0 Ldim1])
+%     axis([0 days 0 400])
 %     title(['Effector Evolution in Shape Space, \epsilon = ' num2str(eps_) ', color on log scale'])
 %     ylabel('position in shape space (site)')
 %     xlabel('duration of infection (days)')
@@ -222,7 +213,44 @@ end
 %     ylabel('position in shape space (site)')
 %     xlabel('duration of infection (days)')
 % 
+% plots of cutoff levels for whole infection
+%    v = [ mu_ 1 ];
+    v = [ 0 1 ];
+    Xaxis = tplot;
+    Yaxis = (1:1:Ldim1);
+    figure
+    contourf(Xaxis,Yaxis,transpose(Pplot),v)
+    axis([0 days 0 Pdim1])
+    title(['Pathogen Evolution in Shape Space, \mu = ' num2str(mu_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    legend('Pathogen = \mu','Location','Northeast')
     
+    figure
+    contourf(Xaxis,Yaxis,transpose(Eplot),v)
+    axis([0 days 0 Ldim1])
+    title(['Effector Evolution in Shape Space, \mu = ' num2str(mu_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    legend('Effector = \mu','Location','Northeast')
+    
+    figure
+    contourf(Xaxis,Yaxis,transpose(Mplot),v)
+    axis([0 days 0 Ldim1])
+    title(['Memory Evolution in Shape Space, \mu = ' num2str(mu_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    legend('Memory = \mu','Location','Northeast')
+
+    figure
+    contourf(Xaxis,Yaxis,transpose(Nplot),v)
+    axis([0 days 0 Ldim1])
+    title(['Naive Evolution in Shape Space, \mu = ' num2str(mu_)])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    legend('Naive = \mu','Location','Northeast')
+
+
 % contourf plots, of PNEM evolution over time, normalised by total number
 % of cells at each timestep
 
