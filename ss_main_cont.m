@@ -2,17 +2,17 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton ;
-global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep;
+global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton mrates ;
+global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep gammas1D lambdas1D;
 
-days = 15;        % new days to append to file
+days = 250;        % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % file to which new days will be appended
-runnum = 2;
+runnum = 11;
 basecode = 'qstep';
-%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA
-datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop
+datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop
 %datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -39,6 +39,18 @@ for i=1:Pdim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end
 end
+
+mrates = zeros(Pdim1,Pdim1);
+    for i=2:Pdim1
+        for j=1:i-1
+            mrates(i,j) = (1/Pdim1)*abs(randn/(i-j)^c)/chi_;
+            mrates(j,i) = mrates(i,j);
+        end
+        iloss = sum(mrates(i,:));
+        mrates(i,i) = 1-iloss;
+    end
+iloss = sum(mrates(1,:));
+mrates(1,1) = 1-iloss;
 
 % initial inoculation in shape space
 t0in = csvread(tfilename);

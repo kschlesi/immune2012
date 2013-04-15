@@ -5,7 +5,7 @@ clear
 global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 ;
 global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
-runnum = 2;
+runnum = 11;
 basecode = 'qstep';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
@@ -122,47 +122,6 @@ n_ts = size(tplot,1);
     title(['Single-Infection Cell Populations, \epsilon = ' num2str(eps_)])
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
-<<<<<<< HEAD
-    %legend('Pathogen','All Lymphocytes','Naive','Effector','Memory','Location','NorthEast')
-
-%     Ntot(end)+Etot(end)+Mtot(end)
-%     
-% % plots of initial and final PNEM-distributions    
-%     figure
-%     plot((1:Pdim1),Pplot(1,:))
-%     axis([0 Pdim1 0 12])
-%     
-%     figure
-%     plot((1:Pdim1),Pplot(end,:))
-% %     
-% %     figure 
-% %     plot((1:Pdim1),Nplot(end,:))
-% % 
-% %     figure 
-% %     plot((1:Pdim1),Eplot(end,:))
-% % 
-% %     figure 
-% %     plot((1:Pdim1),Mplot(end,:))
-% % 
-% % 
-% % plot of Psat over time (size = n_ts x Ldim1)
-% %     Pofy = zeros(n_ts,Ldim1);
-% %         for j = 1:Ldim1
-% %             Pofy(:,j)= sum(Pplot.*transpose(repmat(squeeze(gammas1D(:,j)),1,n_ts)),2);
-% %         end
-% %     Psat = Pofy./(k_.*ones(n_ts,Ldim1)+Pofy);
-% %     Xaxis = tplot;
-% %     Yaxis = (1:1:Ldim1);
-% %     figure
-% %     surf(Xaxis,Yaxis,transpose(Psat),'EdgeColor','none')
-% %    axis([0 days 0 Ldim1])
-% %     axis([0 days 0 250])
-% %     title('P_{sat} evolution over time')
-% %     ylabel('y-position in shape space')
-% %     xlabel('duration of infection (days)')
-% % 
-% % 
-=======
     legend('Pathogen','All Lymphocytes','Naive','Effector','Memory','Location','NorthEast')
 
     Ntot(end)+Etot(end)+Mtot(end)
@@ -200,8 +159,6 @@ n_ts = size(tplot,1);
 %     ylabel('y-position in shape space')
 %     xlabel('duration of infection (days)')
 % 
-% 
->>>>>>> 3f0b1dc7467cb02485589f84657da8394472509b
 % contour plots of PNEM populations over time
 % NOTE these plots ARE ABSOLUTELY properly time-normalised
     Plog = ones(size(Pplot));
@@ -216,11 +173,7 @@ n_ts = size(tplot,1);
     Yaxis = (1:1:Pdim1);
     figure
     surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
-<<<<<<< HEAD
     axis([0 days 0 Pdim1])
-=======
-    axis([0 days 0 Ldim1])
->>>>>>> 3f0b1dc7467cb02485589f84657da8394472509b
     title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ' (color on log scale)'])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
@@ -243,28 +196,19 @@ n_ts = size(tplot,1);
 %     size(Nplot)
 %     Nplot(250,50)
 %     
-<<<<<<< HEAD
-    figure
-    surf(Xaxis,Yaxis,transpose(Eplot),'EdgeColor','none')
-    axis([0 days 0 Ldim1])
-    title(['Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-=======
 %     figure
 %     surf(Xaxis,Yaxis,transpose(Eplot),'EdgeColor','none')
 %     axis([0 days 0 Ldim1])
 %     title(['Effector Evolution in Shape Space, \epsilon = ' num2str(eps_)])
 %     ylabel('position in shape space (site)')
 %     xlabel('duration of infection (days)')
->>>>>>> 3f0b1dc7467cb02485589f84657da8394472509b
-    
-    figure
-    surf(Xaxis,Yaxis,transpose(Mplot),'EdgeColor','none')
-    axis([0 days 0 Ldim1])
-    title(['Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
+%     
+%     figure
+%     surf(Xaxis,Yaxis,transpose(Mplot),'EdgeColor','none')
+%     axis([0 days 0 Ldim1])
+%     title(['Memory Evolution in Shape Space, \epsilon = ' num2str(eps_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
 % % %     
 % % %     figure
 % % %     surf(Xaxis,Yaxis,transpose(Nplot+Mplot+Eplot),'EdgeColor','none')
