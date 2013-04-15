@@ -6,13 +6,14 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton ;
 global lambdas1D gammas1D tgone mrates ;
 
-days = 5;
+days = 50;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 2;
+runnum = 14;
 basecode = 'qstep';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
-datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
+%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
+datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -35,11 +36,11 @@ f_ = 0.1;
 c = 2;
 chi_ = 100;
 Qstep = 0.1;
-b = 25;
+b = 10;
 beta_ = NaN; 
-eps_ = 2; 
+eps_ = 4; 
 mu_ = 1;
-dh_ = 10^-6;
+dh_ = 2*10^-7;
 K_ = 10^10;
 capon = 1;
 hsaton = 1;
@@ -47,7 +48,7 @@ hsaton = 1;
 % dimensions of 1D shape space
 Pdim1 = 400;
 Ldim1 = 400;
-x0 = 200;
+x0 = 6;
 
 % gammas & lambdas
 gammas1D = zeros(Pdim1,Ldim1);
@@ -61,7 +62,8 @@ end
 
 % initial configurations
 P0 = zeros(Pdim1,1);
-P0(x0-eps_:x0+eps_) = 3;
+%P0(x0-2:x0+2) = 3;
+P0(4:8) = 3;
 % % initial gaussian distribution of pathogen
 % P0 = zeros(Pdim1,1);
 % for i=1:Pdim1;
