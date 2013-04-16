@@ -2,7 +2,7 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 ;
+global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 dh_ ;
 global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
 runnum = 14;
@@ -162,26 +162,26 @@ n_ts = size(tplot,1);
 % % 
 % % contour plots of PNEM populations over time
 % % NOTE these plots ARE ABSOLUTELY properly time-normalised
-%     Plog = ones(size(Pplot));
-%     Elog = ones(size(Eplot));
-%     for i=1:size(Plog,1)
-%         for j=1:size(Plog,2)
-%             if Pplot(i,j)>1
-%                 Plog(i,j) = log(Pplot(i,j));
-%             end
-%             if Eplot(i,j)>1
-%                 Elog(i,j) = log(Eplot(i,j));
-%             end
-%         end
-%     end
-%     Xaxis = tplot;
-%     Yaxis = (1:1:Pdim1);
-%     figure
-%     surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
-%     axis([0 days 0 Ldim1])
-%     title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ' (color on log scale)'])
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
+    Plog = ones(size(Pplot));
+    Elog = ones(size(Eplot));
+    for i=1:size(Plog,1)
+        for j=1:size(Plog,2)
+            if Pplot(i,j)>1
+                Plog(i,j) = log(Pplot(i,j));
+            end
+            if Eplot(i,j)>1
+                Elog(i,j) = log(Eplot(i,j));
+            end
+        end
+    end
+    Xaxis = tplot;
+    Yaxis = (1:1:Pdim1);
+    figure
+    surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
+    axis([0 days 0 Ldim1])
+    title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ' (color on log scale)'])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
 % %     v = [ mu_ 1 ];
 % %     figure
 % %     contourf(Xaxis,Yaxis,transpose(Pplot),v)
