@@ -33,15 +33,17 @@ for i=1:Pdim1
         P(i)=0;
         Pis0(i)=1;
     end
+end
+for i=1:Ldim1
     if(N(i)<mu_)
         N(i)=0;
     end
-%     if(E(i)<mu_)
-%         E(i)=0;
-%     end
-%     if(M(i)<mu_)
-%         M(i)=0;
-%     end
+    if(E(i)<mu_)
+        E(i)=0;
+    end
+    if(M(i)<mu_)
+        M(i)=0;
+    end
 end
         
 % calculate dP (all size Pdim1 x 1)        
