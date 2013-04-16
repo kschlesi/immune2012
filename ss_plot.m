@@ -5,7 +5,7 @@ clear
 global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 dh_ ;
 global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
-runnum = 14;
+runnum = 17;
 basecode = 'qstep';
 datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
@@ -105,10 +105,15 @@ for i=1:size(Nplot,1)
         if Nplot(i,j) < 1
             Nplot(i,j) = 0;
         end
+        if Eplot(i,j) < 1
+            Eplot(i,j) = 0;
+        end
+        if Mplot(i,j) < 1
+            Mplot(i,j) = 0;
+        end
     end
 end
 
-n_ts = size(tplot,1);
 
 %plot of total pathogen v. total lymphocyte population
     Ptot = sum(Pplot,2);
@@ -174,14 +179,14 @@ n_ts = size(tplot,1);
             end
         end
     end
-    Xaxis = tplot;
-    Yaxis = (1:1:Pdim1);
-    figure
-    surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
-    axis([0 days 0 Ldim1])
-    title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ' (color on log scale)'])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
+%     Xaxis = tplot;
+%     Yaxis = (1:1:Pdim1);
+%     figure
+%     surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
+%     axis([0 days 0 Ldim1])
+%     title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ' (color on log scale)'])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
 % %     v = [ mu_ 1 ];
 % %     figure
 % %     contourf(Xaxis,Yaxis,transpose(Pplot),v)
@@ -232,8 +237,8 @@ n_ts = size(tplot,1);
 %     xlabel('duration of infection (days)')
 % 
 % plots of cutoff levels for whole infection
-%    v = [ mu_ 1 ];
-    v = [ 0 1 ];
+    v = [ mu_ 1 ];
+%    v = [ 0 1 ];
     Xaxis = tplot;
     Yaxis = (1:1:Ldim1);
     figure
