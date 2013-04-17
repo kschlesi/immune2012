@@ -9,7 +9,7 @@ global lambdas1D gammas1D tgone mrates ;
 days = 20;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 15;
+runnum = 18;
 basecode = 'qstep';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
@@ -37,11 +37,11 @@ f_ = 0.1;
 c = 2;
 chi_ = 100;
 Qstep = 0.1;
-b = 10;
+b = 25;
 beta_ = NaN; 
 eps_ = 4; 
 mu_ = 1;
-dh_ = 2*10^-7;
+dh_ = 5*10^-7;
 K_ = 10^10;
 capon = 1;
 hsaton = 1;
