@@ -6,14 +6,15 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton ;
 global lambdas1D gammas1D tgone mrates ;
 
-days = 50;
+days = 20;
 stepsize = 0.1; % size of steps at which to save
 
 runnum = 15;
 basecode = 'qstep';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
-datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
+%datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -107,8 +108,6 @@ while (contin)
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
     nstops = nstops + 1;
-%     n_ts
-%     nstops
     
     % implement one-cell cutoff for all P
     for pcount=1:Pdim1
@@ -141,7 +140,6 @@ while (contin)
     
     if(t0>=days) % check stopping condition
         contin = 0;
-        t0
         tend = cell(1,3);
         tend{1,1} = 'days';
         tend{1,2} = t0;

@@ -5,11 +5,12 @@ clear
 global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 ;
 global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
-runnum = 14;
+runnum = 15;
 basecode = 'qstep';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
+datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
-datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
+%datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -122,14 +123,12 @@ end
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
     legend('Pathogen','All Lymphocytes','Naive','Effector','Memory','Location','NorthEast')
-
-    Ntot(end)+Etot(end)+Mtot(end)
-    
+  
 % plots of initial and final PNEM-distributions    
-%     figure
-%     plot((1:Pdim1),Pplot(1,:))
-%     axis([0 Pdim1 0 12])
-%     
+    figure
+    plot((1:Pdim1),Pplot(229,:))
+%    axis([0 Pdim1 0 12])
+    
 %     figure
 %     plot((1:Pdim1),Pplot(end,:))
 % %     
@@ -214,43 +213,43 @@ end
 %     xlabel('duration of infection (days)')
 % 
 % plots of cutoff levels for whole infection
-%    v = [ mu_ 1 ];
-    v = [ 0 1 ];
-    Xaxis = tplot;
-    Yaxis = (1:1:Ldim1);
-    figure
-    contourf(Xaxis,Yaxis,transpose(Pplot),v)
-    axis([0 days 0 Pdim1])
-    title(['Pathogen Evolution in Shape Space, \mu = ' num2str(mu_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    legend('Pathogen = \mu','Location','Northeast')
-    
-    figure
-    contourf(Xaxis,Yaxis,transpose(Eplot),v)
-    axis([0 days 0 Ldim1])
-    title(['Effector Evolution in Shape Space, \mu = ' num2str(mu_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    legend('Effector = \mu','Location','Northeast')
-    
-    figure
-    contourf(Xaxis,Yaxis,transpose(Mplot),v)
-    axis([0 days 0 Ldim1])
-    title(['Memory Evolution in Shape Space, \mu = ' num2str(mu_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    legend('Memory = \mu','Location','Northeast')
-
-    figure
-    contourf(Xaxis,Yaxis,transpose(Nplot),v)
-    axis([0 days 0 Ldim1])
-    title(['Naive Evolution in Shape Space, \mu = ' num2str(mu_)])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    legend('Naive = \mu','Location','Northeast')
-
-
+%     v = [ mu_ 1 ];
+% %    v = [ 0 1 ];
+%     Xaxis = tplot;
+%     Yaxis = (1:1:Ldim1);
+%     figure
+%     contourf(Xaxis,Yaxis,transpose(Pplot),v)
+%     axis([0 days 0 Pdim1])
+%     title(['Pathogen Evolution in Shape Space, \mu = ' num2str(mu_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     legend('Pathogen = \mu','Location','Northeast')
+%     
+%     figure
+%     contourf(Xaxis,Yaxis,transpose(Eplot),v)
+%     axis([0 days 0 Ldim1])
+%     title(['Effector Evolution in Shape Space, \mu = ' num2str(mu_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     legend('Effector = \mu','Location','Northeast')
+%     
+%     figure
+%     contourf(Xaxis,Yaxis,transpose(Mplot),v)
+%     axis([0 days 0 Ldim1])
+%     title(['Memory Evolution in Shape Space, \mu = ' num2str(mu_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     legend('Memory = \mu','Location','Northeast')
+% 
+%     figure
+%     contourf(Xaxis,Yaxis,transpose(Nplot),v)
+%     axis([0 days 0 Ldim1])
+%     title(['Naive Evolution in Shape Space, \mu = ' num2str(mu_)])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     legend('Naive = \mu','Location','Northeast')
+% 
+% 
 % contourf plots, of PNEM evolution over time, normalised by total number
 % of cells at each timestep
 
