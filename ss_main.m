@@ -1,4 +1,4 @@
-% 1D fitness/mutation test
+% 1D fitness/mutation infection integrator
 % with cutoff implemented by looping calls to ode45
 
 clear
@@ -6,11 +6,11 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton ;
 global lambdas1D gammas1D tgone mrates ;
 
-days = 20;
+days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 3;
-basecode = 'rhose';
+runnum = 1;
+basecode = 'naive';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
@@ -27,7 +27,7 @@ if isequal(exist(tfilename,'file'),2)
     error('Existing file; cannot overwrite!');
 end
 
-% setting necessary parameters
+%%%%%%%%%%%%%%% setting necessary parameters %%%%%%%%%%%%%%%%%%%
 r_ = 3.3;
 h_ = 10^-5;
 sigma_ = 3;
@@ -61,7 +61,8 @@ for i=1:Pdim1;
     end
 end
 
-% initial configurations
+
+%%%%%%%%%%%%%%%% setting initial configurations %%%%%%%%%%%%%%%%%%%
 P0 = zeros(Pdim1,1);
 %P0(x0-2:x0+2) = 3;
 P0(4:8) = 3;
@@ -71,11 +72,14 @@ P0(4:8) = 3;
 %     P0(i) = Pmax0*exp(-1*((i-x0)^2)/(2*Pdiff0^2));
 % end
 N0density = 3;
-N0 = N0density.*ones(Ldim1,1);
+%N0 = N0density.*ones(Ldim1,1);
+N0 = unifrndpop(Ldim1,N0density,(N0density-mu_)*2);
 E0 = zeros(Ldim1,1);
 M0 = zeros(Ldim1,1);
 R_ = Pdim1*N0density;
 
+
+%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%
 % saving/writing params to paramfile
 a0 = [r_;h_;sigma_;de_;k_;f_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;Pdim1;Ldim1;x0;chi_;Qstep];
 writeparams(afilename,a0); % creates paramfile for run; returns error if file already exists
@@ -91,7 +95,7 @@ dlmwrite(Efilename,transpose(E0));
 dlmwrite(Mfilename,transpose(M0));    
 
 
-% integrating diffeqs in time with a FOR LOOP
+%%%%%%%%%%%%%%%%%%% integrating diffeqs %%%%%%%%%%%%%%%%%%%%%%%%%%%
 options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_));
 tspan = (t0:stepsize:days);
 n_ts = 1;
@@ -149,7 +153,7 @@ while (contin)
 
 end
 
-% plot initial & final distributions
+%%%%%%%%%%%%%% plotting initial & final distributions %%%%%%%%%%%%%%%%%%%
     figure
     plot((1:1:Pdim1),P0)
     
