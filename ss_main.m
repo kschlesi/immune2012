@@ -9,7 +9,7 @@ global lambdas1D gammas1D tgone mrates ;
 days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 1;
+runnum = ;
 basecode = 'naive';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
@@ -106,17 +106,19 @@ mrates = eye(Pdim1);
 while (contin)
     
     % integrate until 'stopper' event...(or days)
-    [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),tspan,y0,options);
+    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),tspan,y0,options);
         
     % add new internal steps to overall n_ts
     size(ts_vec,1)
     n_ts = n_ts + size(ts_vec,1)-1;
     nstops = nstops + 1;
     
-    % implement one-cell cutoff for all PNEM
-    for count=1:size(y_out,2)
-        if(y_out(end,count)<=mu_)
-            y_out(end,count)=0;
+    % implement one-cell cutoff for PNEM that caused event ONLY(!)
+    if(indices)
+        for i=1:size(indices,1)
+            if(y_out(end,indices(i,1))<=mu_)
+                y_out(end,indices(i,1))=0;
+            end
         end
     end
         
@@ -142,7 +144,7 @@ while (contin)
         tspan = [t0,days]; % reset tspan to default steps
     end
     
-    if(t0>=days) % check stopping condition; if days reached
+    if(t0>=days) % check stopping condition; if days reached:
         contin = 0;                         % end while loop
         tend = cell(1,3);                   % create cell of final 'days'
         tend{1,1} = 'days';                 % and write it to paramfile
