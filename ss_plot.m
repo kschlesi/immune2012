@@ -5,8 +5,8 @@ clear
 global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 dh_ ;
 global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
-runnum = 15;
-basecode = 'qstep';
+runnum = 3;
+basecode = 'rhose';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
@@ -103,13 +103,13 @@ n_ts = size(tplot,1);
 
 for i=1:size(Nplot,1)
     for j=1:size(Nplot,2)
-        if Nplot(i,j) < 1
+        if Nplot(i,j) < mu_
             Nplot(i,j) = 0;
         end
-        if Eplot(i,j) < 1
+        if Eplot(i,j) < mu_
             Eplot(i,j) = 0;
         end
-        if Mplot(i,j) < 1
+        if Mplot(i,j) < mu_
             Mplot(i,j) = 0;
         end
     end
@@ -131,8 +131,8 @@ end
     legend('Pathogen','All Lymphocytes','Naive','Effector','Memory','Location','NorthEast')
   
 % plots of initial and final PNEM-distributions    
-    figure
-    plot((1:Pdim1),Pplot(229,:))
+%     figure
+%     plot((1:Pdim1),Pplot(229,:))
 %    axis([0 Pdim1 0 12])
     
 %     figure

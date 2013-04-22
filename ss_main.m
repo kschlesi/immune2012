@@ -9,8 +9,8 @@ global lambdas1D gammas1D tgone mrates ;
 days = 20;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 18;
-basecode = 'qstep';
+runnum = 3;
+basecode = 'rhose';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop datapath
@@ -35,9 +35,9 @@ de_ = 0.35;
 k_ = 10^5;
 f_ = 0.1;
 c = 2;
-chi_ = 100;
+chi_ = 10;
 Qstep = 0.1;
-b = 25;
+b = 10;
 beta_ = NaN; 
 eps_ = 4; 
 mu_ = 1;
@@ -92,7 +92,7 @@ dlmwrite(Mfilename,transpose(M0));
 
 
 % integrating diffeqs in time with a FOR LOOP
-options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,Pdim1));
+options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_));
 tspan = (t0:stepsize:days);
 n_ts = 1;
 nstops = 0;
@@ -101,7 +101,7 @@ tgone = 0;
 mrates = eye(Pdim1);
 while (contin)
     
-    % integrate until jth event...(or days)
+    % integrate until 'stopper' event...(or days)
     [ts_vec,y_out] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),tspan,y0,options);
         
     % add new internal steps to overall n_ts
@@ -109,10 +109,10 @@ while (contin)
     n_ts = n_ts + size(ts_vec,1)-1;
     nstops = nstops + 1;
     
-    % implement one-cell cutoff for all P
-    for pcount=1:Pdim1
-        if(y_out(end,pcount)<=mu_)
-            y_out(end,pcount)=0;
+    % implement one-cell cutoff for all PNEM
+    for count=1:size(y_out,2)
+        if(y_out(end,count)<=mu_)
+            y_out(end,count)=0;
         end
     end
         
@@ -129,19 +129,19 @@ while (contin)
     dlmwrite(Efilename,E_out,'-append');
     dlmwrite(Mfilename,M_out,'-append');    
     
-    % set new initial conditions
+    % set new initial conditions for resuming while loop integration
     t0 = ts_vec(end);
     tspan = (t0:stepsize:days);
     y0 = y_out(end,:);
     
-    if(t0>=days-stepsize) % if within one stepsize of final days
-        tspan = [t0,days];
+    if(t0>=days-stepsize)  % if within one stepsize of final days
+        tspan = [t0,days]; % reset tspan to default steps
     end
     
-    if(t0>=days) % check stopping condition
-        contin = 0;
-        tend = cell(1,3);
-        tend{1,1} = 'days';
+    if(t0>=days) % check stopping condition; if days reached
+        contin = 0;                         % end while loop
+        tend = cell(1,3);                   % create cell of final 'days'
+        tend{1,1} = 'days';                 % and write it to paramfile
         tend{1,2} = t0;
         tend{1,3} = 'days';
         cell2csv(afilename,tend,1); % appends cell line 'tend' to paramsfile
@@ -155,13 +155,3 @@ end
     
     figure
     plot((1:1:Pdim1),P_out(end,:))
-    
-% 
-% 
-% 
-%     Ptot = sum(P_out,2);
-%     Ntot = sum(N_out,2);
-%     Etot = sum(E_out,2);
-%     Mtot = sum(M_out,2);
-%     figure
-%    semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)
