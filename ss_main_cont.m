@@ -2,8 +2,8 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton mrates ;
-global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep gammas1D lambdas1D;
+global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton nrandon mrates Gamma_ ;
+global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
 days = 2;        % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
@@ -77,6 +77,7 @@ n_ts = old_ts;
 contin = 1;
 nstops = 0;
 tgone = t0;
+ntgone = t0;
 while (contin)
     
     % integrate until jth event... (or days)

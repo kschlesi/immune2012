@@ -4,7 +4,7 @@
 clear
 
 global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton ;
-global lambdas1D gammas1D tgone mrates ;
+global lambdas1D gammas1D tgone ntgone Nstep nrandon Gamma_ mrates ;
 
 days = 10;
 stepsize = 0.1; % size of steps at which to save
@@ -36,7 +36,9 @@ k_ = 10^5;
 f_ = 0.1;
 c = 2;
 chi_ = 10;
+Gamma_ = 0.1;
 Qstep = 0.1;
+Nstep = 0.1;
 b = 10;
 beta_ = NaN; 
 eps_ = 4; 
@@ -45,6 +47,7 @@ dh_ = 5*10^-7;
 K_ = 10^10;
 capon = 1;
 hsaton = 1;
+nrandon = 1;
 
 % dimensions of 1D shape space
 Pdim1 = 400;
@@ -81,7 +84,8 @@ R_ = Ldim1*N0density;
 
 %%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%
 % saving/writing params to paramfile
-a0 = [r_;h_;sigma_;de_;k_;f_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;Pdim1;Ldim1;x0;chi_;Qstep];
+a0 = [r_;h_;sigma_;de_;k_;f_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;Nstep;nrandon];
 writeparams(afilename,a0); % creates paramfile for run; returns error if file already exists
 
 % creating initial conditions vector
@@ -102,6 +106,7 @@ n_ts = 1;
 nstops = 0;
 contin = 1;
 tgone = 0;
+ntgone = 0;
 mrates = eye(Pdim1);
 while (contin)
     
