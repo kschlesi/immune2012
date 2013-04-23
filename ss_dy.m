@@ -80,7 +80,9 @@ Pofy = zeros(Ldim1,1);
         Pofy(j)= sum(P.*squeeze(gammas1D(:,j)));
     end
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy);
-dN = -sigma_.*N.*satfunc - dh_.*Hsat.*N;
+%Nflux = unifrndpop(Ldim1,Gamma_,0);
+Nflux = 0;
+dN = Nflux - sigma_.*N.*satfunc - dh_.*Hsat.*N;
 dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,1)-satfunc) - dh_.*Hsat.*E;
 dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc) - sigma_.*M.*satfunc - dh_.*Hsat.*M;
 

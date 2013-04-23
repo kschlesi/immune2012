@@ -5,12 +5,12 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton mrates ;
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep gammas1D lambdas1D;
 
-days = 1000;        % new days to append to file
+days = 2;        % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % file to which new days will be appended
-runnum = 16;
-basecode = 'qstep';
+runnum = 2;
+basecode = 'naive';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA
 datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
 %datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\'; %laptop
@@ -31,7 +31,7 @@ end
 params = setparams(afilename);
 olddays = params{end,2};    % days already run & saved in file
 
-% gammas & lambdas
+% gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
 lambdas1D = zeros(Pdim1,1);
 for i=1:Pdim1;
@@ -70,16 +70,13 @@ M0 = shiftdim(M0in(old_ts,:),1);
 t0 = t0in(end);
 y0 = [P0;N0;E0;M0];
 
-% plotting initial conitions
-    % figure
-    % semilogy((1:Pdim1+3*Ldim1),(shiftdim(y0)))
-
 % integrating diffeqs in time with a FOR LOOP
 tspan = (t0:stepsize:days+olddays);
 options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,Pdim1));
 n_ts = old_ts;
 contin = 1;
 nstops = 0;
+tgone = t0;
 while (contin)
     
     % integrate until jth event... (or days)

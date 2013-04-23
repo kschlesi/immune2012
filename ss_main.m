@@ -9,7 +9,7 @@ global lambdas1D gammas1D tgone mrates ;
 days = 10;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = ;
+runnum = 2;
 basecode = 'naive';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
@@ -73,10 +73,10 @@ P0(4:8) = 3;
 % end
 N0density = 3;
 %N0 = N0density.*ones(Ldim1,1);
-N0 = unifrndpop(Ldim1,N0density,(N0density-mu_)*2);
+N0 = unifrndpop(Ldim1,N0density,mu_);
 E0 = zeros(Ldim1,1);
 M0 = zeros(Ldim1,1);
-R_ = Pdim1*N0density;
+R_ = Ldim1*N0density;
 
 
 %%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%
