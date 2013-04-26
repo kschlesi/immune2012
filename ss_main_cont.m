@@ -5,11 +5,11 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton nrandon mrates Gamma_ ;
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
-days = 2;        % new days to append to file
+days = 300;        % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % file to which new days will be appended
-runnum = 2;
+runnum = 7;
 basecode = 'naive';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA
 datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive

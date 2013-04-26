@@ -6,10 +6,10 @@ clear
 global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton ;
 global lambdas1D gammas1D tgone ntgone Nstep nrandon Gamma_ mrates ;
 
-days = 10;
+days = 15;
 stepsize = 0.1; % size of steps at which to save
 
-runnum = 2;
+runnum = 7;
 basecode = 'naive';
 %datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
 datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
@@ -36,9 +36,9 @@ k_ = 10^5;
 f_ = 0.1;
 c = 2;
 chi_ = 10;
-Gamma_ = 0.1;
+Gamma_ = 3;
 Qstep = 0.1;
-Nstep = 0.1;
+Nstep = 5;
 b = 10;
 beta_ = NaN; 
 eps_ = 4; 
@@ -47,7 +47,7 @@ dh_ = 5*10^-7;
 K_ = 10^10;
 capon = 1;
 hsaton = 1;
-nrandon = 1;
+nrandon = 0;
 
 % dimensions of 1D shape space
 Pdim1 = 400;

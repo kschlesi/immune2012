@@ -1,6 +1,6 @@
 function dy = ss_dy(t,y,Pdim1,Ldim1)
 
-global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ ;
+global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ Gamma_ ;
 global chi_ Qstep tgone Nstep ntgone nrandon capon hsaton mrates ;
 
 % create separate P, N, E, M vectors
