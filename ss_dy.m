@@ -1,7 +1,7 @@
 function dy = ss_dy(t,y,Pdim1,Ldim1)
 
-global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ ;
-global chi_ Qstep tgone capon hsaton mrates ;
+global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ Gamma_ ;
+global chi_ Qstep tgone Nstep ntgone nrandon capon hsaton mrates ;
 
 % create separate P, N, E, M vectors
 P = y(1:Pdim1);
@@ -80,8 +80,13 @@ Pofy = zeros(Ldim1,1);
         Pofy(j)= sum(P.*squeeze(gammas1D(:,j)));
     end
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy);
-%Nflux = unifrndpop(Ldim1,Gamma_,0);
-Nflux = 0;
+Nflux = Gamma_;
+if(nrandon)
+    if (ntgone-t)>=Nstep
+        Nflux = unifrndpop(Ldim1,Gamma_,mu_);
+        ntgone = t;
+    end
+end
 dN = Nflux - sigma_.*N.*satfunc - dh_.*Hsat.*N;
 dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,1)-satfunc) - dh_.*Hsat.*E;
 dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc) - sigma_.*M.*satfunc - dh_.*Hsat.*M;

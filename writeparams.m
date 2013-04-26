@@ -9,10 +9,11 @@ function writeparams(afilename,a0)
 %                        - set global parameter from pmatrix in setparams
 
 paramnames = {'r_';'h_';'sigma_';'de_';'k_';'f_';'c';'b';'beta_';'eps_';'mu_';...
-    'dh_';'K_';'R_';'capon';'hsaton';'Pdim1';'Ldim1';'x0';'chi_';'Qstep'};
+    'dh_';'K_';'R_';'capon';'hsaton';'Pdim1';'Ldim1';'x0';'chi_';'Qstep';...
+    'Gamma_';'Nstep';'nrandon'};
 paramunits = {'day^(-1)';'\mul/cell/day';'day^(-1)';'day^(-1)';'cell/\mul';'--';'--';...
     'sites';'sites';'sites';'cell/site';'day^(-1)';'cell/\mul';'cell/\mul';'--';'--';...
-    'sites';'sites';'--';'--';'days'};
+    'sites';'sites';'--';'--';'days';'cell/site/day';'days';'--'};
 pmatrix = cell(size(a0,1),3); %index: row = parameter; 3 columns (name, number, units)
 for i=1:size(a0,1)
     pmatrix{i,1} = paramnames{i};
