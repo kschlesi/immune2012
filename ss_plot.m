@@ -7,10 +7,9 @@ global b eps_ mu_ k_ Pdim1 Ldim1 ;
 
 runnum = 3;
 basecode = 'rhose';
-%datapath = 'C:\Documents and Settings\kimberly\Desktop\MATLAB\immune2012_data\'; %MOTHRA datapath
-datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\'];%NEW laptop Gdrive
-%datapath = 'C:\Users\Kimberly\dropbox\research\MATLAB\immune2012_data\';%laptop
-%datapath = 'C:\Users\Kimberly\Desktop\Complex Systems\immune2012_data\'; %M-l transplant
+datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
+    'Google Drive\immunedata\' basecode '\']; %MOTHRA datapath
+%datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\']; %laptop datapath
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
