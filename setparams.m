@@ -5,7 +5,7 @@ function pmatrix = setparams(afilename)
 % [name(str), value(num), units(str)] in each parameter row.
 
 global r_ h_ sigma_ de_ k_ f_ c b beta_ eps_ mu_ dh_ K_ nrandon ;
-global R_ chi_ capon Qstep hsaton Pdim1 Ldim1 x0 Gamma_ Nstep ;
+global R_ chi_ capon Qstep hsaton Pdim1 Ldim1 x0 Gamma_ Nstep delta_ ;
 
 fid = fopen(afilename,'r');
 C = textscan(fid,'%s %n %s','delimiter',',');
@@ -42,6 +42,7 @@ Qstep = pmatrix{21,2};
 Gamma_ = pmatrix{22,2};
 Nstep = pmatrix{23,2};
 nrandon = pmatrix{24,2};
+delta_ = pmatrix{25,2};
 
 fclose(fid);
 

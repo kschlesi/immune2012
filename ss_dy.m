@@ -1,7 +1,7 @@
 function dy = ss_dy(t,y,Pdim1,Ldim1)
 
 global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ Gamma_ ;
-global chi_ Qstep tgone Nstep ntgone nrandon capon hsaton mrates ;
+global chi_ Qstep tgone Nstep ntgone nrandon capon hsaton mrates delta_ ;
 
 % create separate P, N, E, M vectors
 P = y(1:Pdim1);
@@ -89,7 +89,7 @@ if(nrandon)
         ntgone = t;
     end
 end
-dN = Nflux - sigma_.*N.*satfunc - dh_.*Hsat.*N;
+dN = Nflux - delta_.*N - sigma_.*N.*satfunc - dh_.*Hsat.*N;
 dE = sigma_.*(2*N + E + 2*M).*satfunc - de_.*E.*(ones(Ldim1,1)-satfunc) - dh_.*Hsat.*E;
 dM = f_.*de_.*E.*(ones(Ldim1,1)-satfunc) - sigma_.*M.*satfunc - dh_.*Hsat.*M;
 

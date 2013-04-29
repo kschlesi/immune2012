@@ -3,13 +3,13 @@
 clear
 
 global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 dh_ ;
-global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ ;
+global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ delta_ ;
 
-runnum = 6;
+runnum = 8;
 basecode = 'naive';
-datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
-    'Google Drive\immunedata\' basecode '\']; %MOTHRA datapath
-%datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\']; %laptop datapath
+%datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
+%    'Google Drive\immunedata\' basecode '\']; %MOTHRA datapath
+datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\']; %laptop datapath
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -124,10 +124,10 @@ end
     semilogy(tplot,Ptot,tplot,Ntot+Mtot+Etot,tplot,Ntot,tplot,Etot,tplot,Mtot)
     axis([0 days 1 10^10])
     title('Single-Infection Cell Populations, no mutation')%\phi = ' num2str(beta_)])
-    title(['Single-Infection Cell Populations, \epsilon = ' num2str(eps_)])
+    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
-    legend('Pathogen','All Lymphocytes','Naive','Effector','Memory','Location','NorthEast')
+    legend('Pathogen','All Lymphocytes','Naive','Effector','Memory','Location','NorthWest')
   
 % plots of initial and final PNEM-distributions    
 %     figure

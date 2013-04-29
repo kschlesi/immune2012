@@ -2,18 +2,18 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton nrandon mrates Gamma_ ;
+global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton nrandon mrates Gamma_ delta_ ;
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
-days = 300;        % new days to append to file
+days = 50;        % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % file to which new days will be appended
-runnum = 16;
-basecode = 'qstep';
-datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
-    'Google Drive\immunedata\' basecode '\']; %MOTHRA datapath
-%datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\']; %laptop datapath
+runnum = 7;
+basecode = 'naive';
+% datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
+%     'Google Drive\immunedata\' basecode '\']; %MOTHRA datapath
+datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\']; %laptop datapath
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
