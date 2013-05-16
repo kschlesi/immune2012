@@ -2,24 +2,22 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c dh_ capon hsaton nrandon mrates Gamma_ delta_ ;
+global r_ h_ sigma_ k_ c dh_ capon hsaton nrandon mrates Gamma_ delta_ ;
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
-days = 50;        % new days to append to file
+days = 40;        % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % file to which new days will be appended
-runnum = 7;
-basecode = 'naive';
+runnum = ;
+basecode = 'pldyn';
 % datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
-%     'Google Drive\immunedata\' basecode '\']; %MOTHRA datapath
-datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\']; %laptop datapath
-afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
+%     'Google Drive\immunedata\PL\' basecode '\']; %MOTHRA datapath
+datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
+bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
-Nfilename = [datapath 'N' basecode num2str(runnum) '.txt'];
-Efilename = [datapath 'E' basecode num2str(runnum) '.txt'];
-Mfilename = [datapath 'M' basecode num2str(runnum) '.txt'];
+Lfilename = [datapath 'L' basecode num2str(runnum) '.txt'];
 
 % ensuring file existence
 if isequal(exist(tfilename,'file'),0)
@@ -27,7 +25,7 @@ if isequal(exist(tfilename,'file'),0)
 end
 
 % set parameters, read in olddays
-params = setparams(afilename);
+params = setparams(bfilename);
 olddays = params{end,2};    % days already run & saved in file
 
 % gammas & lambdas & mrates
@@ -55,19 +53,14 @@ mrates(1,1) = 1-iloss;
 % initial inoculation in shape space
 t0in = csvread(tfilename);
 P0in = csvread(Pfilename);
-N0in = csvread(Nfilename);
-E0in = csvread(Efilename);
-M0in = csvread(Mfilename);
+L0in = csvread(Lfilename);
 old_ts = size(t0in,1);
 P0 = shiftdim(P0in(old_ts,:),1);
-N0 = shiftdim(N0in(old_ts,:),1);
-E0 = shiftdim(E0in(old_ts,:),1);
-M0 = shiftdim(M0in(old_ts,:),1);
-
+L0 = shiftdim(L0in(old_ts,:),1);
 
 % creating initial conditions vector
 t0 = t0in(end);
-y0 = [P0;N0;E0;M0];
+y0 = [P0;L0];
 
 % integrating diffeqs in time with a FOR LOOP
 tspan = (t0:stepsize:days+olddays);
@@ -99,15 +92,11 @@ while (contin)
    % save & append y-output (leaving out old init condition)
     t_out = ts_vec(2:end);
     P_out = y_out(2:end,1:Pdim1);
-    N_out = y_out(2:end,Pdim1+1:Pdim1+Ldim1);
-    E_out = y_out(2:end,Pdim1+Ldim1+1:Pdim1+2*Ldim1);
-    M_out = y_out(2:end,Pdim1+2*Ldim1+1:end);
+    L_out = y_out(2:end,Pdim1+1:Pdim1+Ldim1);
 
     dlmwrite(tfilename,t_out,'-append');
     dlmwrite(Pfilename,P_out,'-append');
-    dlmwrite(Nfilename,N_out,'-append');
-    dlmwrite(Efilename,E_out,'-append');
-    dlmwrite(Mfilename,M_out,'-append'); 
+    dlmwrite(Lfilename,L_out,'-append');
     
     % set new initial conditions
     t0 = ts_vec(end);
@@ -137,10 +126,3 @@ end
     figure
     Pfin = squeeze(P_out(end,:));
     plot((1:1:Pdim1),Pfin)
-    
-%     Ptot = sum(P_out,2);
-%     Ntot = sum(N_out,2);
-%     Etot = sum(E_out,2);
-%     Mtot = sum(M_out,2);
-%     figure
-%     semilogy(ts_vec(2:end),Ptot,ts_vec(2:end),Ntot+Mtot+Etot)

@@ -2,14 +2,14 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ c beta_ chi_ Qstep x0 dh_ ;
+global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ ;
 global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ delta_ ;
 
-runnum = 8;
+runnum = 12;
 basecode = 'naive';
-%datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
-%    'Google Drive\immunedata\' basecode '\']; %MOTHRA datapath
-datapath = ['C:\Users\Kimberly\Google Drive\immunedata\' basecode '\']; %laptop datapath
+% datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
+%     'Google Drive\immunedata\PL\' basecode '\']; %MOTHRA datapath
+datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
 afilename = [datapath 'a' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -202,8 +202,6 @@ end
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
     colorbar('Location','EastOutside')
-    size(Nplot)
-    Nplot(250,50)
     
     figure
     surf(Xaxis,Yaxis,transpose(Elog),'EdgeColor','none')

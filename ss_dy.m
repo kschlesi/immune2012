@@ -1,13 +1,11 @@
 function dy = ss_dy(t,y,Pdim1,Ldim1)
 
-global r_ h_ sigma_ de_ f_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ Gamma_ ;
+global r_ h_ sigma_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ Gamma_ ;
 global chi_ Qstep tgone Nstep ntgone nrandon capon hsaton mrates delta_ ;
 
-% create separate P, N, E, M vectors
+% create separate P, L vectors
 P = y(1:Pdim1);
-N = y(Pdim1+1:Pdim1+Ldim1);
-E = y(Pdim1+Ldim1+1:Pdim1+2*Ldim1);
-M = y(Pdim1+2*Ldim1+1:end);
+L = y(Pdim1+1:Pdim1+Ldim1);
 
 % create stochastic mutation matrix (size Pdim1 x Pdim1)
 % (matrix is symmetric, and all rows sum to 1)
