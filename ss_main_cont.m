@@ -2,14 +2,14 @@
 
 clear
 
-global r_ h_ sigma_ k_ c dh_ capon hsaton nrandon mrates Gamma_ delta_ ;
+global r_ h_ sigma_ k_ c dh_ capon hsaton nrandon mrates Gamma_ delta_ muton ;
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
-days = 40;        % new days to append to file
+days = 50;        % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % file to which new days will be appended
-runnum = ;
+runnum = 3;
 basecode = 'pldyn';
 % datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
 %     'Google Drive\immunedata\PL\' basecode '\']; %MOTHRA datapath
@@ -38,7 +38,8 @@ for i=1:Pdim1;
     end
 end
 
-mrates = zeros(Pdim1,Pdim1);
+mrates = eye(Pdim1,Pdim1);
+if (muton)
     for i=2:Pdim1
         for j=1:i-1
             mrates(i,j) = (1/Pdim1)*abs(randn/(i-j)^c)/chi_;
@@ -49,6 +50,7 @@ mrates = zeros(Pdim1,Pdim1);
     end
 iloss = sum(mrates(1,:));
 mrates(1,1) = 1-iloss;
+end
 
 % initial inoculation in shape space
 t0in = csvread(tfilename);
@@ -113,7 +115,7 @@ while (contin)
        tend{1,1} = 'days';
        tend{1,2} = t0;
        tend{1,3} = 'days';
-       cell2csv(afilename,tend,1); % appends cell line 'tend' to paramsfile
+       cell2csv(bfilename,tend,1); % appends cell line 'tend' to paramsfile
     end
 
 end

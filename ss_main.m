@@ -3,7 +3,7 @@
 
 clear
 
-global r_ h_ sigma_ de_ f_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton ;
+global r_ h_ sigma_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton muton ;
 global lambdas1D gammas1D tgone ntgone Nstep nrandon Gamma_ mrates delta_ ;
 
 days = 10;      % number of days to run simulation
@@ -11,7 +11,7 @@ stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = ;
+runnum = 3;
 basecode = 'pldyn';
 % datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
 %     'Google Drive\immunedata\PL\' basecode '\']; %MOTHRA datapath
@@ -46,6 +46,7 @@ K_ = 10^10;         % pathogen carrying capacity
 capon = 1;          % switches on/off pathogen carrying capacity
 hsaton = 1;         % switches on/off lymphocyte constraint
 nrandon = 0;        % switches on/off shuffling of naive cell distribution
+muton = 0;          % switches on/off pathogen mutation 
 
 % dimensions of 1D shape space
 Pdim1 = 400;        % sites in pathogen shape space
@@ -65,7 +66,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%% setting initial configurations %%%%%%%%%%%%%%%%%%%%%%%
 P0 = zeros(Pdim1,1);    % initial pathogen inoculation  
-P0(4:8) = 3;    
+P0(60:60) = 5*10^3;    
 % % initial gaussian distribution of pathogen
 % P0 = zeros(Pdim1,1);
 % for i=1:Pdim1;
@@ -73,14 +74,16 @@ P0(4:8) = 3;
 % end
 L0density = Gamma_/delta_;          % initial naive cell mean density
 %N0 = N0density.*ones(Ldim1,1);
-L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
+%L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
+L0 = zeros(Ldim1,1);
+L0(54:63) = 3*10^4;
 R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint applies
 
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;Nstep;nrandon;delta_];
+    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;Nstep;nrandon;delta_;muton];
 writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 
 % creating & saving initial conditions vector
@@ -147,7 +150,7 @@ while (contin)
         tend{1,1} = 'days';                 % and write it to paramfile
         tend{1,2} = t0;
         tend{1,3} = 'days';
-        cell2csv(afilename,tend,1); % appends cell line 'tend' to paramsfile
+        cell2csv(bfilename,tend,1); % appends cell line 'tend' to paramsfile
     end
 
 end
