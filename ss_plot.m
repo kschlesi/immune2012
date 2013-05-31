@@ -104,19 +104,19 @@ for i=1:size(Lplot,1)
     end
 end
 
-days = 900;
+days = 50;
 
-%plot of total pathogen v. total lymphocyte population
-    Ptot = sum(Pplot,2);
-    Ltot = sum(Lplot,2);
-    figure
-    semilogy(tplot,Ptot,tplot,Ltot)
-    axis([0 days 1 10^10])
-    title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
-%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
-    xlabel('duration of infection (days)')
-    ylabel('total population (cells)')
-    legend('Pathogen','Lymphocytes','Location','NorthWest')
+% %plot of total pathogen v. total lymphocyte population
+%     Ptot = sum(Pplot,2);
+%     Ltot = sum(Lplot,2);
+%     figure
+%     semilogy(tplot,Ptot,tplot,Ltot)
+%     axis([0 days 1 10^10])
+%     title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
+% %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
+%     xlabel('duration of infection (days)')
+%     ylabel('total population (cells)')
+%     legend('Pathogen','Lymphocytes','Location','NorthWest')
     
 %     figure
 %     plot((1:1:size(tplot,1)),tplot)
@@ -177,7 +177,7 @@ days = 900;
     Yaxis = (1:1:Pdim1);
     figure
     surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
-    axis([0 days 0 Ldim1])
+    axis([0 days 0 100])
     title(['Pathogen Evolution in Shape Space, with mutation' '(color on log scale)'])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
@@ -194,7 +194,7 @@ days = 900;
     Yaxis = (1:1:Ldim1);
     figure
     surf(Xaxis,Yaxis,transpose(Llog),'EdgeColor','none')
-    axis([0 days 0 400])
+    axis([0 days 0 100])
     title(['Lymphocyte Evolution in Shape Space, with mutation' '(color on log scale)'])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
