@@ -1,6 +1,11 @@
 immune2012
 =========
 
+updated 5/31/2012:
+new branch PLdynamics has been created to allow runs
+with simplified diffeqs and only two types of cells;
+new paramfiles use 'bfilename'
+
 updated 3/26/2013:
 at this point, parameter files have been created
 for all runs with _dy set at oldc/10. this includes
