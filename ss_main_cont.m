@@ -11,9 +11,8 @@ stepsize = 0.1;  % size of steps at which to save
 % file to which new days will be appended
 runnum = 3;
 basecode = 'pldyn';
-% datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
-%     'Google Drive\immunedata\PL\' basecode '\']; %MOTHRA datapath
-datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
+% datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
