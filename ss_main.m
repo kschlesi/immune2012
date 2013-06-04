@@ -44,14 +44,14 @@ mu_ = 1;            % minimum cell-per-site density
 dh_ = 5*10^-7;      % coefficient of overall lymphocyte constraint
 K_ = 10^10;         % pathogen carrying capacity
 capon = 1;          % switches on/off pathogen carrying capacity
-hsaton = 1;         % switches on/off lymphocyte constraint
+hsaton = 0;         % switches on/off lymphocyte constraint
 nrandon = 0;        % switches on/off shuffling of naive cell distribution
-muton = 0;          % switches on/off pathogen mutation 
+muton = 1;          % switches on/off pathogen mutation 
 
 % dimensions of 1D shape space
 Pdim1 = 400;        % sites in pathogen shape space
 Ldim1 = 400;        % sites in lymphocyte shape space
-x0 = 6;             % location of original pathogen inoculation
+x0 = 200;             % location of original pathogen inoculation
 
 % affinity and fitness information
 gammas1D = zeros(Pdim1,Ldim1);  % matrix of affinities
@@ -67,7 +67,7 @@ mrates = eye(Pdim1);    % initial mutation matrix: no mutation
 
 %%%%%%%%%%%%%%%%%%%% setting initial configurations %%%%%%%%%%%%%%%%%%%%%%%
 P0 = zeros(Pdim1,1);    % initial pathogen inoculation  
-P0(60:60) = 5*10^3;    
+P0(x0) = 10;    
 % % initial gaussian distribution of pathogen
 % P0 = zeros(Pdim1,1);
 % for i=1:Pdim1;
@@ -77,7 +77,7 @@ L0density = Gamma_/delta_;          % initial naive cell mean density
 %N0 = N0density.*ones(Ldim1,1);
 %L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
 L0 = zeros(Ldim1,1);
-L0(54:63) = 3*10^4;
+%L0(54:63) = 3*10^4;
 R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint applies
 
 
