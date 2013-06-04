@@ -15,6 +15,7 @@ runnum = 3;
 basecode = 'pldyn';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 % datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
+
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -61,6 +62,7 @@ for i=1:Pdim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end
 end
+mrates = eye(Pdim1);    % initial mutation matrix: no mutation
 
 
 %%%%%%%%%%%%%%%%%%%% setting initial configurations %%%%%%%%%%%%%%%%%%%%%%%
@@ -103,7 +105,6 @@ nstops = 0;     % counts number of interruptions
 contin = 1;     % while loop parameter
 tgone = 0;      % keeps track of most recent mutation matrix generation time 
 ntgone = 0;     % keeps track of most recent naive cell redistribution time
-mrates = eye(Pdim1);    % initial mutation matrix: no mutation
 
 while (contin)
     
