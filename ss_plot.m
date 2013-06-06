@@ -103,24 +103,23 @@ for i=1:size(Lplot,1)
     end
 end
 
-
-%plot of total pathogen v. total lymphocyte population
-    Ptot = sum(Pplot,2);
-    Ltot = sum(Lplot,2);
-    figure
-    semilogy(tplot,Ptot,tplot,Ltot)
-    axis([0 days 1 10^10])
-    title('Single-Infection Cell Populations, no mutation')%\phi = ' num2str(beta_)])
-    title(['Single-Infection Cell Populations, b = ' num2str(b)])
-    xlabel('duration of infection (days)')
-    ylabel('total population (cells)')
-    legend('Pathogen','Lymphocytes','Location','NorthWest')
+% %plot of total pathogen v. total lymphocyte population
+%     Ptot = sum(Pplot,2);
+%     Ltot = sum(Lplot,2);
+%     figure
+%     semilogy(tplot,Ptot,tplot,Ltot)
+%     axis([0 days 1 10^10])
+%     title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
+% %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
+%     xlabel('duration of infection (days)')
+%     ylabel('total population (cells)')
+%     legend('Pathogen','Lymphocytes','Location','NorthWest')
     
-    figure
-    plot((1:1:size(tplot,1)),tplot)
+%     figure
+%     plot((1:1:size(tplot,1)),tplot)
 %     
-%     Ptot(1500)
-%     Ltot(1500)
+%     Ptot(end)
+%     Ltot(end)
 %   
 %     figure
 %     plot((1:1:Ldim1),Lplot(1500,:))
@@ -131,16 +130,16 @@ end
 %     figure
 %     plot((1:Pdim1),Pplot(end,:))
 
-    figure 
-    plot((1:Ldim1),Lplot(1,:))
-
-    figure 
-    plot((1:Ldim1),Lplot(end,:))
-
-    Ltot(1)/Ldim1
-    Ltot(end)/Ldim1
-    Gamma_/delta_
+%     figure 
+%     plot((1:Ldim1),Lplot(1,:))
 % 
+%     figure 
+%     plot((1:Ldim1),Lplot(end,:))
+% 
+%     Ltot(1)/Ldim1
+%     Ltot(end)/Ldim1
+%     Gamma_/delta_
+ 
 % plot of Psat over time (size = n_ts x Ldim1)
 %     Pofy = zeros(n_ts,Ldim1);
 %         for j = 1:Ldim1
@@ -175,11 +174,12 @@ end
     Yaxis = (1:1:Pdim1);
     figure
     surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
-    axis([0 days 0 Ldim1])
-    title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ' (color on log scale)'])
+    axis([0 days 0 100])
+    title(['Pathogen Evolution in Shape Space, with mutation' '(color on log scale)'])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
-% %     v = [ mu_ 1 ];
+    colorbar('Location','EastOutside')
+    % %     v = [ mu_ 1 ];
 % %     figure
 % %     contourf(Xaxis,Yaxis,transpose(Pplot),v)
 % %     axis([0 days 0 Pdim1])
@@ -191,8 +191,8 @@ end
     Yaxis = (1:1:Ldim1);
     figure
     surf(Xaxis,Yaxis,transpose(Llog),'EdgeColor','none')
-    axis([0 days 0 400])
-    title(['Lymphocyte Evolution in Shape Space, \epsilon = ' num2str(eps_) ', color on log scale'])
+    axis([0 days 0 100])
+    title(['Lymphocyte Evolution in Shape Space, with mutation' '(color on log scale)'])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
     colorbar('Location','EastOutside')
