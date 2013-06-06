@@ -5,7 +5,7 @@ clear
 global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ muton ;
 global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ delta_ ;
 
-runnum = 1;
+runnum = 3;
 basecode = 'pldyn';
 % datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
 %     'Google Drive\immunedata\PL\' basecode '\']; %MOTHRA datapath
@@ -103,8 +103,6 @@ for i=1:size(Lplot,1)
         end
     end
 end
-
-days = 50;
 
 % %plot of total pathogen v. total lymphocyte population
 %     Ptot = sum(Pplot,2);

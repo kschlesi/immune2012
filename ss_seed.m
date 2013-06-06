@@ -4,23 +4,23 @@
 % t1, using the paramfile of PR2, and run it until final time of 'days'+t1
 
 clear
-global r_ h_ sigma_ k_ c dh_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
+global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 beta_ = NaN;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'pldyn1';  % run from which initial condition is drawn
-PR2 = 'pldyn1';  % run whose paramfile to use
-t1 = 50;          % time in PR1 to use for initial condition; number or 'end'
-days = 50;       % new days to append to file
+PR1 = 'pldyn4';  % run from which initial condition is drawn
+PR2 = 'pldyn4';  % run whose paramfile to use
+t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
+days = 10;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
 runnum = 4;
 basecode = 'pldyn';
-isnew = 1;
+isnew = 0;
 %datapath = '/Users/kimberly/Google Drive/immunedata/PL/'; %KONG datapath
-datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\']; %laptop datapath
+datapath = 'C:\Users\Kimberly\Google Drive\immunedata\PL\'; %laptop datapath
 bfilename = [datapath basecode '\b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath basecode '\t' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath basecode '\P' basecode num2str(runnum) '.txt'];
@@ -107,15 +107,15 @@ else
     t0index = size(oldtimes,1);
 end
 t0 = oldtimes(t0index);
-P0 = csvread(P0filename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]);
-L0 = csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]);
+P0 = transpose(csvread(P0filename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
+L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
 
 figure    % plot of P0 and L0 distributions at t0
 hold on
 hold all
 plot((1:1:400),P0)
 plot((1:1:400),L0)
-title(['P0 and L0 seeding distributions at t = ' num2str(t0) ' days'])
+title(['P0 and L0 seeding distributions at t = ' num2str(olddays) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
@@ -129,7 +129,9 @@ legend('Pathogen','Lymphocytes')
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;...
     Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;Nstep;nrandon;delta_;muton];
-writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
+if isnew
+    writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
+end
 
 % creating & saving initial conditions vector
 y0 = [P0;L0];
@@ -203,8 +205,8 @@ end
 figure    % plot of P0 and L0 distributions at days+olddays
 hold on
 hold all
-plot((1:1:400),P_out(end,:))
-plot((1:1:400),L_out(end,:))
+plot((1:1:400),squeeze(P_out(end,:)))
+plot((1:1:400),squeeze(L_out(end,:)))
 title(['P0 and L0 distributions at t = ' num2str(ts_vec(end)) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
