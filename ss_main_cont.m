@@ -66,7 +66,7 @@ y0 = [P0;L0];
 
 % integrating diffeqs in time with a FOR LOOP
 tspan = (t0:stepsize:days+olddays);
-options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,Pdim1));
+options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_));
 n_ts = old_ts;
 contin = 1;
 nstops = 0;
