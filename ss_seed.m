@@ -83,19 +83,9 @@ for i=1:Pdim1;
         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
     end
 end
-
 mrates = eye(Pdim1,Pdim1);
 if (muton)
-    for i=2:Pdim1
-        for j=1:i-1
-            mrates(i,j) = (1/Pdim1)*abs(randn/(i-j)^c)/chi_;
-            mrates(j,i) = mrates(i,j);
-        end
-        iloss = sum(mrates(i,:));
-        mrates(i,i) = 1-iloss;
-    end
-iloss = sum(mrates(1,:));
-mrates(1,1) = 1-iloss;
+    mrates = Qmatrix(Pdim1,chi_,c);
 end
 
 % read in initial conditions (t1 from P/L0filename)
