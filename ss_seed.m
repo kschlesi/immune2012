@@ -9,16 +9,16 @@ global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1
 beta_ = NaN;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'pldyn4';  % run from which initial condition is drawn
-PR2 = 'pldyn4';  % run whose paramfile to use
-t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 10;       % new days to append to file
+PR1 = 'pldyn1';  % run from which initial condition is drawn
+PR2 = 'pldyn1';  % run whose paramfile to use
+t1 = 100;      % time in PR1 to use for initial condition; number or 'end'
+days = 5;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 4;
+runnum = 1.2;
 basecode = 'pldyn';
-isnew = 0;
+isnew = 1;
 %datapath = '/Users/kimberly/Google Drive/immunedata/PL/'; %KONG datapath
 datapath = 'C:\Users\Kimberly\Google Drive\immunedata\PL\'; %laptop datapath
 bfilename = [datapath basecode '\b' basecode num2str(runnum) '.txt'];
@@ -100,6 +100,12 @@ t0 = oldtimes(t0index);
 P0 = transpose(csvread(P0filename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
 L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
 
+% modifying initial conditions vector (new infection?)
+P0_add = zeros(size(P0));
+P0_add(300:301) = 2;
+P0 = P0 + P0_add;
+
+
 figure    % plot of P0 and L0 distributions at t0
 hold on
 hold all
@@ -109,10 +115,6 @@ title(['P0 and L0 seeding distributions at t = ' num2str(olddays) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
-
-
-% modifying initial conditions vector (new infection?)
-
 
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
