@@ -63,29 +63,30 @@ end
 % ylabel('value of affinity and fitness factors')
 % legend('Affinity \gamma(x,x_0)','Fitness \lambda(x)','Location','Northwest')
 % 
-% % plot of lambdas_ for several eps_ values
-% epsvec_ = [1;5;15;25];
-% lambdasvec_ = zeros(Pdim1,size(epsvec_,1));
-% M = cell(size(epsvec_,1),1);
-% for i=1:Pdim1;
-%     for j=1:size(epsvec_,1)
-%         lambdasvec_(i,j) = 1 - (2*epsvec_(j))/(Pdim1 + 2*epsvec_(j) - abs(Pdim1-2*i));
-%     end
-% end
-% 
-% figure
-% for i=1:size(epsvec_,1)
-%     size(lambdasvec_(i,:))
-%     plot((1:Pdim1),lambdasvec_(:,i));
-%     hold on;
-%     hold all;
-%     M{i} = ['\epsilon = ' num2str(Pdim1-epsvec_(i))];
-% end
-% title('Fitness Landscape \lambda(x)')
-% xlabel('position in shape space (site)')
-% %ylabel('value of affinity and fitness factors')
-% ylabel('value of fitness function')
-% legend(M{1},M{2},M{3},M{4},'Location','SouthEast')
+% plot of lambdas_ for several eps_ values
+epsvec_ = [1;4;15;25];
+lambdasvec_ = zeros(Pdim1,size(epsvec_,1));
+M = cell(size(epsvec_,1),1);
+for i=1:Pdim1;
+    for j=1:size(epsvec_,1)
+        lambdasvec_(i,j) = 1 - (2*epsvec_(j))/(Pdim1 + 2*epsvec_(j) - abs(Pdim1-2*i));
+    end
+end
+
+figure
+for i=1:size(epsvec_,1)
+    size(lambdasvec_(i,:))
+    plot((1:Pdim1),lambdasvec_(:,i));
+    hold on;
+    hold all;
+    M{i} = ['\epsilon = ' num2str((Pdim1-2*epsvec_(i))/Pdim1)];
+end
+axis([1 Pdim1 0 1.1])
+title('Fitness Landscape \lambda(x)')
+xlabel('position in shape space (site)')
+%ylabel('value of affinity and fitness factors')
+ylabel('value of fitness function')
+legend(M{1},M{2},M{3},M{4},'Location','SouthEast')
 
 
 % data and time vector

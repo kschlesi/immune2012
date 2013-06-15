@@ -6,13 +6,13 @@ clear
 global r_ h_ sigma_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton muton ;
 global lambdas1D gammas1D tgone ntgone Nstep nrandon Gamma_ mrates delta_ ;
 
-days = 10;      % number of days to run simulation
+days = 1;      % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 3;
-basecode = 'pldyn';
+runnum = 1.1;
+basecode = 'iloss';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 % datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
 

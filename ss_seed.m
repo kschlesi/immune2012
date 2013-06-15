@@ -11,25 +11,30 @@ beta_ = NaN;
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
 PR1 = 'pldyn1';  % run from which initial condition is drawn
 PR2 = 'pldyn1';  % run whose paramfile to use
-t1 = 100;      % time in PR1 to use for initial condition; number or 'end'
-days = 5;       % new days to append to file
+t1 = 900;      % time in PR1 to use for initial condition; number or 'end'
+days = 3;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 1.2;
-basecode = 'pldyn';
+runnum = 2;
+basecode = 'iloss';
 isnew = 1;
-%datapath = '/Users/kimberly/Google Drive/immunedata/PL/'; %KONG datapath
-datapath = 'C:\Users\Kimberly\Google Drive\immunedata\PL\'; %laptop datapath
-bfilename = [datapath basecode '\b' basecode num2str(runnum) '.txt'];
-tfilename = [datapath basecode '\t' basecode num2str(runnum) '.txt'];
-Pfilename = [datapath basecode '\P' basecode num2str(runnum) '.txt'];
-Lfilename = [datapath basecode '\L' basecode num2str(runnum) '.txt'];
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
+datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR1.*isletter(PR1))) '/']; %KONG datapath
+datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR2.*isletter(PR2))) '/']; %KONG datapath
+%datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
+%datapath1 = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' deblank(char(PR1.*isletter(PR1))) '\']; %laptop datapath
+%datapath2 = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' deblank(char(PR2.*isletter(PR2))) '\']; %laptop datapath
 
-b0filename = [datapath deblank(char(PR2.*isletter(PR2))) '\b' PR2 '.txt'];
-t0filename = [datapath deblank(char(PR1.*isletter(PR1))) '\t' PR1 '.txt'];
-P0filename = [datapath deblank(char(PR1.*isletter(PR1))) '\P' PR1 '.txt'];
-L0filename = [datapath deblank(char(PR1.*isletter(PR1))) '\L' PR1 '.txt'];
+bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
+tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
+Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
+Lfilename = [datapath 'L' basecode num2str(runnum) '.txt'];
+
+b0filename = [datapath2 'b' PR2 '.txt'];
+t0filename = [datapath1 't' PR1 '.txt'];
+P0filename = [datapath1 'P' PR1 '.txt'];
+L0filename = [datapath1 'L' PR1 '.txt'];
 force_cont = 0;
 
 % ensuring no overwrite of existing files
@@ -100,10 +105,10 @@ t0 = oldtimes(t0index);
 P0 = transpose(csvread(P0filename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
 L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
 
-% modifying initial conditions vector (new infection?)
-P0_add = zeros(size(P0));
-P0_add(300:301) = 2;
-P0 = P0 + P0_add;
+% % modifying initial conditions vector (new infection?)
+% P0_add = zeros(size(P0));
+% P0_add(300:301) = 2;
+% P0 = P0 + P0_add;
 
 
 figure    % plot of P0 and L0 distributions at t0
