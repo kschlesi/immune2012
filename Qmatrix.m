@@ -21,7 +21,6 @@ while ~isnormz
         isnormz = 0;
     end
     mrates(1,1) = 1-iloss;
-    isnormz
 end
 
 end
