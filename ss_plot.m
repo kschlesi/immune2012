@@ -2,11 +2,11 @@
 
 clear
 
-global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ muton ;
+global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ muton R_;
 global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ delta_ ;
 
-runnum = 3;
-basecode = 'pldyn';
+runnum = 1;
+basecode = 'nodel';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 % datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -104,17 +104,21 @@ for i=1:size(Lplot,1)
     end
 end
 
-% %plot of total pathogen v. total lymphocyte population
-%     Ptot = sum(Pplot,2);
-%     Ltot = sum(Lplot,2);
-%     figure
-%     semilogy(tplot,Ptot,tplot,Ltot)
-%     axis([0 days 1 10^10])
-%     title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
-% %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
-%     xlabel('duration of infection (days)')
-%     ylabel('total population (cells)')
-%     legend('Pathogen','Lymphocytes','Location','NorthWest')
+%plot of total pathogen v. total lymphocyte population
+    Ptot = sum(Pplot,2);
+    Ltot = sum(Lplot,2);
+    figure
+    semilogy(tplot,Ptot,tplot,Ltot)
+    axis([0 days 1 10^10])
+    title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
+%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
+    xlabel('duration of infection (days)')
+    ylabel('total population (cells)')
+    legend('Pathogen','Lymphocytes','Location','NorthWest')
+    
+    size(Lplot,1)
+    R_/Ldim1
+    Lplot(end,3)
     
 %     figure
 %     plot((1:1:size(tplot,1)),tplot)
@@ -122,9 +126,9 @@ end
 %     Ptot(end)
 %     Ltot(end)
 %   
-%     figure
-%     plot((1:1:Ldim1),Lplot(1500,:))
-%     axis([50 100 0 120000])
+    figure
+    plot((1:1:Ldim1),Lplot(1,:))
+    %axis([50 100 0 120000])
     
 % plots of initial and final PL-distributions    
     

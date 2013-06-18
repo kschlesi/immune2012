@@ -4,15 +4,15 @@
 clear
 
 global r_ h_ sigma_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton muton ;
-global lambdas1D gammas1D tgone ntgone Nstep nrandon Gamma_ mrates delta_ ;
+global lambdas1D gammas1D tgone ntgone Nstep nrandon Gamma_ mrates delta_ beta_;
 
-days = 1;      % number of days to run simulation
+days = 10;      % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 1.1;
-basecode = 'iloss';
+runnum = 1;
+basecode = 'nodel';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 % datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
 
@@ -34,11 +34,11 @@ k_ = 10^5;          % pathogen saturation
 c = 2;              % controls change of mutation prob. with distance
 chi_ = 10;          % strength of mutation probability
 Gamma_ = 4;         % naive influx
-delta_ = 0.35;      % constant naive death rate
+delta_ = 0;         % constant naive death rate
 Qstep = 0.1;        % time-step for regenerating mutation matrix
 Nstep = 5;          % time-step for regeneration naive cell distribution
 b = 10;             % width of Gaussian affinity curve
-beta_ = NaN;        % width of Gaussian fitness landscape
+beta_ = 0;          % width of Gaussian fitness landscape
 eps_ = 4;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
 dh_ = 5*10^-7;      % coefficient of overall lymphocyte constraint
@@ -51,7 +51,7 @@ muton = 0;          % switches on/off pathogen mutation
 % dimensions of 1D shape space
 Pdim1 = 400;        % sites in pathogen shape space
 Ldim1 = 400;        % sites in lymphocyte shape space
-x0 = 6;             % location of original pathogen inoculation
+x0 = 0;             % location of original pathogen inoculation
 
 % affinity and fitness information
 gammas1D = zeros(Pdim1,Ldim1);  % matrix of affinities
@@ -67,18 +67,17 @@ mrates = eye(Pdim1);    % initial mutation matrix: no mutation
 
 %%%%%%%%%%%%%%%%%%%% setting initial configurations %%%%%%%%%%%%%%%%%%%%%%%
 P0 = zeros(Pdim1,1);    % initial pathogen inoculation  
-P0(60:60) = 5*10^3;    
+%P0(60:60) = 5*10^3;    
 % % initial gaussian distribution of pathogen
 % P0 = zeros(Pdim1,1);
 % for i=1:Pdim1;
 %     P0(i) = Pmax0*exp(-1*((i-x0)^2)/(2*Pdiff0^2));
 % end
-L0density = Gamma_/delta_;          % initial naive cell mean density
-%N0 = N0density.*ones(Ldim1,1);
-%L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
-L0 = zeros(Ldim1,1);
-L0(54:63) = 3*10^4;
-R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint applies
+R_ = Gamma_*Ldim1/0.35; % lymphocyte carrying capacity
+L0density = (R_-Gamma_/dh_)/Ldim1;          % initial naive cell mean density
+%L0 = zeros(Ldim1,1);
+L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
+%R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint applies
 
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
