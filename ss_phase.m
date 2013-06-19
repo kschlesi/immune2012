@@ -19,7 +19,7 @@ b2filename = [datapath 'b' basecode num2str(runnum) '.txt'];
 t2filename = [datapath 't' basecode num2str(runnum) '.txt'];
 P2filename = [datapath 'P' basecode num2str(runnum) '.txt'];
 L2filename = [datapath 'L' basecode num2str(runnum) '.txt'];
-runnum = 3;
+runnum = 5;
 b3filename = [datapath 'b' basecode num2str(runnum) '.txt'];
 t3filename = [datapath 't' basecode num2str(runnum) '.txt'];
 P3filename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -100,11 +100,12 @@ end
     
 % phase plot of total pathogen v. total lymphocytes
     figure
-    loglog(P2tot,L2tot)
+    loglog(Ptot,Ltot,'--')
     hold on
     hold all
-    loglog(P3tot,L3tot,'--')
-    loglog(Ptot,Ltot,'--')
-    title(['Phase-plot, ' basecode num2str(runnum)])
-    xlabel('total pathogen')
-    ylabel('total lymphocytes')
+    loglog(P3tot,L3tot,'-.')
+    loglog(P2tot,L2tot)
+    title('Phase-plot dynamics')
+    xlabel('total pathogen density')
+    ylabel('total lymphocyte density')
+    legend('infection (i)','infection (ii)','infecton(iii)')

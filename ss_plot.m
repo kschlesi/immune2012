@@ -5,7 +5,7 @@ clear
 global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ muton ;
 global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ delta_ ;
 
-runnum = 3;
+runnum = 5;
 basecode = 'pldyn';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 % datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
@@ -63,30 +63,30 @@ end
 % ylabel('value of affinity and fitness factors')
 % legend('Affinity \gamma(x,x_0)','Fitness \lambda(x)','Location','Northwest')
 % 
-% plot of lambdas_ for several eps_ values
-epsvec_ = [1;4;15;25];
-lambdasvec_ = zeros(Pdim1,size(epsvec_,1));
-M = cell(size(epsvec_,1),1);
-for i=1:Pdim1;
-    for j=1:size(epsvec_,1)
-        lambdasvec_(i,j) = 1 - (2*epsvec_(j))/(Pdim1 + 2*epsvec_(j) - abs(Pdim1-2*i));
-    end
-end
-
-figure
-for i=1:size(epsvec_,1)
-    size(lambdasvec_(i,:))
-    plot((1:Pdim1),lambdasvec_(:,i));
-    hold on;
-    hold all;
-    M{i} = ['\epsilon = ' num2str((Pdim1-2*epsvec_(i))/Pdim1)];
-end
-axis([1 Pdim1 0 1.1])
-title('Fitness Landscape \lambda(x)')
-xlabel('position in shape space (site)')
-%ylabel('value of affinity and fitness factors')
-ylabel('value of fitness function')
-legend(M{1},M{2},M{3},M{4},'Location','SouthEast')
+% % plot of lambdas_ for several eps_ values
+% epsvec_ = [1;4;15;25];
+% lambdasvec_ = zeros(Pdim1,size(epsvec_,1));
+% M = cell(size(epsvec_,1),1);
+% for i=1:Pdim1;
+%     for j=1:size(epsvec_,1)
+%         lambdasvec_(i,j) = 1 - (2*epsvec_(j))/(Pdim1 + 2*epsvec_(j) - abs(Pdim1-2*i));
+%     end
+% end
+% 
+% figure
+% for i=1:size(epsvec_,1)
+%     size(lambdasvec_(i,:))
+%     plot((1:Pdim1),lambdasvec_(:,i));
+%     hold on;
+%     hold all;
+%     M{i} = ['\epsilon = ' num2str((Pdim1-2*epsvec_(i))/Pdim1)];
+% end
+% axis([1 Pdim1 0 1.1])
+% title('Fitness Landscape \lambda(x)')
+% xlabel('position in shape space (site)')
+% %ylabel('value of affinity and fitness factors')
+% ylabel('value of fitness function')
+% legend(M{1},M{2},M{3},M{4},'Location','SouthEast')
 
 
 % data and time vector
@@ -104,17 +104,17 @@ for i=1:size(Lplot,1)
     end
 end
 
-% %plot of total pathogen v. total lymphocyte population
-%     Ptot = sum(Pplot,2);
-%     Ltot = sum(Lplot,2);
-%     figure
-%     semilogy(tplot,Ptot,tplot,Ltot)
-%     axis([0 days 1 10^10])
-%     title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
-% %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
-%     xlabel('duration of infection (days)')
-%     ylabel('total population (cells)')
-%     legend('Pathogen','Lymphocytes','Location','NorthWest')
+%plot of total pathogen v. total lymphocyte population
+    Ptot = sum(Pplot,2);
+    Ltot = sum(Lplot,2);
+    figure
+    semilogy(tplot,Ptot,tplot,Ltot)
+    axis([0 days 1 10^10])
+    title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
+%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
+    xlabel('duration of infection (days)')
+    ylabel('total population (cells)')
+    legend('Pathogen','Lymphocytes','Location','NorthWest')
     
 %     figure
 %     plot((1:1:size(tplot,1)),tplot)
