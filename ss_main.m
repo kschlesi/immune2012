@@ -11,7 +11,7 @@ stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 1;
+runnum = 2;
 basecode = 'nodel';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 % datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
@@ -73,8 +73,8 @@ P0 = zeros(Pdim1,1);    % initial pathogen inoculation
 % for i=1:Pdim1;
 %     P0(i) = Pmax0*exp(-1*((i-x0)^2)/(2*Pdiff0^2));
 % end
-R_ = Gamma_*Ldim1/0.35; % lymphocyte carrying capacity
-L0density = R_/Ldim1;          % initial naive cell mean density
+R_ = 4500; % lymphocyte carrying capacity
+L0density = R_+Gamma_/dh_;         % initial naive cell mean density
 %L0 = zeros(Ldim1,1);
 L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
 %R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint applies

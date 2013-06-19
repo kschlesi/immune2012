@@ -29,7 +29,7 @@ L3filename = [datapath 'L' basecode num2str(runnum) '.txt'];
 params = setparams(bfilename);
 days = params{end,2}(1,1);    % total days run & saved in file
 params = setparams(b2filename);
-days2 = params{end,2}(1,1)
+days2 = params{end,2}(1,1);
 params = setparams(b3filename);
 days3 = params{end,2}(1,1);
 
