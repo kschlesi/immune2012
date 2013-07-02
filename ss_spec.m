@@ -1,9 +1,10 @@
-%ss_spec: makes a speciation series plot
+%ss_spec: makes a series of plots at times given in "frametimes"
+%to show time-slices of the speciation process
 
 global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
-frametimes = [325;350;375];
+frametimes = [100;110;120;130;140;150;160;170;180;190;200];
 runnum = 1;
 basecode = 'pldyn';
 Pdim1 = 400;
@@ -11,7 +12,6 @@ Ldim1 = 400;
 
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 %datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
-
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -43,10 +43,4 @@ ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
 hold off
     
-end
-
-
-    
-    
-
-    
+end    

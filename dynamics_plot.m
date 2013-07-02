@@ -5,8 +5,6 @@ global b eps_ mu_ k_ Pdim1 Ldim1 delta_ Gamma_ muton ;
 
 runnum = 2;
 basecode = 'pldyn';
-% datapath = ['C:\Documents and Settings\kimberly\My Documents\' ...
-%     'Google Drive\immunedata\PL\' basecode '\']; %MOTHRA datapath
 datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -48,7 +46,7 @@ for i=1:size(L2plot,1)
     end
 end
 
-% calculating total population vectors over time
+% calculating & plotting total population vectors over time
     Ptot = sum(Pplot,2);
     Ltot = sum(Lplot,2);
     P2tot = sum(P2plot,2);
@@ -60,7 +58,6 @@ end
     semilogy(tplot,Ptot,'--',tplot,Ltot,'--')
     axis([0 50 1 10^10])
     title('Single-Infection Cell Populations')%\phi = ' num2str(beta_)])
-%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
     legend('Pathogen','Lymphocytes','Pathogen (no mutation)','Lymphocytes (no mutation)',...
