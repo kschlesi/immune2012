@@ -4,18 +4,21 @@
 global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
-frametimes = (100:5:150);   % row vector of times (in days) at which to plot
-%frametimes = [100,110];
-ismovie = 1;
+%frametimes = (380:15:440);   % row vector of times (in days) at which to plot
+frametimes = (100:15:175);
+ismovie = 0;
 runnum = 1;
 basecode = 'pldyn';
 Pdim1 = 400;
 Ldim1 = 400;
 
 y_min = 0;
-y_max = 0;
-x_min = 0;
-x_max = min(Pdim1,Ldim1);
+y_max = 10*10^4;
+x_min = 50;
+x_max = 70;
+%x_min = 30;
+%x_max = 90;
+%x_max = min(Pdim1,Ldim1);
 
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 %datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
@@ -29,7 +32,7 @@ days = params{end,2};
 
 timevec = csvread(tfilename);
 nframes = size(frametimes,2);
-vid = moviein(nframes); % should include gcf argument??
+vid = moviein(nframes,gcf); 
 for i=1:nframes
     if(frametimes(i)<days)
         tin = find(timevec>frametimes(i));
@@ -39,28 +42,23 @@ for i=1:nframes
     end
     P = transpose(csvread(Pfilename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
     L = transpose(csvread(Lfilename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
-    y_max = max(y_max,max(max(P),max(L)));
-    
-figure;
-hold on;
-hold all;
-plot((1:1:400),P);
-plot((1:1:400),L);
+    %y_max = max(y_max,max(max(P),max(L)));
+
+if ~ismovie
+    figure
+end
+plot((1:1:400),P,(1:1:400),L);
 title(['P and L distributions at t = ' num2str(frametimes(i)) ' days']);
 xlabel('location in shape space (site)');
-ylabel('population (cells/\mul)');
+ylabel('population density (cells/\mul)');
 legend('Pathogen','Lymphocytes');
 axis([x_min x_max y_min y_max]);
     if ismovie
-        vid(i) = getframe;
-        if i == nframes
-            mhandle = get(gcf,'CurrentAxes');
-        end
+        vid(i) = getframe(gcf);
     end
-hold off; 
 end
 
 if ismovie
-    movie(mhandle,vid,1,1,[x_min y_min 0 0]);
+    movie(gcf,vid,4,4,[x_min y_min 0 0]);
 end
     
