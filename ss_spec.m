@@ -5,7 +5,8 @@ global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ mut
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
 %frametimes = (380:15:440);   % row vector of times (in days) at which to plot
-frametimes = (100:15:175);
+%frametimes = (85:15:190);
+frametimes=205;
 ismovie = 0;
 runnum = 1;
 basecode = 'pldyn';
@@ -14,10 +15,10 @@ Ldim1 = 400;
 
 y_min = 0;
 y_max = 10*10^4;
+% x_min = 30;
+% x_max = 90;
 x_min = 50;
 x_max = 70;
-%x_min = 30;
-%x_max = 90;
 %x_max = min(Pdim1,Ldim1);
 
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
@@ -43,11 +44,13 @@ for i=1:nframes
     P = transpose(csvread(Pfilename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
     L = transpose(csvread(Lfilename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
     %y_max = max(y_max,max(max(P),max(L)));
+    disp(frametimes(i));
+    disp(P(52:64));
 
-if ~ismovie
+if ~ismovie && nframes==1
     figure
 end
-plot((1:1:400),P,(1:1:400),L);
+semilogy((1:1:400),P,(1:1:400),L);
 title(['P and L distributions at t = ' num2str(frametimes(i)) ' days']);
 xlabel('location in shape space (site)');
 ylabel('population density (cells/\mul)');

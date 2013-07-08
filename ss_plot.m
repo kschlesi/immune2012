@@ -5,7 +5,7 @@ clear
 global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ muton ;
 global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ delta_ ;
 
-runnum = 1;
+runnum = 6;
 basecode = 'pldyn';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 % datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
@@ -45,6 +45,11 @@ end
 %     xlabel('duration of infection (days)')
 %     ylabel('total population (cells)')
 %     legend('Pathogen','Lymphocytes','Location','NorthWest')
+
+Pstrains = sum(Pplot>0,2);
+figure
+plot(tplot,Pstrains,'b--',tplot,[0;diff(Pstrains)],'r')
+
     
 %     figure
 %     plot((1:1:size(tplot,1)),tplot)
@@ -87,8 +92,8 @@ end
 %     xlabel('duration of infection (days)')
 % 
 % % 
-% % contour plots of PL populations over time
-% % NOTE these plots ARE ABSOLUTELY properly time-normalised
+% % % contour plots of PL populations over time
+% % % NOTE these plots ARE ABSOLUTELY properly time-normalised
     Plog = ones(size(Pplot));
     Llog = ones(size(Lplot));
     for i=1:size(Plog,1)  % log-scaling the values
@@ -105,7 +110,8 @@ end
     Yaxis = (1:1:Pdim1);
     figure
     surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
-    axis([0 days 0 Pdim1])
+    %axis([0 days 0 Pdim1])
+    axis([0 days 0 100])
     title(['Pathogen Evolution in Shape Space, with mutation' '(color on log scale)'])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
@@ -119,14 +125,15 @@ end
 %     xlabel('duration of infection (days)')
 %     legend('Pathogen = \mu','Location','Northeast')
 % 
-    Yaxis = (1:1:Ldim1);
-    figure
-    surf(Xaxis,Yaxis,transpose(Llog),'EdgeColor','none')
-    axis([0 days 0 Ldim1])
-    title(['Lymphocyte Evolution in Shape Space, with mutation' '(color on log scale)'])
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    colorbar('Location','EastOutside')
+%     Yaxis = (1:1:Ldim1);
+%     figure
+%     surf(Xaxis,Yaxis,transpose(Llog),'EdgeColor','none')
+%     %axis([0 days 0 Ldim1])
+%     axis([0 days 0 100])
+%     title(['Lymphocyte Evolution in Shape Space, with mutation' '(color on log scale)'])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     colorbar('Location','EastOutside')
 %     figure
 %     surf(Xaxis,Yaxis,transpose(Lplot),'EdgeColor','none')
 %     axis([0 days 0 Ldim1])
