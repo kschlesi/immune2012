@@ -13,9 +13,7 @@ stepsize = 0.1; % size of steps at which to save data
 % this script will create 4 files whose names are defined here
 runnum = 5;
 basecode = 'pldyn';
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
-% datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
-
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];

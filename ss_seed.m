@@ -8,22 +8,19 @@ global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ mut
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'pldyn5';  % run from which initial condition is drawn
-PR2 = 'pldyn5';  % run whose paramfile to use
-t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 20;       % new days to append to file
+PR1 = 'pldyn8';  % run from which initial condition is drawn
+PR2 = 'pldyn8';  % run whose paramfile to use
+t1 = 0;      % time in PR1 to use for initial condition; number or 'end'
+days = 10;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = ;
+runnum = 8.1;
 basecode = 'pldyn';
-isnew = 0;
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
-datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR1.*isletter(PR1))) '/']; %KONG datapath
-datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR2.*isletter(PR2))) '/']; %KONG datapath
-%datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
-%datapath1 = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' deblank(char(PR1.*isletter(PR1))) '\']; %laptop datapath
-%datapath2 = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' deblank(char(PR2.*isletter(PR2))) '\']; %laptop datapath
+isnew = 1;
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
+datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR1.*isletter(PR1))) '/'];
+datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR2.*isletter(PR2))) '/'];
 
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -77,16 +74,23 @@ olddays = t1;
 if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
+chi_ = 50;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%***************************
+%dh_ = 10^-7;
+Qstep = 1/r_;
+disp(Qstep);
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
-lambdas1D = zeros(Pdim1,1);
-for i=1:Pdim1;
-    lambdas1D(i) = 1 - (2*eps_)/(Pdim1 + 2*eps_ - abs(Pdim1-2*i));
-    for j=1:Ldim1;
-        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
-    end
-end
+lambdas1D = ones(Pdim1,1);
+lambdas1D(1:2) = [0;0.5];
+lambdas1D(Pdim1-1:end) = [0.5;0];
+% lambdas1D = zeros(Pdim1,1);
+ for i=1:Pdim1;
+%     lambdas1D(i) = 1 - (2*eps_)/(Pdim1 + 2*eps_ - abs(Pdim1-2*i));
+     for j=1:Ldim1;
+         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
+     end
+ end
 mrates = eye(Pdim1,Pdim1);
 if (muton)
     mrates = Qmatrix(Pdim1,chi_,c);
@@ -103,7 +107,6 @@ end
 t0 = oldtimes(t0index);
 P0 = transpose(csvread(P0filename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
 L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
-
 % % modifying initial conditions vector (new infection?)
 % P0_add = zeros(size(P0));
 % P0_add(300:301) = 2;
@@ -120,6 +123,8 @@ xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
 
+figure
+plot((1:1:400),lambdas1D)
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
