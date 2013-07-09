@@ -17,7 +17,7 @@ Lfilename = [datapath 'L' basecode num2str(runnum) '.txt'];
 % set parameters, read in days
 params = setparams(bfilename);
 days = params{end,2};    % total days run & saved in file
-days = 800;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%days = 800;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % data and time vector
 tplot = csvread(tfilename);
@@ -52,14 +52,15 @@ plot(tplot,Pstrains,'b--',tplot,[0;diff(Pstrains)],'r')
 %axis([0 days 0 Pdim1])
 axis([0 days 0 100])
 
-% day1 = ;
-% day2 = ;
-% indx = find(tplot>day1);
-% indx1 = indx(1)-1;
-% indx = find(tplot>day2);
-% indx2 = indx(1)-1;
-% disp([sum(Lplot(indx2)) ])
-
+day1 = 600;
+day2 = 800;
+indx = find(tplot>day1);
+indx1 = indx(1)-1;
+indx = find(tplot>day2);
+indx2 = indx(1)-1;
+dispel=[sum(Lplot(indx1,:)) sum(Lplot(indx2,:))];
+disp(dispel);
+disp(dispel(2)/dispel(1));
     
 %     figure
 %     plot((1:1:size(tplot,1)),tplot)
@@ -135,15 +136,15 @@ axis([0 days 0 100])
 %     xlabel('duration of infection (days)')
 %     legend('Pathogen = \mu','Location','Northeast')
 % 
-%     Yaxis = (1:1:Ldim1);
-%     figure
-%     surf(Xaxis,Yaxis,transpose(Llog),'EdgeColor','none')
-%     %axis([0 days 0 Ldim1])
-%     axis([0 days 0 100])
-%     title(['Lymphocyte Evolution in Shape Space, with mutation' '(color on log scale)'])
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
-%     colorbar('Location','EastOutside')
+    Yaxis = (1:1:Ldim1);
+    figure
+    surf(Xaxis,Yaxis,transpose(Llog),'EdgeColor','none')
+    %axis([0 days 0 Ldim1])
+    axis([0 days 0 100])
+    title(['Lymphocyte Evolution in Shape Space, with mutation' '(color on log scale)'])
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    colorbar('Location','EastOutside')
 %     figure
 %     surf(Xaxis,Yaxis,transpose(Lplot),'EdgeColor','none')
 %     axis([0 days 0 Ldim1])
