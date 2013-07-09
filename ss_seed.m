@@ -8,14 +8,14 @@ global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ mut
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'pldyn6.1';  % run from which initial condition is drawn
-PR2 = 'pldyn6.1';  % run whose paramfile to use
+PR1 = 'pldyn8.3';  % run from which initial condition is drawn
+PR2 = 'pldyn8.3';  % run whose paramfile to use
 t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 200;       % new days to append to file
+days = 300;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 6.1;
+runnum = 8.3;
 basecode = 'pldyn';
 isnew = 0;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
@@ -77,6 +77,9 @@ olddays = t1;
 if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
+
+Qstep = 1/r_;
+b = 20;
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);

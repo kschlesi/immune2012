@@ -5,7 +5,7 @@ clear
 global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ muton ;
 global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ delta_ ;
 
-runnum = 6;
+runnum = 1;
 basecode = 'pldyn';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 % datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
@@ -17,7 +17,7 @@ Lfilename = [datapath 'L' basecode num2str(runnum) '.txt'];
 % set parameters, read in days
 params = setparams(bfilename);
 days = params{end,2};    % total days run & saved in file
-
+days = 800;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % data and time vector
 tplot = csvread(tfilename);
@@ -34,21 +34,31 @@ for i=1:size(Lplot,1)
     end
 end
 
-% %plot of total pathogen v. total lymphocyte population
-%     Ptot = sum(Pplot,2);
-%     Ltot = sum(Lplot,2);
-%     figure
-%     semilogy(tplot,Ptot,tplot,Ltot)
-%     axis([0 days 1 10^10])
-%     title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
-% %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
-%     xlabel('duration of infection (days)')
-%     ylabel('total population (cells)')
-%     legend('Pathogen','Lymphocytes','Location','NorthWest')
+%plot of total pathogen v. total lymphocyte population
+    Ptot = sum(Pplot,2);
+    Ltot = sum(Lplot,2);
+    figure
+    semilogy(tplot,Ptot,tplot,Ltot)
+    axis([0 days 1 10^10])
+    title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
+%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
+    xlabel('duration of infection (days)')
+    ylabel('total population (cells)')
+    legend('Pathogen','Lymphocytes','Location','NorthWest')
 
 Pstrains = sum(Pplot>0,2);
 figure
 plot(tplot,Pstrains,'b--',tplot,[0;diff(Pstrains)],'r')
+%axis([0 days 0 Pdim1])
+axis([0 days 0 100])
+
+% day1 = ;
+% day2 = ;
+% indx = find(tplot>day1);
+% indx1 = indx(1)-1;
+% indx = find(tplot>day2);
+% indx2 = indx(1)-1;
+% disp([sum(Lplot(indx2)) ])
 
     
 %     figure
