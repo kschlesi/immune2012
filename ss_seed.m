@@ -17,13 +17,10 @@ stepsize = 0.1;  % size of steps at which to save
 % new run files to be created
 runnum = 8.3;
 basecode = 'pldyn';
-isnew = 0;
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
-datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR1.*isletter(PR1))) '/']; %KONG datapath
-datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR2.*isletter(PR2))) '/']; %KONG datapath
-%datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
-%datapath1 = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' deblank(char(PR1.*isletter(PR1))) '\']; %laptop datapath
-%datapath2 = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' deblank(char(PR2.*isletter(PR2))) '\']; %laptop datapath
+isnew = 1;
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
+datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR1.*isletter(PR1))) '/'];
+datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR2.*isletter(PR2))) '/'];
 
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -78,18 +75,18 @@ if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
 
-Qstep = 1/r_;
-b = 20;
-
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
-lambdas1D = zeros(Pdim1,1);
-for i=1:Pdim1;
-    lambdas1D(i) = 1 - (2*eps_)/(Pdim1 + 2*eps_ - abs(Pdim1-2*i));
-    for j=1:Ldim1;
-        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
-    end
-end
+lambdas1D = ones(Pdim1,1);
+lambdas1D(1:2) = [0;0.5];
+lambdas1D(Pdim1-1:end) = [0.5;0];
+% lambdas1D = zeros(Pdim1,1);
+ for i=1:Pdim1;
+%     lambdas1D(i) = 1 - (2*eps_)/(Pdim1 + 2*eps_ - abs(Pdim1-2*i));
+     for j=1:Ldim1;
+         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
+     end
+ end
 mrates = eye(Pdim1,Pdim1);
 if (muton)
     mrates = Qmatrix(Pdim1,chi_,c);
@@ -124,6 +121,8 @@ xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
 
+figure
+plot((1:1:400),lambdas1D)
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
