@@ -7,21 +7,20 @@ global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ mut
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
 %frametimes = (380:15:440);   % row vector of times (in days) at which to plot
-%frametimes = (100:15:175);
-%frametimes = (85:15:190);
+frametimes = 470;
+%frametimes = (85:60:265);
 ismovie = 0;
-frametimes = (1:2:20);
-runnum = 7;
+runnum = 1;
 basecode = 'pldyn';
 Pdim1 = 400;
 Ldim1 = 400;
 
-y_min = 0;
-y_max = 10*10^4;
-% x_min = 30;
-% x_max = 90;
-x_min = 50;
-x_max = 70;
+y_min = 1;
+y_max = 23*10^4;
+x_min = 30;
+x_max = 90;
+% x_min = 50;
+% x_max = 70;
 %x_max = min(Pdim1,Ldim1);
 
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
@@ -35,7 +34,7 @@ days = params{end,2};
 
 timevec = csvread(tfilename);
 nframes = size(frametimes,2);
-vid = moviein(nframes,gcf); 
+vid = moviein(nframes,gcf);
 for i=1:nframes
     if(frametimes(i)<days)
         tin = find(timevec>frametimes(i));
@@ -49,15 +48,15 @@ for i=1:nframes
     disp(frametimes(i));
     disp(P(52:64));
 
-if ~ismovie && nframes==1
+if ~ismovie
     figure
 end
-semilogy((1:1:400),P,(1:1:400),L);
-title(['P and L distributions at t = ' num2str(frametimes(i)) ' days']);
-xlabel('location in shape space (site)');
+semilogy((1:1:400),P,(1:1:400),L);xlabel('location in shape space (site)');
 ylabel('population density (cells/\mul)');
 legend('Pathogen','Lymphocytes');
-%axis([x_min x_max y_min y_max]);
+axis([x_min x_max y_min y_max]);
+set(gca,'NextPlot','replacechildren');
+title(['P and L distributions at t = ' num2str(frametimes(i)) ' days']);
     if ismovie
         vid(i) = getframe(gcf);
     end
