@@ -5,7 +5,7 @@ clear
 global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ muton ;
 global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ delta_ ;
 
-runnum = 8.1;
+runnum = 9;
 basecode = 'pldyn';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -39,6 +39,7 @@ end
     figure
     semilogy(tplot,Ptot,tplot,Ltot)
     axis([0 days 1 10^10])
+    %axis([85 470 1 10^7])
     title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
@@ -48,19 +49,19 @@ end
 Pstrains = sum(Pplot>0,2);
 figure
 plot(tplot,Pstrains,'b--',tplot,[0;diff(Pstrains)],'r')
-%axis([0 days 0 Pdim1])
-axis([0 days 0 100])
+axis([0 days 0 Pdim1])
+%axis([50 500 -5 25])
 
 
-day1 = 600;
-day2 = 800;
-indx = find(tplot>day1);
-indx1 = indx(1)-1;
-indx = find(tplot>day2);
-indx2 = indx(1)-1;
-dispel=[sum(Lplot(indx1,:)) sum(Lplot(indx2,:))];
-disp(dispel);
-disp(dispel(2)/dispel(1));
+% day1 = 600;
+% day2 = 800;
+% indx = find(tplot>day1);
+% indx1 = indx(1)-1;
+% indx = find(tplot>day2);
+% indx2 = indx(1)-1;
+% dispel=[sum(Lplot(indx1,:)) sum(Lplot(indx2,:))];
+% disp(dispel);
+% disp(dispel(2)/dispel(1));
     
 %     figure
 %     plot((1:1:size(tplot,1)),tplot)
@@ -121,8 +122,8 @@ disp(dispel(2)/dispel(1));
     Yaxis = (1:1:Pdim1);
     figure
     surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
-    %axis([0 days 0 Pdim1])
-    axis([0 days 0 100])
+    axis([0 days 0 Pdim1])
+    %axis([50 500 30 90])
     title(['Pathogen Evolution in Shape Space, with mutation' '(color on log scale)'])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
@@ -139,8 +140,8 @@ disp(dispel(2)/dispel(1));
     Yaxis = (1:1:Ldim1);
     figure
     surf(Xaxis,Yaxis,transpose(Llog),'EdgeColor','none')
-    %axis([0 days 0 Ldim1])
-    axis([0 days 0 100])
+    axis([0 days 0 Ldim1])
+    %axis([50 500 30 90])
     title(['Lymphocyte Evolution in Shape Space, with mutation' '(color on log scale)'])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')

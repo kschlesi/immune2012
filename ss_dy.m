@@ -44,7 +44,8 @@ Ptot = sum(P);
 dP = r_.*dmut.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega.*P;
 ndP = 0;
 for i=1:Pdim1         %% IF Pis0 (that is, we COUNT no P there, or P < mu_)  
-    if(Pis0(i)==1 && dP(i)<(mu_/Qstep))  %% THEN P cannot show up there (dP = 0)
+    %if(Pis0(i)==1 && dP(i)<(mu_/Qstep))  %% THEN P cannot show up there (dP = 0)
+    if(Pis0(i)==1 && dP(i)<(mu_/0.1))  
         dP(i)=0;                         %% UNLESS dP > mu_ (per mutation step)
         ndP = ndP+1; % ndP = number of sites that were at 0,
     end              % and received mutations too small
