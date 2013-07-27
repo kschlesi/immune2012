@@ -5,7 +5,7 @@ clear
 global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ muton ;
 global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ delta_ ;
 
-runnum = 9;
+runnum = 1;
 basecode = 'pldyn';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -38,8 +38,8 @@ end
     Ltot = sum(Lplot,2);
     figure
     semilogy(tplot,Ptot,tplot,Ltot)
-    axis([0 days 1 10^10])
-    %axis([85 470 1 10^7])
+    %axis([0 days 1 10^10])
+    axis([0 900 10^2 10^10])
     title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
@@ -145,7 +145,9 @@ axis([0 days 0 Pdim1])
     title(['Lymphocyte Evolution in Shape Space, with mutation' '(color on log scale)'])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
-    colorbar('Location','EastOutside')
+    logC = colorbar('Location','EastOutside');
+    L = [];
+    set(logC,'Ytick',l,'YTicklabel',L);
 %     figure
 %     surf(Xaxis,Yaxis,transpose(Lplot),'EdgeColor','none')
 %     axis([0 days 0 Ldim1])
