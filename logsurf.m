@@ -20,9 +20,9 @@
     figure
     surf(Xaxis,Yaxis,Dlog,'EdgeColor','none')
     axis([Xaxis(1) Xaxis(end) Yaxis(1) Yaxis(end)])
-    logC = colorbar('Location','EastOutside');
-    formatSpec = '%3.0G';
-    if nargin>3
+    logC = colorbar('Location','EastOutside');  
+    formatSpec = '%3.0G';                       
+    if nargin>3                                  
         formatSpec = format;
     end
     set(logC,'Ytick',log(L),'YTicklabel',num2str(L,formatSpec));
