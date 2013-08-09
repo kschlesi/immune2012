@@ -24,7 +24,6 @@ if nargin<3
 end
 
 t = sort(t);
-disp(size(t,1));
 corps = zeros(size(t,1),N,2);
     for j=1:size(t,1)
         tic
@@ -39,13 +38,15 @@ cabs = squeeze(mean(abs(corps),2));
 cres = squeeze(mean(corps,2));
 cabres = [cres(:,1) cabs];
 
-% if size(t,1)>1
-%     'RUN'
-%     figure
-%     plot(t,cabres);
-%     xlabel('number of timesteps')
-%     ylabel('mean pairwise correlation')
-%     legend('no abs','abs','p-value')
-% end
+if size(t,1)<=1
+    disp(t);
+    disp(cabres);
+else
+    figure
+    plot(t,cabres);
+    xlabel('number of timesteps')
+    ylabel('mean pairwise correlation')
+    legend('no abs','abs','p-value')
+end
 
 end
