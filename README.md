@@ -1,6 +1,11 @@
 immune2012
 =========
 
+updated 8/09/2013:
+post-PRL submission, unnecessary files are cleared,
+nodel is abandoned, and PLdynamics will be merged 
+to 1Dmutation... in preparation for simplification
+
 updated 5/31/2012:
 new branch PLdynamics has been created to allow runs
 with simplified diffeqs and only two types of cells;
