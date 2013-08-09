@@ -5,7 +5,7 @@
 
 clear
 global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
-global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
+global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D pinit;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
 PR1 = 'pldyn9';  % run from which initial condition is drawn
@@ -18,9 +18,9 @@ stepsize = 0.1;  % size of steps at which to save
 runnum = 9;
 basecode = 'pldyn';
 isnew = 0;
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
-datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR1.*isletter(PR1))) '/'];
-datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR2.*isletter(PR2))) '/'];
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
+datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR1.*isletter(PR1))) '/'];
+datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR2.*isletter(PR2))) '/'];
 
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -74,7 +74,6 @@ olddays = t1;
 if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
-Qstep = 1000;
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
@@ -104,7 +103,6 @@ end
 t0 = oldtimes(t0index);
 P0 = transpose(csvread(P0filename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
 L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
-%L0 = mean(L0)*ones(size(L0));  % un-randomizes initial lymphocyte distribution
 
 % % modifying initial conditions vector (new infection?)
 % P0_add = zeros(size(P0));
@@ -128,7 +126,7 @@ plot((1:1:400),lambdas1D)
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;Nstep;nrandon;delta_;muton];
+    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;Nstep;nrandon;delta_;muton;pinit];
 if isnew
     writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 end

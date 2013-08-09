@@ -23,7 +23,7 @@ x_max = 90;
 % x_max = 70;
 %x_max = min(Pdim1,Ldim1);
 
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -42,8 +42,8 @@ for i=1:nframes
     else
         t0index = size(timevec,1);
     end
-    P = transpose(csvread(Pfilename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
-    L = transpose(csvread(Lfilename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
+    P = csvread(Pfilename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]);
+    L = csvread(Lfilename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]);
     %y_max = max(y_max,max(max(P),max(L)));
     disp(frametimes(i));
     disp(P(52:64));

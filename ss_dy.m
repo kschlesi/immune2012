@@ -72,8 +72,8 @@ end
 dL = Lflux + (sigma_.*satfunc - delta_.*(ones(Ldim1,1)-satfunc) - dh_.*Hsat.*ones(Ldim1,1)).*L;
 
 % prints to command window: time (in days) and # of sites with NO pathogen
-t
-ndP
+disp(t);
+disp(ndP);
 
 dy = [dP;dL];
 

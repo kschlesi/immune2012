@@ -2,14 +2,13 @@
 
 clear
 
-global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ K_ ;
+global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ K_ pinit;
 global b eps_ mu_ k_ Pdim1 Ldim1 delta_ Gamma_ muton ;
 
 pdays = 50;
 runnum = 2;
 basecode = 'pldyn';
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
-% datapath = ['C:\Users\Kimberly\Google Drive\immunedata\PL\' basecode '\']; %laptop datapath
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
