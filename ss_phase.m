@@ -2,9 +2,6 @@
 
 clear
 
-global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ K_ pinit;
-global b eps_ mu_ k_ Pdim1 Ldim1 delta_ Gamma_ muton ;
-
 pdays = 50;
 runnum = 2;
 basecode = 'pldyn';
@@ -25,12 +22,14 @@ P3filename = [datapath 'P' basecode num2str(runnum) '.txt'];
 L3filename = [datapath 'L' basecode num2str(runnum) '.txt'];
 
 % set global parameters, read in days from saved parameter file
+% set parameters
 params = setparams(bfilename);
-days = params{end,2}(1,1);    % total days run & saved in file
+days = params{end,2}(1,1);
 params = setparams(b2filename);
 days2 = params{end,2}(1,1);
 params = setparams(b3filename);
 days3 = params{end,2}(1,1);
+clear params;
 
 % data and time vector (read in from saved datafiles)
 tplot = csvread(tfilename);

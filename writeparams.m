@@ -1,12 +1,9 @@
 function writeparams(afilename,a0)
 
 % if adding a parameter: - add paramname and paramunit in this script
-%                        - add parameter to all ss_ global lists
 %                        - define parameter in _main
-%                        - add parameter to a0 vector in _main
+%                        - add parameter to a0 vector in _main, _dy, and _seed
 %                        - add functionality of parameter to all scripts
-%                        - add parameter to global list in setparams
-%                        - set global parameter from pmatrix in setparams
 
 paramnames = {'r_';'h_';'sigma_';'k_';'c';'b';'beta_';'eps_';'mu_';...
     'dh_';'K_';'R_';'capon';'hsaton';'Pdim1';'Ldim1';'x0';'chi_';'Qstep';...

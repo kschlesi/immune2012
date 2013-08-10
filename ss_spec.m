@@ -3,9 +3,6 @@
 
 clear
 
-global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
-global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
-
 %frametimes = (380:15:440);   % row vector of times (in days) at which to plot
 frametimes = 470;
 %frametimes = (85:60:265);
@@ -29,8 +26,13 @@ tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Lfilename = [datapath 'L' basecode num2str(runnum) '.txt'];
 
+% set parameters
 params = setparams(bfilename);
-days = params{end,2};
+for i=1:size(params,1)
+    eval([char(params{i,1}) ' = ' num2str(params{i,2})]);
+    eval([char(params{i,1}) 'units = char(params{i,3})']);
+end
+clear params;
 
 timevec = csvread(tfilename);
 nframes = size(frametimes,2);

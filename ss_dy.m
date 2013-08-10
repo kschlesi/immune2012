@@ -1,7 +1,15 @@
-function dy = ss_dy(t,y,Pdim1,Ldim1)
+function dy = ss_dy(t,y,b0)%,tcounts)
 
-global r_ h_ sigma_ k_ c gammas1D lambdas1D mu_ R_ dh_ K_ Gamma_ muton ;
-global chi_ Qstep tgone Nstep ntgone nrandon capon hsaton mrates delta_ ;
+global gammas1D lambdas1D mrates tgone ntgone;
+
+varrs = {'r_';'h_';'sigma_';'k_';'c';'b';'beta_';'eps_';'mu_';...
+    'dh_';'K_';'R_';'capon';'hsaton';'Pdim1';'Ldim1';'x0';'chi_';'Qstep';...
+    'Gamma_';'Nstep';'nrandon';'delta_';'muton';'pinit'};
+for i=1:size(b0,1)
+    eval([char(varrs{i,1}) ' = ' num2str(b0(i,1))]);
+end
+%tgone = tcounts(1);
+%ntgone = tcounts(2);
 
 % create separate P, L vectors
 P = y(1:Pdim1);

@@ -2,21 +2,21 @@
 
 clear
 
-global r_ h_ sigma_ c beta_ chi_ Qstep x0 dh_ muton pinit;
-global b eps_ mu_ k_ Pdim1 Ldim1 Nstep Gamma_ delta_ ;
-
-runnum = 1;
-basecode = 'pldyn';
+runnum = 2;
+basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Lfilename = [datapath 'L' basecode num2str(runnum) '.txt'];
 
-% set parameters, read in days
+% set parameters
 params = setparams(bfilename);
-days = params{end,2};    % total days run & saved in file
-%days = 800;%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+for i=1:size(params,1)
+    eval([char(params{i,1}) ' = ' num2str(params{i,2})]);
+    eval([char(params{i,1}) 'units = char(params{i,3})']);
+end
+clear params;
 
 % data and time vector
 tplot = csvread(tfilename);
@@ -38,8 +38,8 @@ end
     Ltot = sum(Lplot,2);
     figure
     semilogy(tplot,Ptot,tplot,Ltot)
-    %axis([0 days 1 10^10])
-    axis([0 900 10^2 10^10])
+    axis([0 days 1 10^10])
+    %axis([0 900 10^2 10^10])
     title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
@@ -146,8 +146,6 @@ axis([0 days 0 Pdim1])
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
     logC = colorbar('Location','EastOutside');
-    L = [];
-    set(logC,'Ytick',l,'YTicklabel',L);
 %     figure
 %     surf(Xaxis,Yaxis,transpose(Lplot),'EdgeColor','none')
 %     axis([0 days 0 Ldim1])

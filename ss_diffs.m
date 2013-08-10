@@ -1,11 +1,8 @@
 clear
 
-global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
-global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D pinit;
-
 frametimes=205;
 
-runnum = 1;
+runnum = 2;
 basecode = 'pldyn';
 Pdim1 = 0;
 Ldim1 = 0;
@@ -15,14 +12,19 @@ ss_max = 100;
 t_min = 4;
 t_max = 400;
 
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Lfilename = [datapath 'L' basecode num2str(runnum) '.txt'];
 
+% set parameters
 params = setparams(bfilename);
-days = params{end,2};
+for i=1:size(params,1)
+    eval([char(params{i,1}) ' = ' num2str(params{i,2})]);
+    eval([char(params{i,1}) 'units = char(params{i,3})']);
+end
+clear params;
 
 timevec = csvread(tfilename);
 

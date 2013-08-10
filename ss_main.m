@@ -11,7 +11,7 @@ stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 1;
+runnum = 2;
 basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -103,7 +103,7 @@ while (contin)
     
     % integrate until 'stopper' event...(or total days reached)
     % ('stopper.m' triggers an event whenever a population falls below mu_)
-    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),tspan,y0,options);
+    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,b0),tspan,y0,options);
     
     % once integration is stopped...
     % add new internal steps to overall n_ts
