@@ -3,15 +3,14 @@
 
 clear
 
-global r_ h_ sigma_ k_ c b eps_ mu_ R_ dh_ K_ chi_ Qstep capon hsaton muton pinit;
-global lambdas1D gammas1D tgone ntgone Nstep nrandon Gamma_ mrates delta_ beta_ ;
+global lambdas1D gammas1D tgone ntgone mrates ;
 
-days = 10;      % number of days to run simulation
+days = 15;      % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 2;
+runnum = 1;
 basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];

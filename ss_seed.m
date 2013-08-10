@@ -4,19 +4,20 @@
 % t1, using the paramfile of PR2, and run it until final time of 'days'+t1
 
 clear
-global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
-global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D pinit;
+%global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
+%global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D pinit;
+global gammas1D lambdas1D mrates tgone ntgone ;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'pldyn9';  % run from which initial condition is drawn
-PR2 = 'pldyn9';  % run whose paramfile to use
+PR1 = 'simp2';  % run from which initial condition is drawn
+PR2 = 'simp2';  % run whose paramfile to use
 t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 10;       % new days to append to file
+days = 5;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 9;
-basecode = 'pldyn';
+runnum = 2;
+basecode = 'simp';
 isnew = 0;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR1.*isletter(PR1))) '/'];
@@ -70,10 +71,17 @@ end
 
 % set parameters, read in olddays
 params = setparams(b0filename);
+for i=1:size(params,1)
+    if ~strcmp(char(params{i,1}),'days')
+        eval([char(params{i,1}) ' = ' num2str(params{i,2})]);
+        eval([char(params{i,1}) 'units = char(params{i,3})']);
+    end
+end
 olddays = t1;
 if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
+clear params;
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
@@ -153,7 +161,7 @@ while (contin)
 
     % integrate until 'stopper' event...(or total days reached)
     % ('stopper.m' triggers an event whenever a population falls below mu_)
-    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,Pdim1,Ldim1),tspan,y0,options);
+    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,b0),tspan,y0,options);
 
     % once integration is stopped...
     % add new internal steps to overall n_ts
