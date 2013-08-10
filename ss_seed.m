@@ -85,16 +85,10 @@ clear params;
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
-%lambdas1D = ones(Pdim1,1);
-%lambdas1D(1:2) = [0;0.5];
-%lambdas1D(Pdim1-1:end) = [0.5;0];
-lambdas1D = zeros(Pdim1,1);
- for i=1:Pdim1;
-     lambdas1D(i) = 1 - (2*eps_)/(Pdim1 + 2*eps_ - abs(Pdim1-2*i));
-     for j=1:Ldim1;
-         gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
-     end
- end
+lambdas1D = Lambdas(eps_,Pdim1);     % vector of pathogen fitnesses      
+for i=1:Pdim1;
+    gammas1D(i,:) = Gammas([i,1],ones(Ldim1,1),1,b);
+end
 mrates = eye(Pdim1,Pdim1);
 if (muton)
     mrates = Qmatrix(Pdim1,chi_,c);

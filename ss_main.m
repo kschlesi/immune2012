@@ -10,7 +10,7 @@ stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 2;
+runnum = 3;
 basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -53,12 +53,9 @@ x0 = 6;             % location of original pathogen inoculation
 
 % affinity and fitness information
 gammas1D = zeros(Pdim1,Ldim1);  % matrix of affinities
-lambdas1D = zeros(Pdim1,1);     % vector of pathogen fitnesses      
+lambdas1D = Lambdas(eps_,Pdim1);     % vector of pathogen fitnesses      
 for i=1:Pdim1;
-    lambdas1D(i) = 1 - (2*eps_)/(Pdim1 + 2*eps_ - abs(Pdim1-2*i));
-    for j=1:Ldim1;
-        gammas1D(i,j) = exp(-1*((i-j)^2)/(2*b^2));
-    end
+    gammas1D(i,:) = Gammas([i,1],ones(Ldim1,1),1,b);
 end
 mrates = eye(Pdim1);    % initial mutation matrix: no mutation
 
