@@ -6,17 +6,17 @@
 clear
 %global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
 %global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D pinit;
-global gammas1D lambdas1D mrates tgone ntgone ;
+global mrates tgone ntgone ;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'simp2';  % run from which initial condition is drawn
-PR2 = 'simp2';  % run whose paramfile to use
+PR1 = 'simp1';  % run from which initial condition is drawn
+PR2 = 'simp1';  % run whose paramfile to use
 t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 5;       % new days to append to file
+days = 15;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 2;
+runnum = 1;
 basecode = 'simp';
 isnew = 0;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
@@ -161,7 +161,8 @@ while (contin)
 
     % integrate until 'stopper' event...(or total days reached)
     % ('stopper.m' triggers an event whenever a population falls below mu_)
-    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,b0),tspan,y0,options);
+    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
+        tspan,y0,options);
 
     % once integration is stopped...
     % add new internal steps to overall n_ts

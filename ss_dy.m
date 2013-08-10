@@ -1,6 +1,6 @@
-function dy = ss_dy(t,y,b0)%,tcounts)
+function dy = ss_dy(t,y,b0,gammas1D,lambdas1D)
 
-global gammas1D lambdas1D mrates tgone ntgone;
+global mrates tgone ntgone;
 
 varrs = {'r_';'h_';'sigma_';'k_';'c';'b';'beta_';'eps_';'mu_';...
     'dh_';'K_';'R_';'capon';'hsaton';'Pdim1';'Ldim1';'x0';'chi_';'Qstep';...

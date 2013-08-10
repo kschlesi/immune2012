@@ -3,14 +3,14 @@
 
 clear
 
-global lambdas1D gammas1D tgone ntgone mrates ;
+global tgone ntgone mrates ;
 
 days = 15;      % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 1;
+runnum = 2;
 basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -32,14 +32,14 @@ c = 2;              % controls change of mutation prob. with distance
 chi_ = 10;          % strength of mutation probability
 Gamma_ = 4;         % naive influx
 delta_ = 0.35;      % constant naive death rate
-pinit = 10;         % initial dose of pathogen
+pinit = 5;          % initial dose of pathogen
 Qstep = 0.1;        % time-step for regenerating mutation matrix
 Nstep = 5;          % time-step for regenerating naive cell distribution
 b = 10;             % width of Gaussian affinity curve
 beta_ = 0;          % width of Gaussian fitness landscape
 eps_ = 4;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
-dh_ = 5*10^-7;      % coefficient of overall lymphocyte constraint
+dh_ = 10^-7;        % coefficient of overall lymphocyte constraint
 K_ = 10^10;         % pathogen carrying capacity
 capon = 1;          % switches on/off pathogen carrying capacity
 hsaton = 1;         % switches on/off lymphocyte constraint
@@ -102,7 +102,8 @@ while (contin)
     
     % integrate until 'stopper' event...(or total days reached)
     % ('stopper.m' triggers an event whenever a population falls below mu_)
-    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,b0),tspan,y0,options);
+    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
+        tspan,y0,options);
     
     % once integration is stopped...
     % add new internal steps to overall n_ts
