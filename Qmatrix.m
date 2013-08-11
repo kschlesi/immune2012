@@ -1,4 +1,4 @@
-function mrates = Qmatrix(Pdim1,chi_,c)
+function mrates = Qmatrix(Pdim1,chi_)
 
 mrates = zeros(Pdim1,Pdim1);
 isnormz = 0;
@@ -7,7 +7,7 @@ while ~isnormz
     isnormz = 1;
     for i=2:Pdim1
         for j=1:i-1
-            mrates(i,j) = (1/Pdim1)*abs(randn/(i-j)^c)/chi_; % mutation probability
+            mrates(i,j) = (1/Pdim1)*abs(randn/(i-j)^2)/chi_; % mutation probability
             mrates(j,i) = mrates(i,j);
         end
         iloss = sum(mrates(i,:));

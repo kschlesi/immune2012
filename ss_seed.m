@@ -4,9 +4,8 @@
 % t1, using the paramfile of PR2, and run it until final time of 'days'+t1
 
 clear
-%global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ muton beta_;
-%global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D pinit;
-global mrates tgone ntgone ;
+
+global mrates tgone ;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
 PR1 = 'simp1';  % run from which initial condition is drawn
@@ -91,7 +90,7 @@ for i=1:Pdim1;
 end
 mrates = eye(Pdim1,Pdim1);
 if (muton)
-    mrates = Qmatrix(Pdim1,chi_,c);
+    mrates = Qmatrix(Pdim1,chi_);
 end
 
 % read in initial conditions (t1 from P/L0filename)
@@ -127,8 +126,8 @@ plot((1:1:400),lambdas1D)
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
-b0 = [r_;h_;sigma_;k_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;Nstep;nrandon;delta_;muton;pinit];
+b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;pinit];
 if isnew
     writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 end
@@ -150,7 +149,6 @@ n_ts = size(oldtimes,1);
 contin = 1;
 nstops = 0;
 tgone = t0;
-ntgone = t0;
 while (contin)
 
     % integrate until 'stopper' event...(or total days reached)

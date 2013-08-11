@@ -1,10 +1,10 @@
 function dy = ss_dy(t,y,b0,gammas1D,lambdas1D)
 
-global mrates tgone ntgone;
+global mrates tgone ;
 
-varrs = {'r_';'h_';'sigma_';'k_';'c';'b';'beta_';'eps_';'mu_';...
+varrs = {'r_';'h_';'sigma_';'k_';'b';'eps_';'mu_';...
     'dh_';'K_';'R_';'capon';'hsaton';'Pdim1';'Ldim1';'x0';'chi_';'Qstep';...
-    'Gamma_';'Nstep';'nrandon';'delta_';'muton';'pinit'};
+    'Gamma_';'nrandon';'delta_';'muton';'pinit'};
 for i=1:size(b0,1)
     eval([char(varrs{i,1}) ' = ' num2str(b0(i,1))]);
 end
@@ -19,7 +19,7 @@ L = y(Pdim1+1:Pdim1+Ldim1);
 % (matrix is symmetric, and all rows sum to 1)
 if (muton)              % use this 'if statement' for mutation every Qstep
     if (t-tgone)>=Qstep         
-        mrates = Qmatrix(Pdim1,chi_,c);
+        mrates = Qmatrix(Pdim1,chi_);
         tgone = t;   
     end
 end    
@@ -70,14 +70,7 @@ Pofy = zeros(Ldim1,1); % total P weighted by affinity to lymphocyte
         Pofy(j)= sum(P.*squeeze(gammas1D(:,j)));
     end
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy); % pathogen saturation function
-Lflux = Gamma_; % lymphocyte influx
-if(nrandon)
-    if (ntgone-t)>=Nstep             %% re-distributes incoming lymphocytes
-        Lflux = unifrndpop(Ldim1,Gamma_,mu_);    %% at intervals of 'Nstep'
-        ntgone = t;
-    end
-end
-dL = Lflux + (sigma_.*satfunc - delta_.*(ones(Ldim1,1)-satfunc) - dh_.*Hsat.*ones(Ldim1,1)).*L;
+dL = Gamma_.*ones(Ldim1,1) + (sigma_.*satfunc - delta_.*(ones(Ldim1,1)-satfunc) - dh_.*Hsat.*ones(Ldim1,1)).*L;
 
 % prints to command window: time (in days) and # of sites with NO pathogen
 disp(t);

@@ -3,9 +3,9 @@
 
 clear
 
-global tgone ntgone mrates ;
+global tgone mrates ;
 
-days = 15;      % number of days to run simulation
+days = 3;      % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
@@ -28,23 +28,20 @@ r_ = 3.3;           % pathogen mutation rate
 h_ = 10^-5;         % pathogen killing
 sigma_ = 3;         % naive recruitment
 k_ = 10^5;          % pathogen saturation
-c = 2;              % controls change of mutation prob. with distance
 chi_ = 10;          % strength of mutation probability
 Gamma_ = 4;         % naive influx
 delta_ = 0.35;      % constant naive death rate
 pinit = 5;          % initial dose of pathogen
 Qstep = 0.1;        % time-step for regenerating mutation matrix
-Nstep = 5;          % time-step for regenerating naive cell distribution
 b = 10;             % width of Gaussian affinity curve
-beta_ = 0;          % width of Gaussian fitness landscape
-eps_ = 4;           % controls fall-off of fitness landscape at edges
+eps_ = 0;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
 dh_ = 10^-7;        % coefficient of overall lymphocyte constraint
 K_ = 10^10;         % pathogen carrying capacity
 capon = 1;          % switches on/off pathogen carrying capacity
 hsaton = 1;         % switches on/off lymphocyte constraint
-nrandon = 0;        % switches on/off shuffling of naive cell distribution
-muton = 0;          % switches on/off pathogen mutation 
+nrandon = 0;        % switches on/off stochastic naive distribution
+muton = 1;          % switches on/off pathogen mutation 
 
 % dimensions of 1D shape space
 Pdim1 = 400;        % sites in pathogen shape space
@@ -66,14 +63,16 @@ P0(x0) = pinit;
 
 L0density = Gamma_/delta_;          % initial naive cell mean density
 L0 = L0density.*ones(Ldim1,1);
-%L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
+if (nrandon)
+    L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
+end
 R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint applies
 
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
-b0 = [r_;h_;sigma_;k_;c;b;beta_;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;Nstep;nrandon;delta_;muton;pinit];
+b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;pinit];
 writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 
 % creating & saving initial conditions vector
@@ -93,7 +92,6 @@ n_ts = 1;       % counts total solver timesteps                  % and enforce c
 nstops = 0;     % counts number of interruptions
 contin = 1;     % while loop parameter
 tgone = 0;      % keeps track of most recent mutation matrix generation time 
-ntgone = 0;     % keeps track of most recent naive cell redistribution time
 
 while (contin)
     

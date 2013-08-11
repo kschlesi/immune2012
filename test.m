@@ -19,3 +19,7 @@ for i=1:size(params,1)
 end
 clear params;
 
+Lflux = Gamma_;
+disp(size(Lflux));
+dL = Lflux + ones(Ldim1,1);
+disp(dL(1:3));
