@@ -6,7 +6,7 @@ varrs = {'r_';'h_';'sigma_';'k_';'b';'eps_';'mu_';...
     'dh_';'K_';'R_';'capon';'hsaton';'Pdim1';'Ldim1';'x0';'chi_';'Qstep';...
     'Gamma_';'nrandon';'delta_';'muton';'pinit'};
 for i=1:size(b0,1)
-    eval([char(varrs{i,1}) ' = ' num2str(b0(i,1))]);
+    eval([char(varrs{i,1}) ' = ' num2str(b0(i,1)) ';']);
 end
 %tgone = tcounts(1);
 %ntgone = tcounts(2);
@@ -49,7 +49,7 @@ omega = zeros(Pdim1,1);
         omega(i) = sum(shiftdim(gammas1D(i,:)).*L); % effectivity
     end
 Ptot = sum(P);
-dP = r_.*dmut.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega.*P;
+dP = r_.*P.*lambdas1D.*(1-capon*Ptot/K_) + dmut - h_.*omega.*P;
 ndP = 0;
 for i=1:Pdim1         %% IF Pis0 (that is, we COUNT no P there, or P < mu_)  
     %if(Pis0(i)==1 && dP(i)<(mu_/Qstep))  %% THEN P cannot show up there (dP = 0)

@@ -5,12 +5,12 @@ clear
 
 global tgone mrates ;
 
-days = 3;      % number of days to run simulation
+days = 10;      % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 3;
+runnum = 4;
 basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -49,8 +49,8 @@ Ldim1 = 400;        % sites in lymphocyte shape space
 x0 = 6;             % location of original pathogen inoculation
 
 % affinity and fitness information
-gammas1D = zeros(Pdim1,Ldim1);  % matrix of affinities
-lambdas1D = Lambdas(eps_,Pdim1);     % vector of pathogen fitnesses      
+gammas1D = zeros(Pdim1,Ldim1);   % matrix of affinities
+lambdas1D = Lambdas(eps_,Pdim1); % vector of pathogen fitnesses      
 for i=1:Pdim1;
     gammas1D(i,:) = Gammas([i,1],ones(Ldim1,1),1,b);
 end
