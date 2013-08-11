@@ -8,8 +8,6 @@ varrs = {'r_';'h_';'sigma_';'k_';'b';'eps_';'mu_';...
 for i=1:size(b0,1)
     eval([char(varrs{i,1}) ' = ' num2str(b0(i,1)) ';']);
 end
-%tgone = tcounts(1);
-%ntgone = tcounts(2);
 
 % create separate P, L vectors
 P = y(1:Pdim1);
@@ -26,20 +24,9 @@ end
 
 % enforcing cutoff for calculating everything...
 % this sets all < mu_ pops to 0 in ss_dy only (not returned to ss_main)
-Pis0 = zeros(Pdim1,1);  % keep track of whether each site is below mu_
-Lis0 = zeros(Ldim1,1);
-for i=1:Pdim1
-    if(P(i)<mu_)
-        P(i)=0;
-        Pis0(i)=1;
-    end
-end
-for i=1:Ldim1
-    if(L(i)<mu_)
-        L(i)=0;
-        Lis0(i) = 1;
-    end
-end
+P = P.*(P>=mu_);
+L = L.*(L>=mu_);
+Pis0 = ones(Pdim1,1)-(P>=mu_);  % keep track of whether each site is below mu_
         
 % calculate dP (all size Pdim1 x 1)        
 dmut = zeros(Pdim1,1);
@@ -52,8 +39,7 @@ Ptot = sum(P);
 dP = r_.*P.*lambdas1D.*(1-capon*Ptot/K_) + dmut - h_.*omega.*P;
 ndP = 0;
 for i=1:Pdim1         %% IF Pis0 (that is, we COUNT no P there, or P < mu_)  
-    %if(Pis0(i)==1 && dP(i)<(mu_/Qstep))  %% THEN P cannot show up there (dP = 0)
-    if(Pis0(i)==1 && dP(i)<(mu_/0.1))  
+    if(Pis0(i)==1 && dP(i)<(mu_/Qstep))  %% THEN P cannot show up there (dP = 0)
         dP(i)=0;                         %% UNLESS dP > mu_ (per mutation step)
         ndP = ndP+1; % ndP = number of sites that were at 0,
     end              % and received mutations too small

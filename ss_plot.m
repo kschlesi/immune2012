@@ -2,7 +2,7 @@
 
 clear
 
-runnum = 5;
+runnum = 7;
 basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -25,21 +25,16 @@ Lplot = csvread(Lfilename);
 
 n_ts = size(tplot,1);
 
-for i=1:size(Lplot,1)
-    for j=1:size(Lplot,2)
-        if Lplot(i,j) < mu_
-            Lplot(i,j) = 0;
-        end
-    end
-end
+Pplot = Pplot.*(Pplot>=mu_);
+Lplot = Lplot.*(Lplot>=mu_);
 
 %plot of total pathogen v. total lymphocyte population
     Ptot = sum(Pplot,2);
     Ltot = sum(Lplot,2);
     figure
     semilogy(tplot,Ptot,tplot,Ltot)
-    axis([0 days 1 10^10])
-    %axis([0 900 10^2 10^10])
+    %axis([0 days 1 10^10])
+    axis([0 10 10^2 10^10])
     title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')

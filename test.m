@@ -23,3 +23,8 @@ Lflux = Gamma_;
 disp(size(Lflux));
 dL = Lflux + ones(Ldim1,1);
 disp(dL(1:3));
+
+mplot = randn(5);
+disp(mplot);
+mplot = mplot.*(mplot<1).*(mplot>-1);
+disp(mplot);
