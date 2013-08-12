@@ -41,7 +41,7 @@ omega = zeros(Pdim1,1);
         omega(i) = sum(shiftdim(gammas1D(i,:)).*L); % effectivity
     end
 Ptot = sum(P);
-dP = r_.*P.*lambdas1D.*(1-capon*Ptot/K_) + dmut.*P - h_.*omega.*P;
+dP = r_.*P.*lambdas1D.*(1-capon*Ptot/K_) + dmut - h_.*omega.*P;
 ndP = 0;
 for i=1:Pdim1         %% IF Pis0 (that is, we COUNT no P there, or P < mu_)  
     if(Pis0(i)==1 && dP(i)<(mu_/Qstep))  %% THEN P cannot show up there (dP = 0)
@@ -71,8 +71,8 @@ end
 dL = Lflux + (sigma_.*satfunc - delta_.*(ones(Ldim1,1)-satfunc) - dh_.*Hsat.*ones(Ldim1,1)).*L;
 
 % prints to command window: time (in days) and # of sites with NO pathogen
-t
-ndP
+disp(t);
+disp(ndP);
 
 dy = [dP;dL];
 
