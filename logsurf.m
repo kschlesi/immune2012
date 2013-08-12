@@ -1,5 +1,5 @@
        
-    function [] = logsurf(data,Xaxis,Yaxis,format)
+    function [] = logsurf(Xaxis,Yaxis,data,format)
     
     % makes a surf plot with log-scale color map and colorbar
     % inputs: 'data' : m x n matrix of data to plot

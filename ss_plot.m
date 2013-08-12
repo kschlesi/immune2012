@@ -2,7 +2,7 @@
 
 clear
 
-runnum = 8.4;
+runnum = 9.1;
 basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -101,53 +101,22 @@ axis([0 days 0 Pdim1])
 % % 
 % % % contour plots of PL populations over time
 % % % NOTE these plots ARE ABSOLUTELY properly time-normalised
-    Plog = ones(size(Pplot));
-    Llog = ones(size(Lplot));
-    for i=1:size(Plog,1)  % log-scaling the values
-        for j=1:size(Plog,2)
-            if Pplot(i,j)>1
-                Plog(i,j) = log(Pplot(i,j));
-            end
-            if Lplot(i,j)>1
-                Llog(i,j) = log(Lplot(i,j));
-            end
-        end
-    end
     Xaxis = tplot;
     Yaxis = (1:1:Pdim1);
-    figure
-    surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
+    logsurf(Xaxis,Yaxis,Pplot')
     axis([0 days 0 Pdim1])
     %axis([50 500 30 90])
-    title(['Pathogen Evolution in Shape Space, with mutation' '(color on log scale)'])
+    title('Pathogen Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
-    colorbar('Location','EastOutside')
-%     v = [ mu_ 1 ];
-%     figure
-%     contourf(Xaxis,Yaxis,transpose(Pplot),v)
-%     axis([0 days 0 Pdim1])
-%     title(['Pathogen Evolution in Shape Space, \mu = ' num2str(mu_)])
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
-%     legend('Pathogen = \mu','Location','Northeast')
-% 
+
     Yaxis = (1:1:Ldim1);
-    figure
-    surf(Xaxis,Yaxis,transpose(Llog),'EdgeColor','none')
+    logsurf(Xaxis,Yaxis,Lplot')
     axis([0 days 0 Ldim1])
     %axis([50 500 30 90])
-    title(['Lymphocyte Evolution in Shape Space, with mutation' '(color on log scale)'])
+    title('Lymphocyte Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
-    logC = colorbar('Location','EastOutside');
-%     figure
-%     surf(Xaxis,Yaxis,transpose(Lplot),'EdgeColor','none')
-%     axis([0 days 0 Ldim1])
-%     title(['Total Lymphocyte Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
-%     colorbar('Location','EastOutside')
 
       
 % % plots of cutoff levels for whole infection
@@ -155,7 +124,7 @@ axis([0 days 0 Pdim1])
 %     Xaxis = tplot;
 %     Yaxis = (1:1:Ldim1);
 %     figure
-%     contourf(Xaxis,Yaxis,transpose(Pplot),v)
+%     contourf(Xaxis,Yaxis,Pplot',v)
 %     axis([0 days 0 Pdim1])
 %     title(['Pathogen Evolution in Shape Space, \mu = ' num2str(mu_)])
 %     ylabel('position in shape space (site)')
@@ -168,34 +137,8 @@ axis([0 days 0 Pdim1])
 %     title(['Lymphocyte Evolution in Shape Space, \mu = ' num2str(mu_)])
 %     ylabel('position in shape space (site)')
 %     xlabel('duration of infection (days)')
-%     legend('Effector = \mu','Location','Northeast')
+%     legend('Lymphocytes = \mu','Location','Northeast')
     
-% contourf plots, of PL evolution over time, normalised by total number
-% of cells at each timestep
-
-%     Ptotal = repmat(Ptot,1,Pdim1);
-%     Ltotal = repmat(Ltot,1,Ldim1);
-% 
-%     Xaxis = tplot;
-%     Yaxis = (1:1:Pdim1);
-%     figure
-% %    v = [0:0.01:1];
-%     contourf(Xaxis,Yaxis,transpose(Pplot./Ptotal),20)
-%     axis([0 days 0 Pdim1])
-%     title(['Normalised Pathogen Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
-% 
-%     Yaxis = (1:1:Ldim1);
-%     figure
-% %    v = (0:0.5:3)/3;
-%     contourf(Xaxis,Yaxis,transpose(Lplot./Ltotal),20)
-%     axis([0 days 0 Ldim1])
-%     title(['Normalised Lymphocyte Evolution in Shape Space, \epsilon = ' num2str(eps_)])
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
-
-
 %%%%%%%%%%%%%%gammas, lambdas, etc
 % % gammas & lambdas (for beta_ landscape)
 % b = 25;
