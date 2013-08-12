@@ -8,16 +8,16 @@ global r_ h_ sigma_ k_ c dh_ K_ R_ capon hsaton nrandon mrates Gamma_ delta_ mut
 global b eps_ mu_ Pdim1 Ldim1 x0 chi_ Qstep Nstep tgone ntgone gammas1D lambdas1D;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'pldyn5';  % run from which initial condition is drawn
-PR2 = 'pldyn5';  % run whose paramfile to use
-t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 20;       % new days to append to file
+PR1 = 'pldyn6';  % run from which initial condition is drawn
+PR2 = 'pldyn6';  % run whose paramfile to use
+t1 = 0;      % time in PR1 to use for initial condition; number or 'end'
+days = 5;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = ;
-basecode = 'pldyn';
-isnew = 0;
+runnum = 2;
+basecode = 'split';
+isnew = 1;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/']; %KONG datapath
 datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR1.*isletter(PR1))) '/']; %KONG datapath
 datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL/' deblank(char(PR2.*isletter(PR2))) '/']; %KONG datapath

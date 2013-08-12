@@ -41,7 +41,7 @@ omega = zeros(Pdim1,1);
         omega(i) = sum(shiftdim(gammas1D(i,:)).*L); % effectivity
     end
 Ptot = sum(P);
-dP = r_.*dmut.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega.*P;
+dP = r_.*P.*lambdas1D.*(1-capon*Ptot/K_) + dmut.*P - h_.*omega.*P;
 ndP = 0;
 for i=1:Pdim1         %% IF Pis0 (that is, we COUNT no P there, or P < mu_)  
     if(Pis0(i)==1 && dP(i)<(mu_/Qstep))  %% THEN P cannot show up there (dP = 0)
