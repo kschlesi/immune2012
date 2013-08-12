@@ -5,12 +5,12 @@ clear
 
 global tgone mrates ;
 
-days = 5;      % number of days to run simulation
+days = 3;      % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 7;
+runnum = 8.3;
 basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -28,7 +28,7 @@ r_ = 3.3;           % pathogen mutation rate
 h_ = 10^-5;         % pathogen killing
 sigma_ = 3;         % naive recruitment
 k_ = 10^5;          % pathogen saturation
-chi_ = 100;          % strength of mutation probability
+chi_ = 100;         % strength of mutation probability
 Gamma_ = 4;         % naive influx
 delta_ = 0.35;      % constant naive death rate
 pinit = 5;          % initial dose of pathogen
@@ -36,7 +36,7 @@ Qstep = 0.1;        % time-step for regenerating mutation matrix
 b = 10;             % width of Gaussian affinity curve
 eps_ = 0;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
-dh_ = 10^-7;        % coefficient of overall lymphocyte constraint
+dh_ = 5*10^-6;      % coefficient of overall lymphocyte constraint
 K_ = 10^10;         % pathogen carrying capacity
 capon = 1;          % switches on/off pathogen carrying capacity
 hsaton = 1;         % switches on/off lymphocyte constraint
@@ -62,9 +62,10 @@ P0 = zeros(Pdim1,1);    % initial pathogen inoculation
 P0(x0) = pinit;    
 
 L0density = Gamma_/delta_;          % initial naive cell mean density
-L0 = L0density.*ones(Ldim1,1);
 if (nrandon)
     L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
+else
+    L0 = L0density.*ones(Ldim1,1);
 end
 R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint applies
 

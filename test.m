@@ -18,13 +18,23 @@ for i=1:size(params,1)
     end
 end
 clear params;
+% 
+% Lflux = Gamma_;
+% disp(size(Lflux));
+% dL = Lflux + ones(Ldim1,1);
+% disp(dL(1:3));
+% 
+% mplot = randn(5);
+% disp(mplot);
+% mplot = mplot.*(mplot<1).*(mplot>-1);
+% disp(mplot);
 
-Lflux = Gamma_;
-disp(size(Lflux));
-dL = Lflux + ones(Ldim1,1);
-disp(dL(1:3));
+% make a matrix of size (Pdim1,Pdim1) whose entry (i,j) = i-j
+no = 10;
+imat = repmat((1:no)',1,no); % each index names its own row
+jmat = repmat(1:no,no,1); % each index names its own column
+disp(imat);
+disp(jmat);
+disp(abs(imat-jmat));
 
-mplot = randn(5);
-disp(mplot);
-mplot = mplot.*(mplot<1).*(mplot>-1);
-disp(mplot);
+iminj = abs(repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1));
