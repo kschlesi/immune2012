@@ -33,8 +33,28 @@ clear params;
 no = 10;
 imat = repmat((1:no)',1,no); % each index names its own row
 jmat = repmat(1:no,no,1); % each index names its own column
-disp(imat);
-disp(jmat);
-disp(abs(imat-jmat));
+%disp(imat);
+%disp(jmat);
+%disp(abs(imat-jmat));
 
 iminj = abs(repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1));
+
+%Pdim1 = 5;
+mrates = Qmatrix(Pdim1,chi_);
+P = (1:Pdim1)';
+
+tic
+Pmat = repmat(P,1,Pdim1);
+dmut1 = sum(Pmat.*mrates,1)';
+clear Pmat;
+toc
+
+tic
+dmut2 = zeros(Pdim1,1);
+for i=1:Pdim1
+    dmut2(i) = sum(P.*mrates(:,i));
+end
+toc
+
+%disp(dmut1);
+%disp(dmut2);

@@ -5,12 +5,12 @@ clear
 
 global tgone mrates ;
 
-days = 5;      % number of days to run simulation
+days = 5;       % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 9.4;
+runnum = 9.7;
 basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
