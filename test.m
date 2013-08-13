@@ -39,22 +39,23 @@ jmat = repmat(1:no,no,1); % each index names its own column
 
 iminj = abs(repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1));
 
-%Pdim1 = 5;
+Pdim1 = 5;
+chi_ = 1;
 mrates = Qmatrix(Pdim1,chi_);
 P = (1:Pdim1)';
 
-tic
 Pmat = repmat(P,1,Pdim1);
 dmut1 = sum(Pmat.*mrates,1)';
-clear Pmat;
-toc
+disp(mrates);
+disp(Pmat);
+disp(dmut1);
 
-tic
-dmut2 = zeros(Pdim1,1);
-for i=1:Pdim1
-    dmut2(i) = sum(P.*mrates(:,i));
-end
-toc
+% tic
+% dmut2 = zeros(Pdim1,1);
+% for i=1:Pdim1
+%     dmut2(i) = sum(P.*mrates(:,i));
+% end
+% toc
 
 %disp(dmut1);
 %disp(dmut2);

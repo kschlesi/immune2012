@@ -46,8 +46,8 @@ end
 % calculate dP (all size Pdim1 x 1)        
 Pmat = repmat(P,1,Pdim1);
 dmut = sum(Pmat.*mrates,1)';
-Lmat = repmat(L,1,Ldim1);
-omega = sum(Lmat.*gammas1D,1)';
+Lmat = repmat(L',Ldim1,1);
+omega = sum(Lmat.*gammas1D,2);
 clear Lmat;
 Ptot = sum(P);
 dP = (r_.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega).*P + dmut;
@@ -61,7 +61,7 @@ if hsaton
 else
     Hsat = 0; % if no constraint
 end
-Pofy = sum(Pmat.*gammas1D)';
+Pofy = sum(Pmat.*gammas1D,1)';
 clear Pmat;
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy); % pathogen saturation function
 dL = Gamma_ + (sigma_*satfunc - delta_*(1-satfunc) - dh_*Hsat).*L;
