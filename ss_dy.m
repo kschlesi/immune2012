@@ -2,12 +2,35 @@ function dy = ss_dy(t,y,b0,gammas1D,lambdas1D)
 
 global mrates tgone ;
 
-varrs = {'r_';'h_';'sigma_';'k_';'b';'eps_';'mu_';...
-    'dh_';'K_';'R_';'capon';'hsaton';'Pdim1';'Ldim1';'x0';'chi_';'Qstep';...
-    'Gamma_';'nrandon';'delta_';'muton';'pinit'};
-for i=1:size(b0,1)
-    eval([char(varrs{i,1}) ' = ' num2str(b0(i,1)) ';']);
-end
+% varrs = {'r_';'h_';'sigma_';'k_';'b';'eps_';'mu_';...
+%     'dh_';'K_';'R_';'capon';'hsaton';'Pdim1';'Ldim1';'x0';'chi_';'Qstep';...
+%     'Gamma_';'nrandon';'delta_';'muton';'pinit'};
+% for i=1:size(b0,1)
+%     eval([char(varrs{i,1}) ' = ' num2str(b0(i,1)) ';']);
+% end
+r_ = b0(1);
+h_ = b0(2);
+sigma_ = b0(3);
+k_ = b0(4);
+%b = b0(5);
+%eps_ = b0(6);
+mu_ = b0(7);
+dh_ = b0(8);
+K_ = b0(9);
+R_ = b0(10);
+capon = b0(11);
+hsaton = b0(12);
+Pdim1 = b0(13);
+Ldim1 = b0(14);
+%x0 = b0(15);
+chi_ = b0(16);
+Qstep = b0(17);
+Gamma_ = b0(18);
+%nrandon = b0(19);
+delta_ = b0(20);
+muton = b0(21);
+%pinit = b0(22);
+
 
 % create separate P, L vectors
 P = y(1:Pdim1);
