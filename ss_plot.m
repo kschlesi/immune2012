@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 10.7;
-basecode = 'simp';
+runnum = 1.1;
+basecode = 'ftry';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
