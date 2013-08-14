@@ -44,12 +44,11 @@ if (muton)              % use this 'if statement' for mutation every Qstep
 end    
         
 % calculate dP (all size Pdim1 x 1)        
-dmut = zeros(Pdim1,1);
-omega = zeros(Pdim1,1);
-    for i=1:Pdim1
-        dmut(i) = sum(P.*mrates(:,i)); % mut matrix mrates*P & summed
-        omega(i) = sum(L.*gammas1D(:,i)); % effectivity
-    end
+Pmat = repmat(P,1,Pdim1);
+dmut = sum(Pmat.*mrates,1)';
+Lmat = repmat(L,1,Ldim1);
+omega = sum(Lmat.*gammas1D,1)';
+clear Lmat;
 Ptot = sum(P);
 dP = (r_.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega).*P + dmut;
 zerodP = Pis0.*(dP<(mu_/Qstep)); % zero dP if Pis0, unless dP > mu_ (per mutation step)
@@ -62,12 +61,10 @@ if hsaton
 else
     Hsat = 0; % if no constraint
 end
-Pofy = zeros(Ldim1,1); % total P weighted by affinity to lymphocyte
-    for j = 1:Ldim1
-        Pofy(j)= sum(P.*gammas1D(:,j));
-    end
+Pofy = sum(Pmat.*gammas1D)';
+clear Pmat;
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy); % pathogen saturation function
-dL = Gamma_.*ones(Ldim1,1) + (sigma_.*satfunc - delta_.*(ones(Ldim1,1)-satfunc) - dh_.*Hsat.*ones(Ldim1,1)).*L;
+dL = Gamma_ + (sigma_*satfunc - delta_*(1-satfunc) - dh_*Hsat).*L;
 
 % print to command window: time (in days) and 
 % # of sites with NO pathogen both before and after this timestep

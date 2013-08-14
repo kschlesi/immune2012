@@ -2,7 +2,7 @@
 
 clear
 
-runnum = 9.1;
+runnum = 10.7;
 basecode = 'simp';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -33,18 +33,18 @@ Lplot = Lplot.*(Lplot>=mu_);
     Ltot = sum(Lplot,2);
     figure
     semilogy(tplot,Ptot,tplot,Ltot)
-    %axis([0 days 1 10^10])
-    axis([0 10 10^2 10^10])
-    title('Single-Infection Cell Populations, with mutation')%\phi = ' num2str(beta_)])
+    axis([0 days 1 10^10])
+    %axis([0 10 10^2 10^10])
+    title('Single-Infection Cell Populations')%\phi = ' num2str(beta_)])
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
     legend('Pathogen','Lymphocytes','Location','NorthWest')
 
-Pstrains = sum(Pplot>0,2);
-figure
-plot(tplot,Pstrains,'b--',tplot,[0;diff(Pstrains)],'r')
-axis([0 days 0 Pdim1])
+% Pstrains = sum(Pplot>0,2);
+% figure
+% plot(tplot,Pstrains,'b--',tplot,[0;diff(Pstrains)],'r')
+% axis([0 days 0 Pdim1])
 %axis([50 500 -5 25])
 
 
@@ -105,7 +105,7 @@ axis([0 days 0 Pdim1])
     Yaxis = (1:1:Pdim1);
     logsurf(Xaxis,Yaxis,Pplot')
     axis([0 days 0 Pdim1])
-    %axis([50 500 30 90])
+    %axis([0 days 0 100])
     title('Pathogen Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
