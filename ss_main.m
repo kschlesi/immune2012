@@ -5,13 +5,13 @@ clear
 
 global tgone mrates ;
 
-days = 10;       % number of days to run simulation
+days = 5;       % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 10.7;
-basecode = 'simp';
+runnum = 1.4;
+basecode = 'numus';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -28,7 +28,8 @@ r_ = 3.3;           % pathogen mutation rate
 h_ = 10^-5;         % pathogen killing
 sigma_ = 3;         % naive recruitment
 k_ = 10^5;          % pathogen saturation
-chi_ = 200;         % strength of mutation probability
+chi_ = 0;         % characteristic mutation distance
+w_ = 6.4*10^-5;     % average value of per-site mutation fraction per day 
 Gamma_ = 4;         % naive influx
 delta_ = 0.35;      % constant naive death rate
 pinit = 5;          % initial dose of pathogen
@@ -41,7 +42,7 @@ K_ = 10^10;         % pathogen carrying capacity
 capon = 1;          % switches on/off pathogen carrying capacity
 hsaton = 1;         % switches on/off lymphocyte constraint
 nrandon = 0;        % switches on/off stochastic naive distribution
-muton = 1;          % switches on/off pathogen mutation 
+muton = 0;          % switches on/off pathogen mutation 
 
 % dimensions of 1D shape space
 Pdim1 = 400;        % sites in pathogen shape space
@@ -54,7 +55,8 @@ lambdas1D = Lambdas(eps_,Pdim1); % vector of pathogen fitnesses
 for i=1:Pdim1;
     gammas1D(i,:) = Gammas([i,1],ones(Ldim1,1),1,b);
 end
-mrates = eye(Pdim1);    % initial mutation matrix: no mutation
+chi_ = chi_*muton;
+mrates = Qmatrix(Pdim1,chi_,w_*ones(Pdim1,1));
 
 
 %%%%%%%%%%%%%%%%%%%% setting initial configurations %%%%%%%%%%%%%%%%%%%%%%%
@@ -73,7 +75,7 @@ R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint app
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;pinit];
+    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;pinit;w_];
 writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 
 % creating & saving initial conditions vector

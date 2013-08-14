@@ -25,6 +25,7 @@ Gamma_ = b0(18);
 delta_ = b0(20);
 muton = b0(21);
 %pinit = b0(22);
+w_ = b0(23);
 
 % create separate P, L vectors
 % & set all < mu_ pops to 0 in ss_dy only (not returned to ss_main)
@@ -38,7 +39,7 @@ Pis0 = ones(Pdim1,1)-(P>=mu_);  % keep track of whether each site is below mu_
 % (matrix is symmetric and positive semi-definite, and all rows sum to 1)
 if (muton)              % use this 'if statement' for mutation every Qstep
     if (t-tgone)>=Qstep         
-        mrates = Qmatrix(Pdim1,chi_);
+        mrates = Qmatrix(Pdim1,chi_,w_*ones(Pdim1,1));
         tgone = t;   
     end
 end    

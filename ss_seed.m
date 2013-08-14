@@ -8,15 +8,15 @@ clear
 global mrates tgone ;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'simp10.7';  % run from which initial condition is drawn
-PR2 = 'simp10.7';  % run whose paramfile to use
+PR1 = 'numus1.4';  % run from which initial condition is drawn
+PR2 = 'numus1.4';  % run whose paramfile to use
 t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 20;       % new days to append to file
+days = 5;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 10.7;
-basecode = 'simp';
+runnum = 1.4;
+basecode = 'numus';
 isnew = 0;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR1.*isletter(PR1))) '/'];
@@ -88,10 +88,8 @@ lambdas1D = Lambdas(eps_,Pdim1);     % vector of pathogen fitnesses
 for i=1:Pdim1;
     gammas1D(i,:) = Gammas([i,1],ones(Ldim1,1),1,b);
 end
-mrates = eye(Pdim1,Pdim1);
-if (muton)
-    mrates = Qmatrix(Pdim1,chi_);
-end
+chi_ = chi_*muton;
+mrates = Qmatrix(Pdim1,chi_,w_*ones(Pdim1,1));
 
 % read in initial conditions (t1 from P/L0filename)
 oldtimes = csvread(t0filename);
@@ -127,7 +125,7 @@ plot((1:1:400),lambdas1D)
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;pinit];
+    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;pinit;w_];
 if isnew
     writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 end
