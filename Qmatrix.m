@@ -7,9 +7,8 @@ if ~chi_
         mrates = eye(Pdim1);
     end
 else
-    mrates = diag(chi_*ones(Pdim1-1,1),1) + diag(chi_*ones(Pdim1-1,1),-1);
+    mrates = diag(chi_/2*ones(Pdim1-1,1),1) + diag(chi_/2*ones(Pdim1-1,1),-1);
     iloss = sum(mrates,2);
-    disp(mrates);
     if ~spliton
         % uncomment below if combined mutation and growth terms
         mrates = mrates + diag(1-iloss);
