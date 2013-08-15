@@ -8,14 +8,14 @@ clear
 global mrates tgone ;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'ftry1.4';  % run from which initial condition is drawn
-PR2 = 'ftry1.4';  % run whose paramfile to use
+PR1 = 'ftry2.3';  % run from which initial condition is drawn
+PR2 = 'ftry2.3';  % run whose paramfile to use
 t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 100;       % new days to append to file
+days = 20;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = ;
+runnum = 2.3;
 basecode = 'ftry';
 isnew = 0;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
