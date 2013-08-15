@@ -50,7 +50,8 @@ Lmat = repmat(L,1,Ldim1);
 omega = sum(Lmat.*gammas1D,1)';
 clear Lmat;
 Ptot = sum(P);
-dP = (r_.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega).*P + dmut;
+%dP = (r_.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega).*P + dmut;
+dP = r_.*lambdas1D.*dmut.*(1-capon*Ptot/K_) - h_.*omega.*P;
 zerodP = Pis0.*(dP<(mu_/Qstep)); % zero dP if Pis0, unless dP > mu_ (per mutation step)
 ndP = sum(zerodP);               % number of sites that were at 0, and stayed there
 dP = dP.*(1-zerodP); 

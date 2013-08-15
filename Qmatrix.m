@@ -6,7 +6,7 @@ iminj = repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1)+eye(Pdim1);
 if ~chi_
     mrates = zeros(Pdim1);
     % uncomment below if combined mutation and growth terms
-    %mrates = eye(Pdim1);
+    mrates = eye(Pdim1);
 else
     while notnormz
         notnormz = 0;
@@ -16,7 +16,7 @@ else
         notnormz = sum((iloss>1));
     end
     % uncomment below if combined mutation and growth terms
-    %mrates = mrates + diag(1-iloss);
+    mrates = mrates + diag(1-iloss);
 end
     
 
