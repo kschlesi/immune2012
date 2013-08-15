@@ -24,7 +24,8 @@ Gamma_ = b0(18);
 %nrandon = b0(19);
 delta_ = b0(20);
 muton = b0(21);
-%pinit = b0(22);
+spliton = b0(22);
+%pinit = b0(23);
 
 % create separate P, L vectors
 % & set all < mu_ pops to 0 in ss_dy only (not returned to ss_main)
@@ -38,7 +39,7 @@ Pis0 = ones(Pdim1,1)-(P>=mu_);  % keep track of whether each site is below mu_
 % (matrix is symmetric and positive semi-definite, and all rows sum to 1)
 if (muton)              % use this 'if statement' for mutation every Qstep
     if (t-tgone)>=Qstep         
-        mrates = Qmatrix(Pdim1,chi_);
+        mrates = Qmatrix(Pdim1,chi_,spliton);
         tgone = t;   
     end
 end    
@@ -51,8 +52,12 @@ Lmat = repmat(L',Ldim1,1);
 omega = sum(Lmat.*gammas1D,2);
 clear Lmat;
 Ptot = sum(P);
-%dP = (r_.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega).*P + dmut;
 dP = r_.*dmut.*(1-capon*Ptot/K_) - h_.*omega.*P;
+Pmat = repmat(P,1,Pdim1);
+if spliton
+    dmut = sum(Pmat.*mrates,1)';
+    dP = (r_.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega).*P + dmut;
+end
 zerodP = Pis0.*(dP<(mu_/Qstep)); % zero dP if Pis0, unless dP > mu_ (per mutation step)
 ndP = sum(zerodP);               % number of sites that were at 0, and stayed there
 dP = dP.*(1-zerodP); 
@@ -63,7 +68,6 @@ if hsaton
 else
     Hsat = 0; % if no constraint
 end
-Pmat = repmat(P,1,Pdim1);
 Pofy = sum(Pmat.*gammas1D)';
 clear Pmat;
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy); % pathogen saturation function

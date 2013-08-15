@@ -90,7 +90,7 @@ for i=1:Pdim1;
 end
 mrates = eye(Pdim1,Pdim1);
 if (muton)
-    mrates = Qmatrix(Pdim1,chi_);
+    mrates = Qmatrix(Pdim1,chi_,spliton);
 end
 
 % read in initial conditions (t1 from P/L0filename)
@@ -127,7 +127,7 @@ plot((1:1:400),lambdas1D)
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;pinit];
+    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;spliton;pinit];
 if isnew
     writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 end

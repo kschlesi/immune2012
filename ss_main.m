@@ -10,8 +10,8 @@ stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 10.7;
-basecode = 'simp';
+runnum = 1.0;
+basecode = 'nnmut';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -42,6 +42,7 @@ capon = 1;          % switches on/off pathogen carrying capacity
 hsaton = 1;         % switches on/off lymphocyte constraint
 nrandon = 0;        % switches on/off stochastic naive distribution
 muton = 1;          % switches on/off pathogen mutation 
+spliton = 0;        % switched on/off mutation term split from growth term
 
 % dimensions of 1D shape space
 Pdim1 = 400;        % sites in pathogen shape space
@@ -54,7 +55,10 @@ lambdas1D = Lambdas(eps_,Pdim1); % vector of pathogen fitnesses
 for i=1:Pdim1;
     gammas1D(i,:) = Gammas([i,1],ones(Ldim1,1),1,b);
 end
-mrates = eye(Pdim1);    % initial mutation matrix: no mutation
+if ~muton
+    chi_ = 0;
+end
+mrates = Qmatrix(Pdim1,chi_,spliton);    % initial mutation matrix: no mutation
 
 
 %%%%%%%%%%%%%%%%%%%% setting initial configurations %%%%%%%%%%%%%%%%%%%%%%%
@@ -73,7 +77,7 @@ R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint app
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;pinit];
+    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;spliton;pinit];
 writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 
 % creating & saving initial conditions vector

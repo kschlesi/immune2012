@@ -1,12 +1,14 @@
-function mrates = Qmatrix(Pdim1,chi_)
+function mrates = Qmatrix(Pdim1,chi_,spliton)
 
 notnormz = 1;
 iminj = repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1)+eye(Pdim1);
 
 if ~chi_
     mrates = zeros(Pdim1);
-    % uncomment below if combined mutation and growth terms
-    mrates = eye(Pdim1);
+    if ~spliton
+        % uncomment below if combined mutation and growth terms
+        mrates = eye(Pdim1);
+    end
 else
     while notnormz
         notnormz = 0;
@@ -15,8 +17,10 @@ else
         iloss = sum(mrates,1);   % if unsymmetrising, check this!!!!
         notnormz = sum((iloss>1));
     end
-    % uncomment below if combined mutation and growth terms
-    mrates = mrates + diag(1-iloss);
+    if ~spliton
+        % uncomment below if combined mutation and growth terms
+        mrates = mrates + diag(1-iloss);
+    end
 end
     
 
