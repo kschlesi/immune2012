@@ -46,12 +46,13 @@ end
 % calculate dP (all size Pdim1 x 1)        
 PRmat = repmat(P.*lambdas1D,1,Pdim1);
 dmut = sum(PRmat.*mrates,1)';
+clear PRmat;
 Lmat = repmat(L',Ldim1,1);
 omega = sum(Lmat.*gammas1D,2);
 clear Lmat;
 Ptot = sum(P);
 %dP = (r_.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega).*P + dmut;
-dP = r_.*lambdas1D.*dmut.*(1-capon*Ptot/K_) - h_.*omega.*P;
+dP = r_.*dmut.*(1-capon*Ptot/K_) - h_.*omega.*P;
 zerodP = Pis0.*(dP<(mu_/Qstep)); % zero dP if Pis0, unless dP > mu_ (per mutation step)
 ndP = sum(zerodP);               % number of sites that were at 0, and stayed there
 dP = dP.*(1-zerodP); 

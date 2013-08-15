@@ -8,16 +8,16 @@ clear
 global mrates tgone ;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'ftry1.2';  % run from which initial condition is drawn
-PR2 = 'ftry1.2';  % run whose paramfile to use
-t1 = 0;      % time in PR1 to use for initial condition; number or 'end'
+PR1 = 'ftry1.4';  % run from which initial condition is drawn
+PR2 = 'ftry1.4';  % run whose paramfile to use
+t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
 days = 100;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 1.4;
+runnum = ;
 basecode = 'ftry';
-isnew = 1;
+isnew = 0;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR1.*isletter(PR1))) '/'];
 datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR2.*isletter(PR2))) '/'];
