@@ -22,6 +22,5 @@ else
         mrates = mrates + diag(1-iloss);
     end
 end
-    
 
 end

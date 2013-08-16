@@ -8,15 +8,15 @@ clear
 global mrates tgone ;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'ftry1.4';  % run from which initial condition is drawn
-PR2 = 'ftry1.4';  % run whose paramfile to use
+PR1 = 'etune7';  % run from which initial condition is drawn
+PR2 = 'etune7';  % run whose paramfile to use
 t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 100;       % new days to append to file
+days = 300;      % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = ;
-basecode = 'ftry';
+runnum = 7;
+basecode = 'etune';
 isnew = 0;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR1.*isletter(PR1))) '/'];
@@ -120,9 +120,12 @@ title(['P0 and L0 seeding distributions at t = ' num2str(olddays) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
+%axis([170 250 0 3.5*10^5])
 
 figure
-plot((1:1:400),lambdas1D)
+plot((1:1:400),r_*lambdas1D)
+xlabel('shape space location')
+ylabel('pathogen fitness')
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
