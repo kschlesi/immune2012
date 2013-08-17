@@ -5,13 +5,13 @@ clear
 
 global tgone mrates ;
 
-days = 20;       % number of days to run simulation
+days = 2;       % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 2.4;
-basecode = 'ftry';
+runnum = 1;
+basecode = 'poise';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -28,7 +28,7 @@ r_ = 3.3;           % pathogen mutation rate
 h_ = 10^-5;         % pathogen killing
 sigma_ = 3;         % naive recruitment
 k_ = 10^5;          % pathogen saturation
-chi_ = 5;         % strength of mutation probability
+chi_ = 5;           % strength of mutation probability
 Gamma_ = 4;         % naive influx
 delta_ = 0.35;      % constant naive death rate
 pinit = 5;          % initial dose of pathogen
@@ -82,7 +82,7 @@ writeparams(bfilename,b0); % creates paramfile for run; returns error if file al
 
 % creating & saving initial conditions vector
 t0 = 0;
-y0 = [P0;L0];
+y0 = [P0;L0;t0];
 
 dlmwrite(tfilename,t0);
 dlmwrite(Pfilename,P0');
