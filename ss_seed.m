@@ -5,8 +5,6 @@
 
 clear
 
-global mrates tgone ;
-
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
 PR1 = 'etune7';  % run from which initial condition is drawn
 PR2 = 'etune7';  % run whose paramfile to use

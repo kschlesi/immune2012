@@ -3,8 +3,6 @@
 
 clear
 
-global tgone mrates ;
-
 days = 7;       % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
@@ -59,7 +57,8 @@ end
 if ~muton
     chi_ = 0;
 end
-mrates = Qmatrix(Pdim1,chi_,spliton);    % initial mutation matrix: no mutation
+mrates = eye(Pdim1);
+%mrates = Qmatrix(Pdim1,chi_,spliton);    % initial mutation matrix: no mutation
 
 
 %%%%%%%%%%%%%%%%%%%% setting initial configurations %%%%%%%%%%%%%%%%%%%%%%%
@@ -67,7 +66,7 @@ P0 = zeros(Pdim1,1);    % initial pathogen inoculation
 P0(x0) = pinit;    
 
 L0density = Gamma_/delta_;          % initial naive cell mean density
-if (nrandon)
+if nrandon
     L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
 else
     L0 = L0density.*ones(Ldim1,1);
@@ -92,9 +91,10 @@ dlmwrite(Lfilename,L0');
 
 %%%%%%%%%%%%%%%%%%%%%%%% integrating diffeqs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_)); % sets 'events' option
-tspan = (t0:stepsize:days); % timespan for solver                % to stop integration
-n_ts = 1;       % counts total solver timesteps                  % and enforce cutoff at mu_
+options = odeset('AbsTol',1e-3,'Events',@(t,y) stopper(t,y,mu_),...
+    'OutputFcn',@(t,y,flag) Qmatrix(t,y,flag,Pdim1,chi_,nu_,spliton)); 
+tspan = t0:stepsize:days; % timespan for solver                
+n_ts = 1;       % counts total solver timesteps                  
 nstops = 0;     % counts number of interruptions
 contin = 1;     % while loop parameter
 tgone = 0;      % keeps track of most recent mutation matrix generation time 

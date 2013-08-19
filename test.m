@@ -68,21 +68,30 @@ iminj = abs(repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1));
 dim1 = 10;
 mu_ = 1;
 nu_ = 3e-4;
-avgsites = 1;
+chi_ = 2;
 P = [10^5;10^6;10^4];
 mtot = poissrnd(nu_*P*0.1);
-%disp(mtot);
+disp(mtot);
 
-newsites = floor(exprnd(avgsites,[size(mtot,1),max(mtot)])+1);
+newsites = chi_.*randn(max(mtot),size(mtot,1));
+newsites = floor(newsites+(newsites>=0)); 
 for i=1:size(mtot,1)
-    newsites(i,mtot(i)+1:end) = zeros;
+    newsites(mtot(i)+1:end,i) = zeros;
 end
-%disp(newsites);
- 
-news = histc(newsites',linspace(1,dim1,dim1))';
-%disp(news);
-pgain = sum(news,1);
-ploss = sum(news,2);
+iminj = repmat(1:dim1,dim1,1)-repmat((1:dim1)',1,dim1);
+news = zeros(dim1,size(P,1));
+for i=1:size(P,1)
+    news(:,i) = histc(newsites(:,i),iminj(i,:));
+end
+d = max(mtot).*eye(dim1);
+news = news - d(:,1:size(mtot,1));
+
+%news = histc(newsites,linspace(-dim1+1,dim1-1,2*dim1-1));
+%news(dim1,:) = -(mtot);
+disp(news);
+pgain = sum(news,2);
+ploss = sum(news,1)';
 disp(pgain);
+disp(ploss);
 % figure
 % plot(news');
