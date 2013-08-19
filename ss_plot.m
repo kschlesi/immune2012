@@ -2,9 +2,9 @@
 
 clear
 
-runnum = 1.7;
-basecode = 'nnmut';
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
+runnum = 7.2;
+basecode = 'pldyn';
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -105,7 +105,7 @@ Lplot = Lplot.*(Lplot>=mu_);
     Yaxis = (1:1:Pdim1);
     logsurf(Xaxis,Yaxis,Pplot')
     axis([0 days 0 Pdim1])
-    %axis([0 days 0 50])
+    %axis([0 days 0 30])
     title('Pathogen Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
