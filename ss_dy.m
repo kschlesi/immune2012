@@ -1,6 +1,6 @@
 function dy = ss_dy(t,y,b0,gammas1D,lambdas1D)
 
-global mrates tlast tgone ;
+global mrates tlast ;
 
 % parse b0 and set constant parameters in scope
 r_ = b0(1);
@@ -26,6 +26,7 @@ delta_ = b0(20);
 muton = b0(21);
 spliton = b0(22);
 %pinit = b0(23);
+nu_ = b0(24);
 
 % create separate P, L vectors
 % & set all < mu_ pops to 0 in ss_dy only (not returned to ss_main)
@@ -33,18 +34,8 @@ P = y(1:Pdim1);
 L = y(Pdim1+1:Pdim1+Ldim1);
 P = P.*(P>=mu_);
 L = L.*(L>=mu_);
-Pis0 = ones(Pdim1,1)-(P>=mu_);  % keep track of whether each site is below mu_
+Pis0 = (P<mu_);  % keep track of whether each site is below mu_
 
-
-% create stochastic mutation matrix (size Pdim1 x Pdim1)
-% (matrix is symmetric and positive semi-definite, and all rows sum to 1)
-if (muton)              % use this 'if statement' for mutation every Qstep
-    if (t-tgone)>=Qstep         
-        mrates = Qmatrix(Pdim1,chi_,spliton);
-        tgone = t;   
-    end
-end    
-        
 % calculate dP (all size Pdim1 x 1)        
 PRmat = repmat(P.*lambdas1D,1,Pdim1);
 dmut = sum(PRmat.*mrates,1)';
@@ -74,8 +65,6 @@ clear Pmat;
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy); % pathogen saturation function
 dL = Gamma_ + (sigma_*satfunc - delta_*(1-satfunc) - dh_*Hsat).*L;
 
-nu_ = 3e-4;
-chi_ = 2;
 tstep = t-tlast;
 if muton*tstep>0
     ploss = poissrnd(P.*nu_.*tstep);

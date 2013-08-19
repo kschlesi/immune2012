@@ -28,7 +28,8 @@ r_ = 3.3;           % pathogen mutation rate
 h_ = 10^-5;         % pathogen killing
 sigma_ = 3;         % naive recruitment
 k_ = 10^5;          % pathogen saturation
-chi_ = 5;           % strength of mutation probability
+chi_ = 2;           % avg mutation distance in shape space
+nu_ = 3e-4;         % average muts per cell per day
 Gamma_ = 4;         % naive influx
 delta_ = 0.35;      % constant naive death rate
 pinit = 5;          % initial dose of pathogen
@@ -77,7 +78,7 @@ R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint app
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;spliton;pinit];
+    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;spliton;pinit;nu_];
 writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 
 % creating & saving initial conditions vector

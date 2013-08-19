@@ -129,8 +129,8 @@ ylabel('pathogen fitness')
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
-b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;spliton;pinit];
+b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;Pdim1;Ldim1;x0;...
+    chi_;Qstep;Gamma_;nrandon;delta_;muton;spliton;pinit;nu_];
 if isnew
     writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 end
