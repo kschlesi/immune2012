@@ -5,7 +5,7 @@ clear
 
 global tgone mrates ;
 
-days = 2;       % number of days to run simulation
+days = 7;       % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:

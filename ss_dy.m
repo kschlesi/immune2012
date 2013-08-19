@@ -35,9 +35,6 @@ P = P.*(P>=mu_);
 L = L.*(L>=mu_);
 Pis0 = ones(Pdim1,1)-(P>=mu_);  % keep track of whether each site is below mu_
 
-tstep = t-tlast;
-disp([t tlast tstep]);
-tlast = t;
 
 % create stochastic mutation matrix (size Pdim1 x Pdim1)
 % (matrix is symmetric and positive semi-definite, and all rows sum to 1)
@@ -63,7 +60,7 @@ if spliton
     dP = (r_.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega).*P + dmut;
 end
 zerodP = Pis0.*(dP<(mu_/Qstep)); % zero dP if Pis0, unless dP > mu_ (per mutation step)
-ndP = sum(zerodP);               % number of sites that were at 0, and stayed there
+%ndP = sum(zerodP);               % number of sites that were at 0, and stayed there
 dP = dP.*(1-zerodP); 
 
 % calculate dL's (all size Ldim1 x 1)
@@ -76,6 +73,21 @@ Pofy = sum(Pmat.*gammas1D)';
 clear Pmat;
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy); % pathogen saturation function
 dL = Gamma_ + (sigma_*satfunc - delta_*(1-satfunc) - dh_*Hsat).*L;
+
+nu_ = 3e-4;
+chi_ = 2;
+tstep = t-tlast;
+if muton*tstep>0
+    ploss = poissrnd(P.*nu_.*tstep);
+    newsites = floor(exprnd(chi_,[size(ploss,1),max(ploss)])+1);
+    for i=1:size(ploss,1)
+        newsites(i,ploss(i)+1:end) = zeros;
+    end
+    mrates = histc(newsites',linspace(1,Pdim1,Pdim1))';
+    pgain = sum(mrates,1)';
+end
+
+tlast = t;
 
 % print to command window: time (in days) and 
 % # of sites with NO pathogen both before and after this timestep

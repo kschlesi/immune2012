@@ -59,8 +59,30 @@ iminj = abs(repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1));
 %disp(dmut1);
 %disp(dmut2);
 
-chii = 2.5*10^-4;
-figure
-plot(sqrt(2/pi)*chii*(1:400).^(-2))
-figure
-loglog(sqrt(2/pi)*chii*(1:400).^(-2))
+% chii = 2.5*10^-4;
+% figure
+% plot(sqrt(2/pi)*chii*(1:400).^(-2))
+% figure
+% loglog(sqrt(2/pi)*chii*(1:400).^(-2))
+
+dim1 = 10;
+mu_ = 1;
+nu_ = 3e-4;
+avgsites = 1;
+P = [10^5;10^6;10^4];
+mtot = poissrnd(nu_*P*0.1);
+%disp(mtot);
+
+newsites = floor(exprnd(avgsites,[size(mtot,1),max(mtot)])+1);
+for i=1:size(mtot,1)
+    newsites(i,mtot(i)+1:end) = zeros;
+end
+%disp(newsites);
+ 
+news = histc(newsites',linspace(1,dim1,dim1))';
+%disp(news);
+pgain = sum(news,1);
+ploss = sum(news,2);
+disp(pgain);
+% figure
+% plot(news');
