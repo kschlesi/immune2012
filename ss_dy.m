@@ -1,6 +1,6 @@
 function dy = ss_dy(t,y,b0,gammas1D,lambdas1D)
 
-global mrates tgone ;
+global mrates tlast tgone ;
 
 % parse b0 and set constant parameters in scope
 r_ = b0(1);
@@ -31,12 +31,13 @@ spliton = b0(22);
 % & set all < mu_ pops to 0 in ss_dy only (not returned to ss_main)
 P = y(1:Pdim1);
 L = y(Pdim1+1:Pdim1+Ldim1);
-tlast = y(end);
 P = P.*(P>=mu_);
 L = L.*(L>=mu_);
 Pis0 = ones(Pdim1,1)-(P>=mu_);  % keep track of whether each site is below mu_
 
 tstep = t-tlast;
+disp([t tlast tstep]);
+tlast = t;
 
 % create stochastic mutation matrix (size Pdim1 x Pdim1)
 % (matrix is symmetric and positive semi-definite, and all rows sum to 1)
@@ -78,9 +79,9 @@ dL = Gamma_ + (sigma_*satfunc - delta_*(1-satfunc) - dh_*Hsat).*L;
 
 % print to command window: time (in days) and 
 % # of sites with NO pathogen both before and after this timestep
-disp([t tlast]);
-disp(ndP);
+%disp(t);
+%disp(ndP);
 
-dy = [dP;dL;t];
+dy = [dP;dL];
 
 end

@@ -82,7 +82,7 @@ writeparams(bfilename,b0); % creates paramfile for run; returns error if file al
 
 % creating & saving initial conditions vector
 t0 = 0;
-y0 = [P0;L0;t0];
+y0 = [P0;L0];
 
 dlmwrite(tfilename,t0);
 dlmwrite(Pfilename,P0');
