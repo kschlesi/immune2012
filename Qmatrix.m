@@ -35,8 +35,7 @@ else
     disp(ploss);
     
     mrates = news';
-    status = mrates;
-        
+    status = mrates; 
     
 end
 
