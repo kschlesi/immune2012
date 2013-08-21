@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 1.7;
-basecode = 'nnmut';
+runnum = 7;
+basecode = 'etune';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -27,19 +27,8 @@ n_ts = size(tplot,1);
 
 Pplot = Pplot.*(Pplot>=mu_);
 Lplot = Lplot.*(Lplot>=mu_);
-
-%plot of total pathogen v. total lymphocyte population
-    Ptot = sum(Pplot,2);
-    Ltot = sum(Lplot,2);
-    figure
-    semilogy(tplot,Ptot,tplot,Ltot)
-    axis([0 days 1 10^10])
-    %axis([0 20 1 10^10])
-    title('Single-Infection Cell Populations')
-%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
-    xlabel('duration of infection (days)')
-    ylabel('total population (cells)')
-    legend('Pathogen','Lymphocytes','Location','NorthWest')
+Ptot = sum(Pplot,2);
+Ltot = sum(Lplot,2);
 
 % Pstrains = sum(Pplot>0,2);
 % figure
@@ -109,6 +98,21 @@ Lplot = Lplot.*(Lplot>=mu_);
     title('Pathogen Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
+    clear Pplot;
+    
+    %plot of total pathogen v. total lymphocyte population
+    figure
+    semilogy(tplot,Ptot,tplot,Ltot)
+    axis([0 days 1 10^10])
+    %axis([0 20 1 10^10])
+    title('Single-Infection Cell Populations')
+%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
+    xlabel('duration of infection (days)')
+    ylabel('total population (cells)')
+    legend('Pathogen','Lymphocytes','Location','NorthWest')
+    clear Ptot;
+    clear Ltot;
+
     
 %     Plog = ones(size(Pplot));
 %     Llog = ones(size(Lplot));
@@ -145,7 +149,7 @@ Lplot = Lplot.*(Lplot>=mu_);
     title('Lymphocyte Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
-
+    clear Lplot;
       
 % % plots of cutoff levels for whole infection
 %     v = [ mu_ 1 ];

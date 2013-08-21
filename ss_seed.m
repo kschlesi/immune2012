@@ -11,11 +11,11 @@ global mrates tgone ;
 PR1 = 'etune7';  % run from which initial condition is drawn
 PR2 = 'etune7';  % run whose paramfile to use
 t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 300;      % new days to append to file
+days = 500;      % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 7;
+runnum = ;
 basecode = 'etune';
 isnew = 0;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
