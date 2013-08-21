@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 7;
-basecode = 'etune';
+runnum = 5;
+basecode = 'qtune';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -94,7 +94,7 @@ Ltot = sum(Lplot,2);
     Yaxis = (1:1:Pdim1);
     logsurf(Xaxis,Yaxis,Pplot')
     axis([0 days 0 Pdim1])
-    %axis([0 days 0 50])
+    %axis([0 18 0 Pdim1])
     title('Pathogen Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
@@ -104,7 +104,7 @@ Ltot = sum(Lplot,2);
     figure
     semilogy(tplot,Ptot,tplot,Ltot)
     axis([0 days 1 10^10])
-    %axis([0 20 1 10^10])
+    %axis([0 18 1 10^10])
     title('Single-Infection Cell Populations')
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
@@ -145,7 +145,7 @@ Ltot = sum(Lplot,2);
     Yaxis = (1:1:Ldim1);
     logsurf(Xaxis,Yaxis,Lplot')
     axis([0 days 0 Ldim1])
-    %axis([0 10 0 100])
+    %axis([0 18 0 Ldim1])
     title('Lymphocyte Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
