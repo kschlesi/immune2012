@@ -3,15 +3,15 @@
 
 clear
 
-global tgone mrates ;
+global mrates ;
 
 days = 10;       % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 1.0;
-basecode = 'nnmut';
+runnum = 8;
+basecode = 'qtune';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -28,20 +28,18 @@ r_ = 3.3;           % pathogen mutation rate
 h_ = 10^-5;         % pathogen killing
 sigma_ = 3;         % naive recruitment
 k_ = 10^5;          % pathogen saturation
-chi_ = 200;         % strength of mutation probability
+chi_ = 10;          % strength of mutation probability (chi_=0: no mutation)
 Gamma_ = 4;         % naive influx
 delta_ = 0.35;      % constant naive death rate
 pinit = 5;          % initial dose of pathogen
-Qstep = 0.1;        % time-step for regenerating mutation matrix
-b = 10;             % width of Gaussian affinity curve
+b = 30;             % width of Gaussian affinity curve
 eps_ = 0;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
-dh_ = 10^-7;        % coefficient of overall lymphocyte constraint
+dh_ = 5e-7;         % coefficient of overall lymphocyte constraint
 K_ = 10^10;         % pathogen carrying capacity
 capon = 1;          % switches on/off pathogen carrying capacity
 hsaton = 1;         % switches on/off lymphocyte constraint
 nrandon = 0;        % switches on/off stochastic naive distribution
-muton = 1;          % switches on/off pathogen mutation 
 spliton = 0;        % switched on/off mutation term split from growth term
 
 % dimensions of 1D shape space
@@ -55,10 +53,7 @@ lambdas1D = Lambdas(eps_,Pdim1); % vector of pathogen fitnesses
 for i=1:Pdim1;
     gammas1D(i,:) = Gammas([i,1],ones(Ldim1,1),1,b);
 end
-if ~muton
-    chi_ = 0;
-end
-mrates = Qmatrix(Pdim1,chi_,spliton);    % initial mutation matrix: no mutation
+mrates = Qmatrix(Pdim1,chi_,spliton);    % initial mutation matrix
 
 
 %%%%%%%%%%%%%%%%%%%% setting initial configurations %%%%%%%%%%%%%%%%%%%%%%%
@@ -69,7 +64,7 @@ L0density = Gamma_/delta_;          % initial naive cell mean density
 if (nrandon)
     L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
 else
-    L0 = L0density.*ones(Ldim1,1);
+    L0 = L0density.*ones(Ldim1,1);        % uniform distribution of naive cells
 end
 R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint applies
 
@@ -77,7 +72,7 @@ R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint app
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;spliton;pinit];
+    Pdim1;Ldim1;x0;chi_;Gamma_;nrandon;delta_;spliton;pinit];
 writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 
 % creating & saving initial conditions vector
@@ -96,8 +91,6 @@ tspan = (t0:stepsize:days); % timespan for solver                % to stop integ
 n_ts = 1;       % counts total solver timesteps                  % and enforce cutoff at mu_
 nstops = 0;     % counts number of interruptions
 contin = 1;     % while loop parameter
-tgone = 0;      % keeps track of most recent mutation matrix generation time 
-
 while (contin)
     
     % integrate until 'stopper' event...(or total days reached)
@@ -149,8 +142,13 @@ while (contin)
 end
 
 %%%%%%%%%%%%%%%% plotting initial & final distributions %%%%%%%%%%%%%%%%%%%
-    figure
-    plot((1:1:Pdim1),P0)
 
-    figure
-    plot((1:1:Pdim1),P_out(end,:))
+figure    % plot of P0 and L0 distributions at days
+hold on
+hold all
+plot((1:1:400),P_out(end,:)')
+plot((1:1:400),L_out(end,:)')
+title(['P0 and L0 distributions at t = ' num2str(ts_vec(end)) ' days'])
+xlabel('location in shape space (site)')
+ylabel('population (cells/\mul)')
+legend('Pathogen','Lymphocytes')

@@ -1,6 +1,6 @@
 function dy = ss_dy(t,y,b0,gammas1D,lambdas1D)
 
-global mrates tgone ;
+global mrates ;
 
 % parse b0 and set constant parameters in scope
 r_ = b0(1);
@@ -18,14 +18,12 @@ hsaton = b0(12);
 Pdim1 = b0(13);
 Ldim1 = b0(14);
 %x0 = b0(15);
-chi_ = b0(16);
-Qstep = b0(17);
-Gamma_ = b0(18);
-%nrandon = b0(19);
-delta_ = b0(20);
-muton = b0(21);
-spliton = b0(22);
-%pinit = b0(23);
+%chi_ = b0(16);
+Gamma_ = b0(17);
+%nrandon = b0(18);
+delta_ = b0(19);
+spliton = b0(20);
+%pinit = b0(21);
 
 % create separate P, L vectors
 % & set all < mu_ pops to 0 in ss_dy only (not returned to ss_main)
@@ -33,17 +31,8 @@ P = y(1:Pdim1);
 L = y(Pdim1+1:Pdim1+Ldim1);
 P = P.*(P>=mu_);
 L = L.*(L>=mu_);
-Pis0 = ones(Pdim1,1)-(P>=mu_);  % keep track of whether each site is below mu_
+Pis0 = (P<mu_);  % keep track of whether each site is below mu_
 
-% create stochastic mutation matrix (size Pdim1 x Pdim1)
-% (matrix is symmetric and positive semi-definite, and all rows sum to 1)
-if (muton)              % use this 'if statement' for mutation every Qstep
-    if (t-tgone)>=Qstep         
-        mrates = Qmatrix(Pdim1,chi_,spliton);
-        tgone = t;   
-    end
-end    
-        
 % calculate dP (all size Pdim1 x 1)        
 PRmat = repmat(P.*lambdas1D,1,Pdim1);
 dmut = sum(PRmat.*mrates,1)';
@@ -58,7 +47,7 @@ if spliton
     dmut = sum(Pmat.*mrates,1)';
     dP = (r_.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega).*P + dmut;
 end
-zerodP = Pis0.*(dP<(mu_/Qstep)); % zero dP if Pis0, unless dP > mu_ (per mutation step)
+zerodP = Pis0.*(dP<(mu_*r_)); % zero dP if Pis0, unless dP > mu_ (per mutation step)
 ndP = sum(zerodP);               % number of sites that were at 0, and stayed there
 dP = dP.*(1-zerodP); 
 
