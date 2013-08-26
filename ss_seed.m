@@ -8,14 +8,14 @@ clear
 global mrates tgone ;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'qtune5';  % run from which initial condition is drawn
-PR2 = 'qtune5';  % run whose paramfile to use
+PR1 = 'qtune7';  % run from which initial condition is drawn
+PR2 = 'qtune7';  % run whose paramfile to use
 t1 = 'end';          % time in PR1 to use for initial condition; number or 'end'
-days = 50;       % new days to append to file
+days = 200;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 5;
+runnum = 7;
 basecode = 'qtune';
 isnew = 0;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
@@ -81,7 +81,6 @@ if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
 clear params;
-%b = 30;
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
