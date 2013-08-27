@@ -8,16 +8,16 @@ clear
 global mrates ;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'qtune8';  % run from which initial condition is drawn
-PR2 = 'qtune8';  % run whose paramfile to use
-t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 200;       % new days to append to file
+PR1 = 'qtune9';  % run from which initial condition is drawn
+PR2 = 'qtune9';  % run whose paramfile to use
+t1 = 0;      % time in PR1 to use for initial condition; number or 'end'
+days = 50;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 8;
+runnum = 9.3;
 basecode = 'qtune';
-isnew = 0;
+isnew = 1;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR1.*isletter(PR1))) '/'];
 datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR2.*isletter(PR2))) '/'];
@@ -81,6 +81,7 @@ if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
 clear params;
+chi_ = 9.75;
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);

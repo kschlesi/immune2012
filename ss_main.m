@@ -5,12 +5,12 @@ clear
 
 global mrates ;
 
-days = 10;       % number of days to run simulation
+days = 50;       % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 8;
+runnum = 9;
 basecode = 'qtune';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -28,11 +28,11 @@ r_ = 3.3;           % pathogen mutation rate
 h_ = 10^-5;         % pathogen killing
 sigma_ = 3;         % naive recruitment
 k_ = 10^5;          % pathogen saturation
-chi_ = 10;          % strength of mutation probability (chi_=0: no mutation)
+chi_ = 8;           % strength of mutation probability (chi_=0: no mutation)
 Gamma_ = 4;         % naive influx
 delta_ = 0.35;      % constant naive death rate
 pinit = 5;          % initial dose of pathogen
-b = 30;             % width of Gaussian affinity curve
+b = 23;             % width of Gaussian affinity curve
 eps_ = 0;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
 dh_ = 5e-7;         % coefficient of overall lymphocyte constraint
