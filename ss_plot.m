@@ -2,7 +2,7 @@
 
 clear
 
-runnum = 9.1;
+runnum = 8.3;
 basecode = 'qtune';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -42,13 +42,16 @@ Lplot = Lplot.*(Lplot>=mu_);
 Ptot = sum(Pplot,2);
 Ltot = sum(Lplot,2);
 
-Ppeak = max(Ptot.*(tplot<10));
+% calculate maxd from first Ppeak; compare with estimate
+Pderiv = diff(Ptot);
+peaks = (Pderiv<0).*(circshift(Pderiv,1)>=0);
+Ppeak = Ptot(find(peaks,1,'first'));
+disp(Ptot(1:end-1).*peaks);
+%peakind = (derivtest<0).*(circshift(derivtest,1)>0);
 peakindex = find(Ptot==Ppeak);
 peaktime = tplot(peakindex);
 maxsite = find(Pplot(peakindex+2,:)==0,1,'first')-1;
 maxd = maxsite-x0;
-
-%disp(Ppeak);
 disp([maxd sqrt(2e-4*Ppeak*(1-Ppeak/K_))]);
 
 % Pstrains = sum(Pplot>0,2);
