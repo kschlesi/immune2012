@@ -5,19 +5,19 @@
 
 clear
 
-global mrates tgone ;
+global mrates ;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'ftry2.3';  % run from which initial condition is drawn
-PR2 = 'ftry2.3';  % run whose paramfile to use
-t1 = 'end';      % time in PR1 to use for initial condition; number or 'end'
-days = 20;       % new days to append to file
+PR1 = 'qtune12.3';  % run from which initial condition is drawn
+PR2 = 'qtune12.3';  % run whose paramfile to use
+t1 = 0;      % time in PR1 to use for initial condition; number or 'end'
+days = 50;       % new days to append to file
 stepsize = 0.1;  % size of steps at which to save
 
 % new run files to be created
-runnum = 2.3;
-basecode = 'ftry';
-isnew = 0;
+runnum = 12.4;
+basecode = 'qtune';
+isnew = 1;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR1.*isletter(PR1))) '/'];
 datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR2.*isletter(PR2))) '/'];
@@ -81,6 +81,9 @@ if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
 clear params;
+Pdim1 = 500;
+Ldim1 = 500;
+R_ = Gamma_*Ldim1/delta_;
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
@@ -88,10 +91,7 @@ lambdas1D = Lambdas(eps_,Pdim1);     % vector of pathogen fitnesses
 for i=1:Pdim1;
     gammas1D(i,:) = Gammas([i,1],ones(Ldim1,1),1,b);
 end
-mrates = eye(Pdim1,Pdim1);
-if (muton)
-    mrates = Qmatrix(Pdim1,chi_,spliton);
-end
+mrates = Qmatrix(Pdim1,chi_,spliton);
 
 % read in initial conditions (t1 from P/L0filename)
 oldtimes = csvread(t0filename);
@@ -104,6 +104,8 @@ end
 t0 = oldtimes(t0index);
 P0 = transpose(csvread(P0filename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
 L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
+%P0 = [P0;zeros(100,1)];
+%L0 = [L0;L0(1:100)];
 
 % % modifying initial conditions vector (new infection?)
 % P0_add = zeros(size(P0));
@@ -114,20 +116,23 @@ L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
 figure    % plot of P0 and L0 distributions at t0
 hold on
 hold all
-plot((1:1:400),P0)
-plot((1:1:400),L0)
+plot((1:1:Pdim1),P0)
+plot((1:1:Ldim1),L0)
 title(['P0 and L0 seeding distributions at t = ' num2str(olddays) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
+%axis([170 250 0 3.5*10^5])
 
 figure
-plot((1:1:400),lambdas1D)
+plot((1:1:Pdim1),r_*lambdas1D)
+xlabel('shape space location')
+ylabel('pathogen fitness')
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Qstep;Gamma_;nrandon;delta_;muton;spliton;pinit];
+    Pdim1;Ldim1;x0;chi_;Gamma_;nrandon;delta_;spliton;pinit];
 if isnew
     writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 end
@@ -148,7 +153,6 @@ options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_));
 n_ts = size(oldtimes,1);
 contin = 1;
 nstops = 0;
-tgone = t0;
 while (contin)
 
     % integrate until 'stopper' event...(or total days reached)
@@ -204,8 +208,8 @@ end
 figure    % plot of P0 and L0 distributions at days+olddays
 hold on
 hold all
-plot((1:1:400),squeeze(P_out(end,:)))
-plot((1:1:400),squeeze(L_out(end,:)))
+plot((1:1:Pdim1),squeeze(P_out(end,:)))
+plot((1:1:Ldim1),squeeze(L_out(end,:)))
 title(['P0 and L0 distributions at t = ' num2str(ts_vec(end)) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')

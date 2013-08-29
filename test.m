@@ -40,21 +40,27 @@ jmat = repmat(1:no,no,1); % each index names its own column
 iminj = abs(repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1));
 
 %Pdim1 = 5;
-mrates = Qmatrix(Pdim1,chi_);
-P = (1:Pdim1)';
-
-tic
-Pmat = repmat(P,1,Pdim1);
-dmut1 = sum(Pmat.*mrates,1)';
-clear Pmat;
-toc
-
-tic
-dmut2 = zeros(Pdim1,1);
-for i=1:Pdim1
-    dmut2(i) = sum(P.*mrates(:,i));
-end
-toc
+%mrates = Qmatrix(Pdim1,chi_);
+% P = (1:Pdim1)';
+% 
+% tic
+% Pmat = repmat(P,1,Pdim1);
+% dmut1 = sum(Pmat.*mrates,1)';
+% clear Pmat;
+% toc
+% 
+% tic
+% dmut2 = zeros(Pdim1,1);
+% for i=1:Pdim1
+%     dmut2(i) = sum(P.*mrates(:,i));
+% end
+% toc
 
 %disp(dmut1);
 %disp(dmut2);
+
+chii = 2.5*10^-4;
+figure
+plot(sqrt(2/pi)*chii*(1:400).^(-2))
+figure
+loglog(sqrt(2/pi)*chii*(1:400).^(-2))

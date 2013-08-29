@@ -2,15 +2,16 @@
 
 clear
 
-runnum = 7.2;
-basecode = 'pldyn';
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
+runnum = 12.4;
+basecode = 'qtune';
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
 Lfilename = [datapath 'L' basecode num2str(runnum) '.txt'];
 
 % set parameters
+days = 0;
 params = setparams(bfilename);
 for i=1:size(params,1)
     eval([char(params{i,1}) ' = ' num2str(params{i,2}) ';']);
@@ -25,21 +26,34 @@ Lplot = csvread(Lfilename);
 
 n_ts = size(tplot,1);
 
+% update paramfile with last 'days' value saved if ode45 was interrupted
+if ~days
+    tend = cell(1,3);                   
+    tend{1,1} = 'days';                
+    tend{1,2} = tplot(end);
+    tend{1,3} = 'days';
+    cell2csv(bfilename,tend,1); 
+    clear tend;
+    days = tplot(end);
+end    
+    
 Pplot = Pplot.*(Pplot>=mu_);
 Lplot = Lplot.*(Lplot>=mu_);
+Ptot = sum(Pplot,2);
+Ltot = sum(Lplot,2);
 
-%plot of total pathogen v. total lymphocyte population
-    Ptot = sum(Pplot,2);
-    Ltot = sum(Lplot,2);
-    figure
-    semilogy(tplot,Ptot,tplot,Ltot)
-    axis([0 days 1 10^10])
-    %axis([0 10 10^2 10^10])
-    title('Single-Infection Cell Populations')%\phi = ' num2str(beta_)])
-%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
-    xlabel('duration of infection (days)')
-    ylabel('total population (cells)')
-    legend('Pathogen','Lymphocytes','Location','NorthWest')
+% calculate maxd from first Ppeak; compare with estimate
+Pderiv = diff(Ptot);
+peaks = (Pderiv<0).*(circshift(Pderiv,1)>=0);
+Ppeak = Ptot(find(peaks,1,'first'));
+%disp(Ptot(1:end-1).*peaks);
+%peakind = (derivtest<0).*(circshift(derivtest,1)>0);
+peakindex = find(Ptot==Ppeak);
+peaktime = tplot(peakindex);
+maxsite = find(Pplot(peakindex+2,:)==0,1,'first')-1;
+maxd = maxsite-x0;
+curlyL = sqrt(2/pi)/(Pdim1*chi_);
+disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
 
 % Pstrains = sum(Pplot>0,2);
 % figure
@@ -105,19 +119,62 @@ Lplot = Lplot.*(Lplot>=mu_);
     Yaxis = (1:1:Pdim1);
     logsurf(Xaxis,Yaxis,Pplot')
     axis([0 days 0 Pdim1])
-    %axis([0 days 0 30])
+    %axis([0 18 0 Pdim1])
     title('Pathogen Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
+    %clear Pplot;
+    
+    %plot of total pathogen v. total lymphocyte population
+    figure
+    semilogy(tplot,Ptot,tplot,Ltot)
+    axis([0 days 1 10^10])
+    %axis([0 18 1 10^10])
+    title('Single-Infection Cell Populations')
+%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
+    xlabel('duration of infection (days)')
+    ylabel('total population (cells)')
+    legend('Pathogen','Lymphocytes','Location','NorthWest')
+    %clear Ptot;
+    %clear Ltot;
+
+    
+%     Plog = ones(size(Pplot));
+%     Llog = ones(size(Lplot));
+%     for i=1:size(Plog,1)  % log-scaling the values
+%         for j=1:size(Plog,2)
+%             if Pplot(i,j)>1
+%                 Plog(i,j) = log(Pplot(i,j));
+%             else
+%                 Plog(i,j) = 0;
+%             end
+%             if Lplot(i,j)>1
+%                 Llog(i,j) = log(Lplot(i,j));
+%             else
+%                 Plog(i,j) = 0;
+%             end
+%         end
+%     end
+%     
+%     Xaxis = tplot;
+%     Yaxis = (1:1:Pdim1);
+%     figure
+%     surf(Xaxis,Yaxis,transpose(Plog),'EdgeColor','none')
+%     axis([0 days 0 Pdim1])
+%     %axis([0 20 0 100])
+%     title(['Pathogen Evolution in Shape Space, with mutation' '(color on log scale)'])
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     colorbar('Location','EastOutside')
 
     Yaxis = (1:1:Ldim1);
     logsurf(Xaxis,Yaxis,Lplot')
     axis([0 days 0 Ldim1])
-    %axis([50 500 30 90])
+    %axis([0 18 0 Ldim1])
     title('Lymphocyte Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
-
+    %clear Lplot;
       
 % % plots of cutoff levels for whole infection
 %     v = [ mu_ 1 ];
