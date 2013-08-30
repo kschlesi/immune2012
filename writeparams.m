@@ -1,4 +1,4 @@
-function writeparams(afilename,a0)
+function writeparams(afilename,a0,tempfile)
 
 % if adding a parameter: - add paramname and paramunit in this script
 %                        - define parameter in _main
@@ -22,9 +22,15 @@ if size(paramnames)~=size(a0)
     error('Wrong number of input parameters!')
 end
 
-% ensuring no overwrite
-if isequal(exist(afilename,'file'),2)
-    error('Cannot overwrite existing parameter file!');
+% ensuring no overwrite UNLESS afilename == tempfile
+if nargin >2
+    if ( ~strcmp(afilename,tempfile) && isequal(exist(afilename,'file'),2) )
+        error('Cannot overwrite existing parameter file!');
+    end
+else
+    if isequal(exist(afilename,'file'),2)
+        error('Cannot overwrite existing parameter file!');
+    end
 end
 
 cell2csv(afilename,pmatrix,0); % will DELETE what is currently in afilename

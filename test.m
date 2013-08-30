@@ -59,8 +59,12 @@ iminj = abs(repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1));
 %disp(dmut1);
 %disp(dmut2);
 
-chii = 2.5*10^-4;
-figure
-plot(sqrt(2/pi)*chii*(1:400).^(-2))
-figure
-loglog(sqrt(2/pi)*chii*(1:400).^(-2))
+% chii = 2.5*10^-4;
+% figure
+% plot(sqrt(2/pi)*chii*(1:400).^(-2))
+% figure
+% loglog(sqrt(2/pi)*chii*(1:400).^(-2))
+
+name = 1.131;
+matchstring = char(regexp(num2str(name),'\D\w*','match'));
+str2num(matchstring(2:end))+1
