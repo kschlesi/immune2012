@@ -1,23 +1,26 @@
-% ss_seed
+function didesc = ss_seed(PR1,PR2,t1,days,stepsize,basecode,runnum,isnew)
 % given two previous runs PR1 and PR2, as well as a time t1, and 'days,' 
-% this script will create a new run with the initial condition of PR1 at
+% this function will create a new run with the initial condition of PR1 at
 % t1, using the paramfile of PR2, and run it until final time of 'days'+t1
-
-clear
+%
+% INPUTS:
+% PR1 (string): run from which initial condition is drawn
+% PR2 (string): run whose paramfile to use
+% t1 (number OR 'end'): time in days in run PR1 to use for initial condition
+% days (number): number of (new) days to run
+% stepsize (number): size in days of steps at which to save
+% basecode (string): local name of directory for files; must already exist!!!
+% runnum (number): run number within basecode directory
+% isnew (logical): declares whether file is new (isnew = 1) or continuation
+%                  of previous files (isnew = 0, allows data to be appended)
+%
+% OUTPUT:
+% didesc (logical): indicates whether infection escaped (ndP=0) during run
 
 global mrates ;
+didesc = 0;
 
 %%%%%%%%%%%% input information about seedfiles and newfile %%%%%%%%%%%%%%%%
-PR1 = 'qtune12.3';  % run from which initial condition is drawn
-PR2 = 'qtune12.3';  % run whose paramfile to use
-t1 = 0;      % time in PR1 to use for initial condition; number or 'end'
-days = 50;       % new days to append to file
-stepsize = 0.1;  % size of steps at which to save
-
-% new run files to be created
-runnum = 12.4;
-basecode = 'qtune';
-isnew = 1;
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 datapath1 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR1.*isletter(PR1))) '/'];
 datapath2 = ['/Users/kimberly/Google Drive/immunedata/PL13/' deblank(char(PR2.*isletter(PR2))) '/'];
@@ -81,9 +84,6 @@ if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
 clear params;
-Pdim1 = 500;
-Ldim1 = 500;
-R_ = Gamma_*Ldim1/delta_;
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
@@ -104,8 +104,6 @@ end
 t0 = oldtimes(t0index);
 P0 = transpose(csvread(P0filename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
 L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
-%P0 = [P0;zeros(100,1)];
-%L0 = [L0;L0(1:100)];
 
 % % modifying initial conditions vector (new infection?)
 % P0_add = zeros(size(P0));
@@ -113,21 +111,21 @@ L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
 % P0 = P0 + P0_add;
 
 
-figure    % plot of P0 and L0 distributions at t0
-hold on
-hold all
-plot((1:1:Pdim1),P0)
-plot((1:1:Ldim1),L0)
-title(['P0 and L0 seeding distributions at t = ' num2str(olddays) ' days'])
-xlabel('location in shape space (site)')
-ylabel('population (cells/\mul)')
-legend('Pathogen','Lymphocytes')
-%axis([170 250 0 3.5*10^5])
+% figure    % plot of P0 and L0 distributions at t0
+% hold on
+% hold all
+% plot((1:1:Pdim1),P0)
+% plot((1:1:Ldim1),L0)
+% title(['P0 and L0 seeding distributions at t = ' num2str(olddays) ' days'])
+% xlabel('location in shape space (site)')
+% ylabel('population (cells/\mul)')
+% legend('Pathogen','Lymphocytes')
+% %axis([170 250 0 3.5*10^5])
 
-figure
-plot((1:1:Pdim1),r_*lambdas1D)
-xlabel('shape space location')
-ylabel('pathogen fitness')
+% figure
+% plot((1:1:Pdim1),r_*lambdas1D)
+% xlabel('shape space location')
+% ylabel('pathogen fitness')
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
@@ -149,7 +147,8 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%% integrating diffeqs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 tspan = (t0:stepsize:days+olddays);
-options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_));
+options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_),...
+            'OutputFcn',@(t,y) escape(t,y,flag,Pdim1,mu_));
 n_ts = size(oldtimes,1);
 contin = 1;
 nstops = 0;
@@ -157,7 +156,7 @@ while (contin)
 
     % integrate until 'stopper' event...(or total days reached)
     % ('stopper.m' triggers an event whenever a population falls below mu_)
-    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
+    [ts_vec,y_out,~,~,indices] = ode45(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
         tspan,y0,options);
 
     % once integration is stopped...
@@ -183,11 +182,24 @@ while (contin)
     dlmwrite(Pfilename,P_out,'-append');
     dlmwrite(Lfilename,L_out,'-append');
     
+    % check for escape
+    P = P_out(end,:);
+    if sum(P<mu_)==0;
+        didesc = 1;
+        contin = 0; 
+        disp('Escape detected!');
+        tend = cell(1,3);
+        tend{1,1} = 'days';
+        tend{1,2} = ts_vec(end);
+        tend{1,3} = 'days';
+        cell2csv(bfilename,tend,1); % appends cell line 'tend' to paramsfile
+    end
+    
     % set new initial conditions
     t0 = ts_vec(end);
     y0 = y_out(end,:);
     tspan = (t0:stepsize:days+olddays);
-        
+    
     if(t0>=days+olddays-stepsize)
         tspan = [t0,days+olddays];
     end
@@ -214,3 +226,5 @@ title(['P0 and L0 distributions at t = ' num2str(ts_vec(end)) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
+
+end
