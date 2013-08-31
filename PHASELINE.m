@@ -98,6 +98,6 @@ for bb=27:28
     end
     
     csvwrite([bb;chi_lo;chi_hi],['/Users/kimberly/Google Drive/immunedata/PL13/'...
-            realbasecode '/b' realbasecode '9999.txt'],'-append');
+            realbasecode '/result.txt'],'-append');
     
 end
