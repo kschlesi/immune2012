@@ -6,6 +6,7 @@ clear
 
 % starting values of parameters & first seedfile
 chi_hi = 5.5;  % definite upper bound on chi_ for first (lowest) b-value
+brange = 29:35;
 jumptest = 1;
 windowsize = 0.25;   % should be smaller than jumptest
 maxtests = 20; % max number of tests per b-value
@@ -19,7 +20,7 @@ bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/tests.txt'];
 
-for bb=29:35
+for bb=brange
    
     % choose and name next run
     chi_lo = chi_hi-jumptest;
@@ -53,6 +54,7 @@ for bb=29:35
            dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/tests.txt'],[bb,chi_try,didescape,realnum],'-append');           
         else
+           chi_hi = chi_try;
            chi_lo = chi_lo-jumptest;
         end
            realnum = realnum + 1;
