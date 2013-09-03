@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 12.4;
-basecode = 'qtune';
+runnum = 9.4;
+basecode = 'testy';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
