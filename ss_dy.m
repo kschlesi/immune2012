@@ -64,8 +64,8 @@ dL = Gamma_ + (sigma_*satfunc - delta_*(1-satfunc) - dh_*Hsat).*L;
 
 % print to command window: time (in days) and 
 % # of sites with NO pathogen both before and after this timestep
-%disp(t);
-%disp(ndP);
+disp(t);
+disp(ndP);
 
 dy = [dP;dL];
 

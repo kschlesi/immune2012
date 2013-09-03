@@ -5,20 +5,21 @@
 clear
 
 % starting values of parameters & first seedfile
-chi_hi = 7;  % definite uper bound on chi_
+chi_hi = 5.5;  % definite upper bound on chi_ for first (lowest) b-value
 jumptest = 1;
-windowsize = 0.25;
+windowsize = 0.25;   % should be smaller than jumptest
+maxtests = 20; % max number of tests per b-value
 seednum = 12;
 seedbasecode = 'qtune';
 
 realnum = 0;
-realbasecode = 'phline';
+realbasecode = 'phlin';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/tests.txt'];
 
-for bb=27:28
+for bb=29:35
    
     % choose and name next run
     chi_lo = chi_hi-jumptest;
@@ -49,26 +50,21 @@ for bb=27:28
         if didescape
            isbound = 1; 
            %save params, runnum, and result
-           csvwrite([bb;chi_try;didescape;realnum],['/Users/kimberly/Google Drive/immunedata/PL13/'...
-            realbasecode '/result.txt'],'-append');           
+           dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/tests.txt'],[bb,chi_try,didescape,realnum],'-append');           
         else
            chi_lo = chi_lo-jumptest;
         end
            realnum = realnum + 1;
         
         % emergency stop   
-        if(realnum>20)
+        if(mod(realnum,100)>maxtests)
             isbound = 1;
         end
            
     end
     
     while abs(chi_lo-chi_hi)>windowsize; % now, narrow the window appropriately
-    
-        % emergency stop
-        if(realnum>20)
-            windowsize = chi_hi-chi_lo;
-        end
         
         % determine chi_try
         chi_try = (chi_lo+chi_hi)/2;
@@ -93,8 +89,8 @@ for bb=27:28
            [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
         
         % THIRD: save params, runnum, and result
-        csvwrite([bb;chi_try;didescape;realnum],['/Users/kimberly/Google Drive/immunedata/PL13/'...
-            realbasecode '/result.txt'],'-append');
+        dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/tests.txt'],[bb,chi_try,didescape,realnum],'-append');
                 
         % FOURTH: choose new runname, bseedfile, runnum, and values
         realnum = realnum + 1;
@@ -103,11 +99,17 @@ for bb=27:28
         else
             chi_hi = chi_try;
         end
+                    
+        % emergency stop
+        if(mod(realnum,100)>maxtests)
+            windowsize = chi_hi-chi_lo;
+        end
 
     end
     
     % save result window at THAT particular value of bb
-    csvwrite([bb;chi_lo;chi_hi],['/Users/kimberly/Google Drive/immunedata/PL13/'...
-            realbasecode '/result.txt'],'-append');
+    dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/result.txt'],[bb,chi_lo,chi_hi],'-append');
+    %chi_hi = chi_hi; % absolute upper bound for next bb value
     
 end
