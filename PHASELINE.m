@@ -5,7 +5,9 @@
 clear
 
 % starting values of parameters & first seedfile
-chi_hi = 7;  % guess for first value (high) of chi_ to test
+chi_hi = 7;  % definite uper bound on chi_
+jumptest = 1;
+windowsize = 0.25;
 seednum = 12;
 seedbasecode = 'qtune';
 
@@ -13,13 +15,15 @@ realnum = 0;
 realbasecode = 'phline';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
+savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/tests.txt'];
 
 for bb=27:28
    
     % choose and name next run
-    chi_lo = chi_hi-1;
+    chi_lo = chi_hi-jumptest;
     isbound = 0;
-    realnum = floor(realnum+1);
+    realnum = realnum + 100 - mod(realnum,100);
     while ~isbound % first, find a lower bound of chi_
         
         chi_try = chi_lo;
@@ -45,19 +49,27 @@ for bb=27:28
         if didescape
            isbound = 1; 
            %save params, runnum, and result
+           csvwrite([bb;chi_try;didescape;realnum],['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/result.txt'],'-append');           
         else
-           chi_lo = chi_lo-1;
-           if ~mod(realnum,1)
-               realnum = realnum+0.11;
-           else
-               realnum = realnum+0.01;
-           end
+           chi_lo = chi_lo-jumptest;
         end
-            
+           realnum = realnum + 1;
+        
+        % emergency stop   
+        if(realnum>20)
+            isbound = 1;
+        end
+           
     end
     
-    while abs(chi_lo-chi_hi)>0.25 % now, narrow the window appropriately
-       
+    while abs(chi_lo-chi_hi)>windowsize; % now, narrow the window appropriately
+    
+        % emergency stop
+        if(realnum>20)
+            windowsize = chi_hi-chi_lo;
+        end
+        
         % determine chi_try
         chi_try = (chi_lo+chi_hi)/2;
         
@@ -81,22 +93,20 @@ for bb=27:28
            [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
         
         % THIRD: save params, runnum, and result
-        
+        csvwrite([bb;chi_try;didescape;realnum],['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/result.txt'],'-append');
+                
         % FOURTH: choose new runname, bseedfile, runnum, and values
-        if ~mod(realnum,1)
-              realnum = realnum+0.11;
-        else
-              realnum = realnum+0.01;
-        end
-        
+        realnum = realnum + 1;
         if didescape
             chi_lo = chi_try;
         else
             chi_hi = chi_try;
         end
-                
+
     end
     
+    % save result window at THAT particular value of bb
     csvwrite([bb;chi_lo;chi_hi],['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/result.txt'],'-append');
     
