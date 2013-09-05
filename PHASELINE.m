@@ -5,9 +5,9 @@
 clear
 
 % starting values of parameters & first seedfile
-chi_hi = 23.25;  % definite upper bound on chi_ for first (lowest) b-value
-brange = 18:22;
-jumptest = 2;
+chi_hi = ;  % definite upper bound on chi_ for first (lowest) b-value
+brange = 29:35;
+jumptest = 1;
 windowsize = 0.25;   % should be smaller than jumptest
 maxtests = 25; % max number of tests per b-value
 seednum = 12;
