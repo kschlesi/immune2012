@@ -65,6 +65,23 @@ iminj = abs(repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1));
 % figure
 % loglog(sqrt(2/pi)*chii*(1:400).^(-2))
 
-name = 1.131;
-matchstring = char(regexp(num2str(name),'\D\w*','match'));
-str2num(matchstring(2:end))+1
+% name = 1.131;
+% matchstring = char(regexp(num2str(name),'\D\w*','match'));
+% str2num(matchstring(2:end))+1
+
+result1 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            'phlind/result.txt']);
+result2 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            'phlinc/result.txt']);
+result3 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            'phline/result.txt']);
+result4 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            'phlin/result.txt']);
+tests1 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            'phlind/tests.txt']);
+tests2 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            'phlinc/tests.txt']);
+tests3 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            'phline/tests.txt']);
+tests4 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            'phlin/tests.txt']);

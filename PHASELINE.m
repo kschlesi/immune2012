@@ -5,7 +5,7 @@
 clear
 
 % starting values of parameters & first seedfile
-chi_hi = 5.5;  % definite upper bound on chi_ for first (lowest) b-value
+chi_hi = ;  % definite upper bound on chi_ for first (lowest) b-value
 brange = 29:35;
 jumptest = 1;
 windowsize = 0.25;   % should be smaller than jumptest
