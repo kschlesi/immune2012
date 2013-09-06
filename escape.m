@@ -10,6 +10,9 @@ else
         if sum(P<mu_)==0
             status = 1;
         end
+        if ~sum(P)
+            status = 1;
+        end
     end
 end
 

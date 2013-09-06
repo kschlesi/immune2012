@@ -195,6 +195,19 @@ while (contin)
         cell2csv(bfilename,tend,1); % appends cell line 'tend' to paramsfile
     end
     
+    % check for clearance
+    P = P_out(end,:);
+    if ~sum(P)
+        didesc = -1;
+        contin = 0; 
+        disp('Pathogen cleared!');
+        tend = cell(1,3);
+        tend{1,1} = 'days';
+        tend{1,2} = ts_vec(end);
+        tend{1,3} = 'days';
+        cell2csv(bfilename,tend,1); % appends cell line 'tend' to paramsfile
+    end
+    
     % set new initial conditions
     t0 = ts_vec(end);
     y0 = y_out(end,:);

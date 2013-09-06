@@ -77,6 +77,11 @@ result3 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             'phline/result.txt']);
 result4 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             'phlin/result.txt']);
+result5 = [23,9.5,10;24,8.5,8.75;25,7.5,7.75;26,6.5,6.75];
+tests5 = [23,10,0,9.0;23,9,1,9.1;23,8,1,9;23,9.5,1,9.2;23,9.75,1,9.3];
+tests6 = [24,10,0,10;24,9,0,10.1;24,8,1,10.2;24,8.5,1,10.3;24,8.75,0,10.4];
+tests7 = [25,8,0,11;24,7,1,11.1;24,7.5,1,11.2;24,7.75,0,11.3];
+tests8 = [26,6.5,1,12;26,6.75,0,12.1];
 tests1 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             'phlind/tests.txt']);
 tests2 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
@@ -85,3 +90,48 @@ tests3 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             'phline/tests.txt']);
 tests4 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             'phlin/tests.txt']);
+        
+bchi_result = [result1;result2;result5;result3;result4];
+bchi_tests = [tests1;tests2;tests5;tests6;tests7;tests8;tests3;tests4];
+%disp(bchi_result);
+%disp(bchi_tests);
+
+figure
+escapes = bchi_tests(:,2).*bchi_tests(:,3);
+chronics = bchi_tests(:,2).*(~bchi_tests(:,3));
+plot(bchi_tests(:,1),escapes,'xr',bchi_tests(:,1),chronics,'*b')
+axis([10,35,1,120])
+
+phasmat = zeros(120*4+1,size(bchi_result,1));
+chilist = (0:0.25:120)';
+for brow=1:size(bchi_result,1)
+    phasmat(:,brow) = (chilist>=bchi_result(brow,3)) - (chilist<=bchi_result(brow,2));
+end
+
+figure
+v = [0 1];
+contourf(bchi_result(:,1),chilist,phasmat,v);
+
+% plot 1/chi_ instead
+overone_result = [bchi_result(:,1),1./bchi_result(:,3),1./bchi_result(:,2)];
+overone_tests = [bchi_tests(:,1),1./bchi_tests(:,2),bchi_tests(:,3:4)];
+%disp(overone_result);
+%disp(overone_tests);
+
+figure
+escapes = overone_tests(:,2).*overone_tests(:,3);
+chronics = overone_tests(:,2).*(~overone_tests(:,3));
+plot(overone_tests(:,1),escapes,'xr',overone_tests(:,1),chronics,'*b')
+axis([10,35,0.009,0.45])
+
+chilist = (0:0.0005:0.35)';
+%disp(size(chilist,1));
+phasmat = zeros(size(chilist,1),size(overone_result,1));
+for brow=1:size(overone_result,1)
+    phasmat(:,brow) = (chilist>=overone_result(brow,3)) - (chilist<=overone_result(brow,2));
+end
+
+figure
+v = [0 1];
+contourf(bchi_result(:,1),chilist,phasmat,v);
+
