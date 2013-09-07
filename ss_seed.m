@@ -148,7 +148,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%% integrating diffeqs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 tspan = (t0:stepsize:days+olddays);
 options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_),...
-            'OutputFcn',@(t,y,flag)escape(t,y,flag,Pdim1,mu_));
+            'OutputFcn',@(t,y,flag)escape(t,y,flag,Pdim1,mu_,K_));
 n_ts = size(oldtimes,1);
 contin = 1;
 nstops = 0;
@@ -197,7 +197,7 @@ while (contin)
     
     % check for clearance
     P = P_out(end,:);
-    if ~sum(P)
+    if ~sum(P>=mu_)
         didesc = -1;
         contin = 0; 
         disp('Pathogen cleared!');

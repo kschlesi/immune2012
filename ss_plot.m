@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 1;
-basecode = 'phlin';
+runnum = 1503;
+basecode = 'phamesa';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -129,7 +129,7 @@ disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
     figure
     semilogy(tplot,Ptot,tplot,Ltot)
     axis([0 days 1 10^10])
-    %axis([0 18 1 10^10])
+    axis([0 12.895 1 10^10])
     title('Single-Infection Cell Populations')
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
