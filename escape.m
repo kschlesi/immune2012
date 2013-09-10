@@ -6,15 +6,17 @@ if strcmp(flag,'init')
     %disp(numel(t));
 else
     if numel(y)
-        P = y(1:Pdim1);
-        if sum(P<mu_)==0  % escape
-            status = 1;
-        end
-        if ~sum(P>=mu_)   % clearance
-            status = 1;
-        end
-        if sum(P>=mu_)>=0.95*K_  % escape
-            status = 1;
+        P = y(1:Pdim1,:);
+        for i=1:size(y,2)
+            if sum(P(:,i)<mu_)==0  % escape
+                status = 1;
+            end
+            if ~sum(P(:,i)>=mu_)   % clearance
+                status = 1;
+            end
+            if sum(P(:,i).*(P(:,i)>=mu_))>=0.95*K_  % escape
+                status = 1;
+            end
         end
     end
 end

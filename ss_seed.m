@@ -184,7 +184,7 @@ while (contin)
     
     % check for escape
     P = P_out(end,:);
-    if sum(P<mu_)==0;
+    if ~sum(P<mu_) || (sum(P.*(P>=mu_))>=0.9*K_)
         didesc = 1;
         contin = 0; 
         disp('Escape detected!');

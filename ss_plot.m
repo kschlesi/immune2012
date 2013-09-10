@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 1503;
-basecode = 'phamesa';
+runnum = 1500;
+basecode = 'phamesb';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -118,8 +118,8 @@ disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
     Xaxis = tplot;
     Yaxis = (1:1:Pdim1);
     logsurf(Xaxis,Yaxis,Pplot')
-    %axis([0 days 0 Pdim1])
-    axis([0 1000 0 200])
+    axis([0 days 0 Pdim1])
+    %axis([0 1000 0 200])
     title('Pathogen Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
@@ -129,7 +129,7 @@ disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
     figure
     semilogy(tplot,Ptot,tplot,Ltot)
     axis([0 days 1 10^10])
-    axis([0 12.895 1 10^10])
+    %axis([0 12.895 1 10^10])
     title('Single-Infection Cell Populations')
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
