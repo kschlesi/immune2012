@@ -92,6 +92,8 @@ mesh_tests2 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             'phames/tests.txt']); 
 mesh_tests3 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             'phamesb/tests.txt']); 
+mesh_tests4 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            'phlinb/tests.txt']); 
 tests5 = [23,10,0,9.0;23,9,1,9.1;23,8,1,9;23,9.5,1,9.2;23,9.75,1,9.3];
 tests6 = [24,10,0,10;24,9,0,10.1;24,8,1,10.2;24,8.5,1,10.3;24,8.75,0,10.4];
 tests7 = [25,8,0,11;24,7,1,11.1;24,7.5,1,11.2;24,7.75,0,11.3];
@@ -105,7 +107,7 @@ tests3 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
 tests4 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             'phlin/tests.txt']);
 bchi_tests = [tests1;tests2;tests5;tests6;tests7;tests8;tests3;tests4]; 
-mesh_tests = [mesh_tests1;mesh_tests2;mesh_tests3;bchi_tests];%;mesh_tests_now];
+mesh_tests = [mesh_tests1;mesh_tests2;mesh_tests3;mesh_tests4;bchi_tests];%;mesh_tests_now];
 
 figure
 escapes = mesh_tests(:,2).*(mesh_tests(:,3)==1);
