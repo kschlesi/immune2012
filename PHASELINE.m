@@ -5,16 +5,16 @@
 clear
 
 % starting values of parameters & first seedfile
-chi_hi = ;  % definite upper bound on chi_ for first (lowest) b-value
-brange = 29:35;
-jumptest = 1;
+chi_hi = 800;  % definite upper bound on chi_ for first (lowest) b-value
+brange = 5:9;
+jumptest = 50;
 windowsize = 0.25;   % should be smaller than jumptest
-maxtests = 20; % max number of tests per b-value
+maxtests = 25; % max number of tests per b-value
 seednum = 12;
 seedbasecode = 'qtune';
 
 realnum = 0;
-realbasecode = 'phlin';
+realbasecode = 'phlinb';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
