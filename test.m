@@ -93,12 +93,12 @@ iminj = abs(repmat((1:Pdim1)',1,Pdim1)-repmat(1:Pdim1,Pdim1,1));
         
 bchi_result = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             'bchi_phaseline.txt']);
+bchi_result1 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            'bchi_phaseline1.txt']);
 bchi_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             'bchi_tests.txt']);
-sortentry(bchi_result,'col',1);
-%disp(bchi_result);
-%disp(bchi_tests);
-
+bchi_result1 = sortentry(bchi_result1,'col',1);
+disp(bchi_result1);
 
 windowsize = 0.25;
 ymax = max(bchi_tests(:,2));
@@ -136,10 +136,9 @@ figure
 escapes = overone_tests(:,2).*overone_tests(:,3);
 chronics = overone_tests(:,2).*(~overone_tests(:,3));
 plot(overone_tests(:,1),escapes,'xr',overone_tests(:,1),chronics,'*b')
-%axis([10,35,0.009,0.45])
+axis([xmin xmax 1/ymax 1/ymin])
 
-chilist = (0:0.0005:0.35)';
-%disp(size(chilist,1));
+chilist = 1./yaxis';
 phasmat = zeros(size(chilist,1),size(overone_result,1));
 for brow=1:size(overone_result,1)
     phasmat(:,brow) = (chilist>=overone_result(brow,3)) - (chilist<=overone_result(brow,2));
