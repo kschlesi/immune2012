@@ -34,17 +34,13 @@ L = L.*(L>=mu_);
 Pis0 = (P<mu_);  % keep track of whether each site is below mu_
 
 % calculate dP (all size Pdim1 x 1)        
-PRmat = repmat(P.*lambdas1D,1,Pdim1);
-dmut = sum(PRmat.*mrates,1)';
-clear PRmat;
-Lmat = repmat(L',Ldim1,1);
-omega = sum(Lmat.*gammas1D,2);
-clear Lmat;
+PRmat = P.*lambdas1D;
+dmut = mrates'*PRmat;
+omega = gammas1D*L;
 Ptot = sum(P);
 dP = r_.*dmut.*(1-capon*Ptot/K_) - h_.*omega.*P;
-Pmat = repmat(P,1,Pdim1);
 if spliton
-    dmut = sum(Pmat.*mrates,1)';
+    dmut = mrates'*P;
     dP = (r_.*lambdas1D.*(1-capon*Ptot/K_) - h_.*omega).*P + dmut;
 end
 zerodP = Pis0.*(dP<(mu_*r_)); % zero dP if Pis0, unless dP > mu_ (per mutation step)
@@ -57,8 +53,7 @@ if hsaton
 else
     Hsat = 0; % if no constraint
 end
-Pofy = sum(Pmat.*gammas1D)';
-clear Pmat;
+Pofy = gammas1D*P;
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy); % pathogen saturation function
 dL = Gamma_ + (sigma_*satfunc - delta_*(1-satfunc) - dh_*Hsat).*L;
 

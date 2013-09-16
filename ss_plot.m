@@ -2,7 +2,7 @@
 
 clear
 
-runnum = 5.5;
+runnum = 6.2;
 basecode = 'phlin';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
