@@ -5,16 +5,17 @@
 clear
 
 % starting values of parameters & first seedfile
-gamma_hi = 24;  % definite upper bound on chi_ for first (lowest) b-value
-brange = (0.05:0.025:0.2).*10^(-5);
-jumptest = 2;
+gamma_hi = 2;  % definite upper bound on chi_ for first (lowest) b-value
+brange = (5.25:0.25:6).*10^(-5);
+jumptest = 1;
 windowsize = 0.25;   % should be smaller than jumptest
 maxtests = 25; % max number of tests per b-value
+minvalue = 0; % absolute minimum value of gamma to be tested
 seednum = 12;
 seedbasecode = 'qtune';
 
 realnum = 0;
-realbasecode = 'gblina';
+realbasecode = 'gblinb';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
@@ -23,7 +24,7 @@ savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
 for bb=brange
    
     % choose and name next run
-    gamma_lo = gamma_hi-jumptest;
+    gamma_lo = max(gamma_hi-jumptest,minvalue);
     isbound = 0;
     realnum = realnum + 100 - mod(realnum,100);
     while ~isbound % first, find a lower bound of chi_
@@ -39,8 +40,8 @@ for bb=brange
             end
         end
         clear params;
-        b0 = [r_;h_;sigma_;k_;bb;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;gamma_try;Gamma_;nrandon;delta_;spliton;pinit];
+        b0 = [r_;bb;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_;gamma_try;nrandon;delta_;spliton;pinit];
         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/b' realbasecode '999.txt'];
         writeparams(temppath,b0,temppath);
@@ -48,7 +49,7 @@ for bb=brange
         % call ss_seed from seedfile run with new paramfile
         didescape = ss_seed([seedbasecode num2str(seednum)],...
            [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
-        if didescape
+        if ~didescape
            isbound = 1; 
            %save params, runnum, and result
            dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
@@ -80,8 +81,8 @@ for bb=brange
             end
         end
         clear params;
-        b0 = [r_;h_;sigma_;k_;bb;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;gamma_try;Gamma_;nrandon;delta_;spliton;pinit];
+        b0 = [r_;bb;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_;gamma_try;nrandon;delta_;spliton;pinit];
         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/b' realbasecode '999.txt'];
         writeparams(temppath,b0,temppath);
@@ -96,7 +97,7 @@ for bb=brange
                
         % FOURTH: choose new runname, bseedfile, runnum, and values
         realnum = realnum + 1;
-        if didescape
+        if ~didescape
             gamma_lo = gamma_try;
         else
             gamma_hi = gamma_try;
