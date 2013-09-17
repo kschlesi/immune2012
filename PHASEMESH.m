@@ -1,16 +1,16 @@
 % PHASEMESH
 
-brange = (1:10).*10^(-5);
-Gamma_range = 6:10;
-brange2 = (6:10).*10^(-5);
-Gamma_range2 = 0:5;
+brange = 0.5*10^(-5);
+Gamma_range = 0:4:20;
+%brange2 = (6:10).*10^(-5);
+%Gamma_range2 = 0:5;
 % jumptest = 1;
 % windowsize = 0.25;   % should be smaller than jumptest
 % maxtests = 25; % max number of tests per b-value
 seednum = 12;
 seedbasecode = 'qtune';
 
-realnum = 1100;
+realnum = 3700;
 realbasecode = 'gblin';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
@@ -51,39 +51,39 @@ for bb=brange
     
 end
 
-for bb=brange2
-    
-    realnum = realnum + 100 - mod(realnum,100);
-    for gamma_try=Gamma_range2
-        
-        % create new paramfile from bseedfile & specified changes
-        params = setparams(bseedfile);
-        for i=1:size(params,1)
-            if ~strcmp(char(params{i,1}),'days')
-                eval([char(params{i,1}) ' = ' num2str(params{i,2}) ';']);
-                eval([char(params{i,1}) 'units = char(params{i,3});']);
-            end
-        end
-        clear params;
-        b0 = [r_;bb;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;chi_;gamma_try;nrandon;delta_;spliton;pinit];
-        temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
-            realbasecode '/b' realbasecode '999.txt'];
-        writeparams(temppath,b0,temppath);
-        
-        % call ss_seed from seedfile run with new paramfile
-        didescape = ss_seed([seedbasecode num2str(seednum)],...
-           [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
-       
-        %save params, runnum, and result
-        dlmwrite(savefile,[bb,gamma_try,didescape,realnum],'-append');
-        
-        realnum = realnum+1;
-     
-    end   
-    
-    
-end
+% for bb=brange2
+%     
+%     realnum = realnum + 100 - mod(realnum,100);
+%     for gamma_try=Gamma_range2
+%         
+%         % create new paramfile from bseedfile & specified changes
+%         params = setparams(bseedfile);
+%         for i=1:size(params,1)
+%             if ~strcmp(char(params{i,1}),'days')
+%                 eval([char(params{i,1}) ' = ' num2str(params{i,2}) ';']);
+%                 eval([char(params{i,1}) 'units = char(params{i,3});']);
+%             end
+%         end
+%         clear params;
+%         b0 = [r_;bb;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+%             Pdim1;Ldim1;x0;chi_;gamma_try;nrandon;delta_;spliton;pinit];
+%         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
+%             realbasecode '/b' realbasecode '999.txt'];
+%         writeparams(temppath,b0,temppath);
+%         
+%         % call ss_seed from seedfile run with new paramfile
+%         didescape = ss_seed([seedbasecode num2str(seednum)],...
+%            [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
+%        
+%         %save params, runnum, and result
+%         dlmwrite(savefile,[bb,gamma_try,didescape,realnum],'-append');
+%         
+%         realnum = realnum+1;
+%      
+%     end   
+%     
+%     
+% end
 
 mesh_tests_now = csvread(savefile);
 dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...

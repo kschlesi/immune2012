@@ -5,16 +5,16 @@
 clear
 
 % starting values of parameters & first seedfile
-gamma_hi = ;  % definite upper bound on chi_ for first (lowest) b-value
-brange = (1:5).*10^(-5);
-jumptest = 1;
+gamma_hi = 24;  % definite upper bound on chi_ for first (lowest) b-value
+brange = (0.05:0.025:0.2).*10^(-5);
+jumptest = 2;
 windowsize = 0.25;   % should be smaller than jumptest
 maxtests = 25; % max number of tests per b-value
 seednum = 12;
 seedbasecode = 'qtune';
 
 realnum = 0;
-realbasecode = 'gblin';
+realbasecode = 'gblina';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
@@ -48,11 +48,11 @@ for bb=brange
         % call ss_seed from seedfile run with new paramfile
         didescape = ss_seed([seedbasecode num2str(seednum)],...
            [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
-        if ~didescape
+        if didescape
            isbound = 1; 
            %save params, runnum, and result
            dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-            realbasecode '/tests.txt'],[bb,gamma_try,didescape,realnum],'-append');           
+            realbasecode '/tests.txt'],[bb,gamma_try,didescape,realnum],'-append');
         else
            gamma_hi = gamma_try;
            gamma_lo = gamma_lo-jumptest;
@@ -93,10 +93,10 @@ for bb=brange
         % THIRD: save params, runnum, and result
         dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/tests.txt'],[bb,gamma_try,didescape,realnum],'-append');
-                
+               
         % FOURTH: choose new runname, bseedfile, runnum, and values
         realnum = realnum + 1;
-        if ~didescape
+        if didescape
             gamma_lo = gamma_try;
         else
             gamma_hi = gamma_try;
