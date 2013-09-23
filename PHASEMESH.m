@@ -1,7 +1,7 @@
 % PHASEMESH
 
-brange = 6*10^(-5);
-Gamma_range = 1;
+brange = (0.5:0.5:2)*10^(-5);
+Gamma_range = 42:4:50;
 %brange2 = (6:10).*10^(-5);
 %Gamma_range2 = 0:5;
 % jumptest = 1;
@@ -10,7 +10,7 @@ Gamma_range = 1;
 seednum = 12;
 seedbasecode = 'qtune';
 
-realnum = 2400;
+realnum = 4500;
 realbasecode = 'gblinb';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
