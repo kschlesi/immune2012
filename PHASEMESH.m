@@ -1,26 +1,26 @@
 % PHASEMESH
 
-brange = (0.5:0.5:2)*10^(-5);
-Gamma_range = 42:4:50;
-%brange2 = (6:10).*10^(-5);
-%Gamma_range2 = 0:5;
+arange = 0:10;
+chi_range = 0:50:500;
+%arange2 = (6:10).*10^(-5);
+%chi_range2 = 0:5;
 % jumptest = 1;
 % windowsize = 0.25;   % should be smaller than jumptest
 % maxtests = 25; % max number of tests per b-value
 seednum = 12;
 seedbasecode = 'qtune';
 
-realnum = 4500;
-realbasecode = 'gblinb';
+realnum = 0;
+realbasecode = 'achlina';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/tests.txt'];
         
-for bb=brange
+for aa=arange
     
     realnum = realnum + 100 - mod(realnum,100);
-    for gamma_try=Gamma_range
+    for chi_try=chi_range
         
         % create new paramfile from bseedfile & specified changes
         params = setparams(bseedfile);
@@ -31,8 +31,8 @@ for bb=brange
             end
         end
         clear params;
-        b0 = [r_;bb;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;chi_;gamma_try;nrandon;delta_;spliton;pinit];
+        b0 = [aa;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/b' realbasecode '999.txt'];
         writeparams(temppath,b0,temppath);
@@ -42,7 +42,7 @@ for bb=brange
            [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
        
         %save params, runnum, and result
-        dlmwrite(savefile,[bb,gamma_try,didescape,realnum],'-append');
+        dlmwrite(savefile,[aa,chi_try,didescape,realnum],'-append');
         
         realnum = realnum+1;
      
@@ -51,10 +51,10 @@ for bb=brange
     
 end
 
-% for bb=brange2
+% for aa=arange2
 %     
 %     realnum = realnum + 100 - mod(realnum,100);
-%     for gamma_try=Gamma_range2
+%     for chi_try=chi_range2
 %         
 %         % create new paramfile from bseedfile & specified changes
 %         params = setparams(bseedfile);
@@ -65,8 +65,8 @@ end
 %             end
 %         end
 %         clear params;
-%         b0 = [r_;bb;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-%             Pdim1;Ldim1;x0;chi_;gamma_try;nrandon;delta_;spliton;pinit];
+%         b0 = [aa;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+%             Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
 %         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
 %             realbasecode '/b' realbasecode '999.txt'];
 %         writeparams(temppath,b0,temppath);
@@ -76,7 +76,7 @@ end
 %            [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
 %        
 %         %save params, runnum, and result
-%         dlmwrite(savefile,[bb,gamma_try,didescape,realnum],'-append');
+%         dlmwrite(savefile,[aa,chi_try,didescape,realnum],'-append');
 %         
 %         realnum = realnum+1;
 %      
@@ -87,9 +87,9 @@ end
 
 mesh_tests_now = csvread(savefile);
 dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-             'Gammabeta_tests.txt'],mesh_tests_now,'-append');
+             'alphachi_tests.txt'],mesh_tests_now,'-append');
 mesh_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-             'Gammabeta_tests.txt']);
+             'alphachi_tests.txt']);
 % mesh_tests1 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
 %             'phamesa/tests.txt']);
 % mesh_tests2 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
