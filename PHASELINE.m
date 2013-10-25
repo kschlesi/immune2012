@@ -5,8 +5,8 @@
 clear
 
 % starting values of parameters & first seedfile
-gamma_hi = 2;  % definite upper bound on chi_ for first (lowest) b-value
-brange = (5.25:0.25:6).*10^(-5);
+chi_hi = 2;  % definite upper bound on chi_ for first (lowest) b-value
+arange = (5.25:0.25:6).*10^(-5);
 jumptest = 1;
 windowsize = 0.25;   % should be smaller than jumptest
 maxtests = 25; % max number of tests per b-value
@@ -15,21 +15,21 @@ seednum = 12;
 seedbasecode = 'qtune';
 
 realnum = 0;
-realbasecode = 'gblinb';
+realbasecode = 'achlina';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/tests.txt'];
 
-for bb=brange
+for aa=arange
    
     % choose and name next run
-    gamma_lo = max(gamma_hi-jumptest,minvalue);
+    chi_lo = max(chi_hi-jumptest,minvalue);
     isbound = 0;
     realnum = realnum + 100 - mod(realnum,100);
     while ~isbound % first, find a lower bound of chi_
         
-        gamma_try = gamma_lo;
+        chi_try = chi_lo;
         
         % create new paramfile from bseedfile & specified changes
         params = setparams(bseedfile);
@@ -40,8 +40,8 @@ for bb=brange
             end
         end
         clear params;
-        b0 = [r_;bb;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;chi_;gamma_try;nrandon;delta_;spliton;pinit];
+        b0 = [aa;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/b' realbasecode '999.txt'];
         writeparams(temppath,b0,temppath);
@@ -53,10 +53,10 @@ for bb=brange
            isbound = 1; 
            %save params, runnum, and result
            dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-            realbasecode '/tests.txt'],[bb,gamma_try,didescape,realnum],'-append');
+            realbasecode '/tests.txt'],[aa,chi_try,didescape,realnum],'-append');
         else
-           gamma_hi = gamma_try;
-           gamma_lo = gamma_lo-jumptest;
+           chi_hi = chi_try;
+           chi_lo = chi_lo-jumptest;
         end
            realnum = realnum + 1;
         
@@ -67,10 +67,10 @@ for bb=brange
            
     end
     
-    while abs(gamma_lo-gamma_hi)>windowsize; % now, narrow the window appropriately
+    while abs(chi_lo-chi_hi)>windowsize; % now, narrow the window appropriately
         
         % determine chi_try
-        gamma_try = (gamma_lo+gamma_hi)/2;
+        chi_try = (chi_lo+chi_hi)/2;
         
         % create new paramfile from bseedfile & specified changes
         params = setparams(bseedfile);
@@ -81,8 +81,8 @@ for bb=brange
             end
         end
         clear params;
-        b0 = [r_;bb;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;chi_;gamma_try;nrandon;delta_;spliton;pinit];
+        b0 = [aa;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/b' realbasecode '999.txt'];
         writeparams(temppath,b0,temppath);
@@ -93,26 +93,26 @@ for bb=brange
         
         % THIRD: save params, runnum, and result
         dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-            realbasecode '/tests.txt'],[bb,gamma_try,didescape,realnum],'-append');
+            realbasecode '/tests.txt'],[aa,chi_try,didescape,realnum],'-append');
                
         % FOURTH: choose new runname, bseedfile, runnum, and values
         realnum = realnum + 1;
         if ~didescape
-            gamma_lo = gamma_try;
+            chi_lo = chi_try;
         else
-            gamma_hi = gamma_try;
+            chi_hi = chi_try;
         end
                     
         % emergency stop
         if(mod(realnum,100)>maxtests)
-            windowsize = gamma_hi-gamma_lo;
+            windowsize = chi_hi-chi_lo;
         end
 
     end
     
     % save result window at THAT particular value of bb
     dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-            realbasecode '/result.txt'],[bb,gamma_lo,gamma_hi],'-append');
+            realbasecode '/result.txt'],[aa,chi_lo,chi_hi],'-append');
     %chi_hi = chi_hi; % absolute upper bound for next bb value
     
 end
@@ -122,6 +122,6 @@ mesh_tests_now = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
 result_now = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/result.txt']);
 dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-             'Gammabeta_tests.txt'],mesh_tests_now,'-append');
+             'alphachi_tests.txt'],mesh_tests_now,'-append');
 dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-             'Gammabeta_phaseline.txt'],result_now,'-append');
+             'alphachi_phaseline.txt'],result_now,'-append');
