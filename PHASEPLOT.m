@@ -2,16 +2,16 @@
 % in which plots are made of the phase diagrams that have appropriate
 % colors and things.
 
-% twovars = 'bchi';
-% xvar = 'b';
-% yvar = 'chi_';
-% windowsize = 0.25; % y-resolution
-% xresolution = 1;
-twovars = 'Gammabeta';
-xvar = 'one';
-yvar = 'two';
+twovars = 'bchi';
+xvar = 'b';
+yvar = 'chi_';
 windowsize = 0.25; % y-resolution
-xresolution = 0.025e-4;
+xresolution = 1;
+% twovars = 'Gammabeta';
+% xvar = 'one';
+% yvar = 'two';
+% windowsize = 0.25; % y-resolution
+% xresolution = 0.025e-4;
 
 % first, we load the necessary files
 orig_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
