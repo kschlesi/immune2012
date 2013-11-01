@@ -21,14 +21,30 @@ tplot = csvread(tfilename);
 Pplot = csvread(Pfilename);
 %Lplot = csvread(Lfilename);
 
+% this plots NUMBER OF STRAINS as a function of time
+% where strains are defined as clusters of pathogen
+% separated by ANY number of unpopulated shape space sites
 changes = diff((Pplot>=mu_)')';
 strains = max(sum((changes>0),2),sum((changes<0),2));
-
 strains = strains + (Pplot(:,1)>=mu_).*(Pplot(:,end)>=mu_);
-
 figure
 plot(tplot,strains)
 
-ischronic=0;
+% this plots number of strains as a function of time
+% where strains are defined with an autocorrelation
+% function over the shape space to detect similar peaks
+corrs = zeros(size(Pplot));
+for i=1:size(tplot,1)
+    xcorrelation = xcorr(Pplot(i,:),'coeff');
+    corrs(i,:) = xcorrelation(Pdim1:end);
+end
+time=1000;
+figure
+plot((100:150),Pplot(time,100:150))
+figure
+plot((100:150),corrs(time,100:150))
+
+ischronic = 0;
+
 
 end

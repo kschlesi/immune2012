@@ -2,12 +2,13 @@
 
 clear
 
-runnum = 1;
-basecode = 'file';
-bfilename = ['b' basecode num2str(runnum) '.txt'];
-tfilename = ['t' basecode num2str(runnum) '.txt'];
-Pfilename = ['P' basecode num2str(runnum) '.txt'];
-Lfilename = ['L' basecode num2str(runnum) '.txt'];
+runnum = 606;
+basecode = 'achlina';
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
+bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
+tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
+Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
+Lfilename = [datapath 'L' basecode num2str(runnum) '.txt'];
 
 % set parameters
 days = 0;
