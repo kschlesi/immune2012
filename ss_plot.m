@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 606;
-basecode = 'achlina';
+runnum = 104;
+basecode = 'gblina';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
