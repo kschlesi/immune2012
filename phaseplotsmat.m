@@ -2,16 +2,16 @@
 % in which plots are made of the phase diagrams that have appropriate
 % colors and things.
 
-twovars = 'bchi';
-xvar = 'b';
-yvar = 'chi_';
-windowsize = 0.25; % y-resolution
-xresolution = 1;
-% twovars = 'Gammabeta';
-% xvar = 'one';
-% yvar = 'two';
+% twovars = 'bchi';
+% xvar = 'b';
+% yvar = 'chi_';
 % windowsize = 0.25; % y-resolution
-% xresolution = 0.025e-4;
+% xresolution = 1;
+twovars = 'Gammabeta';
+xvar = 'one';
+yvar = 'two';
+windowsize = 0.25; % y-resolution
+xresolution = 0.025e-4;
 
 % first, we load the necessary files
 orig_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
@@ -32,6 +32,19 @@ orig_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
         orig_tests(:,1).*(chronics>0),chronics,'*b',...
         orig_tests(:,1).*(clears>0),clears,'.g')
         axis([xmin xmax ymin ymax])
+        %axis([xmin 40 ymin 1000])
+        legend('early escape','chronic infection','early clearance')
+        
+overone_tests = [orig_tests(:,1),1./orig_tests(:,2),orig_tests(:,3:4)];
+
+figure
+escapes = overone_tests(:,2).*(overone_tests(:,3)==1);
+chronics = overone_tests(:,2).*(~overone_tests(:,3));
+clears = overone_tests(:,2).*(overone_tests(:,3)==-1);
+plot(overone_tests(:,1),escapes,'xr',overone_tests(:,1),chronics,'*b',...
+     overone_tests(:,1),clears,'.g')
+axis([xmin xmax 1/ymax 1/ymin])
+%axis([xmin 20 1/ymax 0.02])
         
 % create a matrix with mesh as small as tests. (round to nearest window)
 meshmatrix = zeros(size(yaxis,2),size(xaxis,2));
