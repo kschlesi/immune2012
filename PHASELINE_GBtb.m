@@ -1,13 +1,14 @@
-% PHASELINE: this script systematically calls ss_seed with different values
+% PHASELINE_for gammabeta turnback:
+% this script systematically calls ss_seed with different values
 % of two parameters of interest, to plot the line between escape and
 % chronic control on the model's phase diagram.
 
 clear
 
 % starting values of parameters & first seedfile
-chi_hi = 800;  % definite upper bound on chi_ for first (lowest) b-value
-arange = (8:14);%.*10^(-5);
-jumptest = 10;
+chi_lo = 45;  % definite lower bound on chi_ for first (lowest) b-value
+arange = (1.75:0.25:2.25).*10^(-5);
+jumptest = 50;
 windowsize = 0.25;   % should be smaller than jumptest
 maxtests = 25; % max number of tests per b-value
 minvalue = 0; % absolute minimum value of gamma to be tested
@@ -15,7 +16,7 @@ seednum = 12;
 seedbasecode = 'qtune';
 
 realnum = 0;
-realbasecode = 'BClinefill';
+realbasecode = 'GBlinesearch';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
@@ -24,12 +25,12 @@ savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
 for aa=arange
    
     % choose and name next run
-    chi_lo = max(chi_hi-jumptest,minvalue);
+    chi_hi = max(chi_lo+jumptest,minvalue);
     isbound = 0;
     realnum = realnum + 100 - mod(realnum,100);
     while ~isbound % first, find a lower bound of chi_
         
-        chi_try = chi_lo;
+        chi_try = chi_hi;
         
         % create new paramfile from bseedfile & specified changes
         params = setparams(bseedfile);
@@ -40,8 +41,8 @@ for aa=arange
             end
         end
         clear params;
-        b0 = [aa;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
+        b0 = [r_;aa;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...    %%note aa is h_ (beta)
+            Pdim1;Ldim1;x0;chi_;chi_try;nrandon;delta_;spliton;pinit]; %%note chi_try is Gamma_
         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/b' realbasecode '999.txt'];
         writeparams(temppath,b0,temppath);
@@ -55,8 +56,8 @@ for aa=arange
            dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/tests.txt'],[aa,chi_try,didescape,realnum],'-append');
         else
-           chi_hi = chi_try;
-           chi_lo = chi_lo-jumptest;
+           chi_lo = chi_try;
+           chi_hi = chi_hi+jumptest;
         end
            realnum = realnum + 1;
         
@@ -81,8 +82,8 @@ for aa=arange
             end
         end
         clear params;
-        b0 = [aa;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
+        b0 = [r_;aa;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_;chi_try;nrandon;delta_;spliton;pinit];
         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/b' realbasecode '999.txt'];
         writeparams(temppath,b0,temppath);
@@ -97,7 +98,7 @@ for aa=arange
                
         % FOURTH: choose new runname, bseedfile, runnum, and values
         realnum = realnum + 1;
-        if ~didescape
+        if didescape
             chi_lo = chi_try;
         else
             chi_hi = chi_try;
@@ -122,6 +123,6 @@ mesh_tests_now = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
 result_now = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/result.txt']);
 dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-             'alphachi_tests.txt'],mesh_tests_now,'-append');
+             'Gammabeta_tests.txt'],mesh_tests_now,'-append');
 dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-             'alphachi_phaseline.txt'],result_now,'-append');
+             'Gammabeta_phaseline.txt'],result_now,'-append');

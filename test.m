@@ -133,9 +133,12 @@ overone_tests = [bchi_tests(:,1),1./bchi_tests(:,2),bchi_tests(:,3:4)];
 %disp(overone_tests);
 
 figure
-escapes = overone_tests(:,2).*overone_tests(:,3);
+escapes = overone_tests(:,2).*overone_tests(:,3)==1;
 chronics = overone_tests(:,2).*(~overone_tests(:,3));
-plot(overone_tests(:,1),escapes,'xr',overone_tests(:,1),chronics,'*b')
+clears = overone_tests(:,2).*overone_tests(:,3)==-1;
+plot(overone_tests(:,1),escapes,'xr',...
+     overone_tests(:,1),chronics,'*b',...
+     overone_tests(:,1),clears,'og')
 axis([xmin xmax 1/ymax 1/ymin])
 
 chilist = 1./yaxis';

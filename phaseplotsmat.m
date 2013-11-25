@@ -61,20 +61,20 @@ end
 
 % fill interstices (by xval)
 [yzeros,xzeros] = find(meshmatrix~=0);
-% for i=min(xzeros):max(xzeros)
-%     spikes = yzeros(xzeros==i);
-%     if spikes
-%         meshmatrix(1:spikes(1)-1,i) = meshmatrix(spikes(1),i);
-%         for j=1:size(spikes,1)-1
-%             if meshmatrix(spikes(j),i)==meshmatrix(spikes(j+1),i)
-%                 meshmatrix(spikes(j)+1:spikes(j+1)-1,i) = meshmatrix(spikes(j),i);
-%             end
-%         end
-%         meshmatrix(spikes(end)+1:end,i) = meshmatrix(spikes(end),i);
-%     else
-%         meshmatrix(:,i) = meshmatrix(:,i-1);
-%     end
-% end
+for i=min(xzeros):max(xzeros)
+    spikes = yzeros(xzeros==i);
+    if spikes
+        meshmatrix(1:spikes(1)-1,i) = meshmatrix(spikes(1),i);
+        for j=1:size(spikes,1)-1
+            if meshmatrix(spikes(j),i)==meshmatrix(spikes(j+1),i)
+                meshmatrix(spikes(j)+1:spikes(j+1)-1,i) = meshmatrix(spikes(j),i);
+            end
+        end
+        meshmatrix(spikes(end)+1:end,i) = meshmatrix(spikes(end),i);
+    else
+        meshmatrix(:,i) = meshmatrix(:,i-1);
+    end
+end
 
 % contour this matrix.
 vi = [3 2 1 0];
