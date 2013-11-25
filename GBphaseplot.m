@@ -25,7 +25,7 @@ orig_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
             orig_tests(:,1).*(chronics>0),chronics,'*b',...
             orig_tests(:,1).*(clears>0),clears,'.g')
         axis([xmin xmax ymin ymax])
-        %axis([xmin 40 ymin 1000])
+        axis([xmin xmax ymin 100])
         legend('early escape','chronic infection','early clearance')
 
 

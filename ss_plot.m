@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 108;
-basecode = 'gblin';
+runnum = 4207;
+basecode = 'GBlinesearch';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -42,27 +42,27 @@ Lplot = Lplot.*(Lplot>=mu_);
 Ptot = sum(Pplot,2);
 Ltot = sum(Lplot,2);
 
-%%%%%%%%%%%% plots of ratios to determine chronicity....
-gammas1D = zeros(Pdim1,Ldim1);   % matrix of affinities
-lambdas1D = Lambdas(eps_,Pdim1); % vector of pathogen fitnesses      
-for i=1:Pdim1;
-    gammas1D(i,:) = Gammas([i,1],ones(Ldim1,1),1,b);
-end
-
-avgPx = Pplot*(1:400)'./Ptot;
-figure
-plot(tplot,avgPx)
-gammas_at_avgPx = zeros(size(Lplot));
-for i=1:size(tplot,1)
-    gammas_at_avgPx(i,:) = gammas1D(round(avgPx(i)),:);
-end
-omegas_at_avgPx = sum(gammas_at_avgPx.*Lplot,2);
-omegasPtot_number = zeros(size(omegas_at_avgPx));
-for time=1:size(omegas_at_avgPx,1)
-    omegasPtot_number = lambdas1D(round(avgPx(time)))*(1-Ptot(time)/K_)/h_;
-end
-figure
-plot(tplot,omegas_at_avgPx./omegasPtot_number)
+% %%%%%%%%%%%% plots of ratios to determine chronicity....
+% gammas1D = zeros(Pdim1,Ldim1);   % matrix of affinities
+% lambdas1D = Lambdas(eps_,Pdim1); % vector of pathogen fitnesses      
+% for i=1:Pdim1;
+%     gammas1D(i,:) = Gammas([i,1],ones(Ldim1,1),1,b);
+% end
+% 
+% avgPx = Pplot*(1:400)'./Ptot;
+% figure
+% plot(tplot,avgPx)
+% gammas_at_avgPx = zeros(size(Lplot));
+% for i=1:size(tplot,1)
+%     gammas_at_avgPx(i,:) = gammas1D(round(avgPx(i)),:);
+% end
+% omegas_at_avgPx = sum(gammas_at_avgPx.*Lplot,2);
+% omegasPtot_number = zeros(size(omegas_at_avgPx));
+% for time=1:size(omegas_at_avgPx,1)
+%     omegasPtot_number = lambdas1D(round(avgPx(time)))*(1-Ptot(time)/K_)/h_;
+% end
+% figure
+% plot(tplot,omegas_at_avgPx./omegasPtot_number)
 
 % calculate maxd from first Ppeak; compare with estimate
 Pderiv = diff(Ptot);
@@ -141,7 +141,7 @@ disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
     Yaxis = (1:1:Pdim1);
     logsurf(Xaxis,Yaxis,Pplot')
     axis([0 days 0 Pdim1])
-    %axis([0 1000 0 200])
+    %axis([0 500 0 Pdim1])
     title('Pathogen Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
@@ -151,7 +151,7 @@ disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
     figure
     semilogy(tplot,Ptot,tplot,Ltot)
     axis([0 days 1 10^10])
-    %axis([0 12.895 1 10^10])
+    %axis([0 500 1 10^10])
     title('Single-Infection Cell Populations')
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
@@ -192,7 +192,7 @@ disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
     Yaxis = (1:1:Ldim1);
     logsurf(Xaxis,Yaxis,Lplot')
     axis([0 days 0 Ldim1])
-    %axis([0 18 0 Ldim1])
+    %axis([0 500 0 Ldim1])
     title('Lymphocyte Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
