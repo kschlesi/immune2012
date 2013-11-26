@@ -21,9 +21,9 @@ orig_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
         escapes = orig_tests(:,2).*(orig_tests(:,3)==1);
         chronics = orig_tests(:,2).*(~orig_tests(:,3));
         clears = orig_tests(:,2).*(orig_tests(:,3)==-1);
-        plot(orig_tests(:,1).*(escapes>0),escapes,'xr',...
-            orig_tests(:,1).*(chronics>0),chronics,'*b',...
-            orig_tests(:,1).*(clears>0),clears,'.g')
+        plot(orig_tests(:,1).*(escapes>0),escapes,'or',...
+            orig_tests(:,1).*(chronics>0),chronics,'ob',...
+            orig_tests(:,1).*(clears>0),clears,'og')
         axis([xmin xmax ymin ymax])
         axis([xmin xmax ymin 100])
         legend('early escape','chronic infection','early clearance')
@@ -90,17 +90,18 @@ aLine = aLine(1:current_arow-1,:);
 bLine = bLine(1:current_brow-1,:);
 cLine = cLine(1:current_crow-1,:);
 figure
-plot(aLine(:,1),mean([aLine(:,2),aLine(:,3)],2),'go')
+plot(aLine(:,1),mean([aLine(:,2),aLine(:,3)],2),'g')
 hold on
-plot(bLine(:,1),mean([bLine(:,2),bLine(:,3)],2),'ro')
-plot(cLine(:,1),mean([cLine(:,2),cLine(:,3)],2),'bo')
+plot(bLine(:,1),mean([bLine(:,2),bLine(:,3)],2),'r')
+plot(cLine(:,1),mean([cLine(:,2),cLine(:,3)],2),'b')
 
 %%% now that we have the points, fit the lines!!!
 
 %%%%%%%%%%%%%%%%%%aLine plot%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % preparing to fit a curve to the relevant phaseline points
-orig_result1 = aLine;
+keep_indx = find(aLine(:,2)~=max(aLine(:,2)));
+orig_result1 = aLine(keep_indx,:);
 mean_y1 = mean([orig_result1(:,2),orig_result1(:,3)],2);
 
 fitrange1 = (orig_result1(1,1):xresolution:orig_result1(end,1));
@@ -164,11 +165,12 @@ plot(fitrange1,expfun(bhat1_e,fitrange1),'b')
 % plot(fitrange2,expfun(bhat2_e,fitrange2),'b')
 % plot(fitrange2,powerfun(bhat2,fitrange2),'r')
 
-%%%%%%%%%%%%%bLine plot (missing last thingy)%%%%%%%%%%%%%%
+%%%%%%%%%%%%%bLine plot (bottom half)%%%%%%%%%%%%%%
 
 % preparing to fit a curve to the relevant phaseline points
-keep_indx = find(bLine(:,2)~=max(bLine(:,2)));
-orig_result3 = bLine(keep_indx,:);
+keep_indx = find((bLine(:,2)~=max(bLine(:,2))).*(abs(bLine(:,3)-bLine(:,2)<1)));
+orig_resultB = bLine(keep_indx,:);
+orig_result3 = orig_resultB(find(orig_resultB(:,2)<30),:);
 mean_y3 = mean([orig_result3(:,2),orig_result3(:,3)],2);
 
 fitrange3 = (orig_result3(1,1):xresolution:orig_result3(end,1));
@@ -199,51 +201,93 @@ hold on
 plot(fitrange3,powerfun(bhat3,fitrange3),'r')
 plot(fitrange3,expfun(bhat3_e,fitrange3),'b')
 
+%%%%%%%%%%%%%bLine plot (top half)%%%%%%%%%%%%%%
+
+orig_result5 = orig_resultB(find(orig_resultB(:,2)>20),:);
+mean_y5 = mean([orig_result5(:,2),orig_result5(:,3)],2);
+
+fitrange5 = (orig_result5(1,1):xresolution:orig_result5(end,1));
+
+% plot original guess of fit parameters
+figure
+%exponential (blue)
+%plot(fitrange5,expfun([10^3,3e5],fitrange5),'b')
+%hold on 
+%powerlaw (red)
+plot(fitrange5,logfun([1,20],fitrange5),'r')
+
+% calculate power-law fit and error on fit
+% ...or exponential??
+[bhat5,resid,J] = nlinfit(orig_result5(:,1),mean_y5,@logfun,[10^-8,2]);
+betaci5 = nlparci(bhat5,resid,J);
+%[bhat5_e,resid_e,J_e] = nlinfit(orig_result5(:,1),mean_y5,@expfun,[10^3,3e5]);
+%betaci5_e = nlparci(bhat5_e,resid_e,J_e);
+% disp(betaci3(1,:));
+% disp(betaci3(2,:));
+
+% plot relevant test points (green), fit (blue), fit error lines (red)
+figure
+plot(orig_result5(:,1),mean_y5,'ro')
+hold on
+%plot(orig_result3(:,1),powerfun(betaci3(:,1),orig_result3(:,1)),'r--')
+%plot(orig_result3(:,1),powerfun(betaci3(:,2),orig_result3(:,1)),'r--')
+plot(fitrange5,logfun(bhat5,fitrange5),'r')
+%plot(fitrange5,expfun(bhat5_e,fitrange5),'b')
+
 
 %%%%%%%%%%%%%%%%%%%bLine plot (sideways)%%%%%%%%%%%%%%%%%%%%
 
 % preparing to fit a curve to the relevant phaseline points
-sideways_y = bLine(:,1);
-sideways_x = mean([bLine(:,2),bLine(:,3)],2);
-
-fitrange4 = (min(sideways_x):windowsize:max(sideways_x));
-
-% % plot original guess of fit parameters
-% figure
-% %exponential (blue)
-% plot(fitrange4,expfun([10^3,3e5],fitrange4),'b')
-% hold on 
-% %powerlaw (red)
-% plot(fitrange4,powerfun([10^-8,2],fitrange4),'r')
-
-% calculate power-law fit and error on fit
-% ...or exponential??
-
-%[theFit,goFit] = fit(sideways_x,sideways_y,'poly2');
-%plot(theFit,sideways_x,sideways_y);
-
-%figure
-%plot(sideways_x,sideways_y,'go')
-%hold on
-%theFit = polyfit(sideways_x,sideways_y,2);
-%fitPlotVals = polyval(theFit,fitrange4);
-%plot(fitPlotVals,fitrange4,'b')
-
-
-[bhat2,resid,J] = nlinfit(orig_result4(:,1),mean_y4,@powerfun,[10^-8,2]);
-betaci2 = nlparci(bhat2,resid,J);
-[bhat2_e,resid_e,J_e] = nlinfit(orig_result4(:,1),mean_y4,@expfun,[10^3,3e5]);
-betaci2_e = nlparci(bhat2_e,resid_e,J_e);
+% sideways_y = bLine(:,1);
+% sideways_x = mean([bLine(:,2),bLine(:,3)],2);
+% 
+% fitrange4 = (min(sideways_x):windowsize:max(sideways_x));
+% 
+% % % plot original guess of fit parameters
+% % figure
+% % %exponential (blue)
+% % plot(fitrange4,expfun([10^3,3e5],fitrange4),'b')
+% % hold on 
+% % %powerlaw (red)
+% % plot(fitrange4,powerfun([10^-8,2],fitrange4),'r')
+% 
+% % calculate power-law fit and error on fit
+% % ...or exponential??
+% 
+% %[theFit,goFit] = fit(sideways_x,sideways_y,'poly2');
+% %plot(theFit,sideways_x,sideways_y);
+% 
+% %figure
+% %plot(sideways_x,sideways_y,'go')
+% %hold on
+% %theFit = polyfit(sideways_x,sideways_y,2);
+% %fitPlotVals = polyval(theFit,fitrange4);
+% %plot(fitPlotVals,fitrange4,'b')
+% 
+% 
+% [bhat2,resid,J] = nlinfit(orig_result4(:,1),mean_y4,@powerfun,[10^-8,2]);
+% betaci2 = nlparci(bhat2,resid,J);
+% [bhat2_e,resid_e,J_e] = nlinfit(orig_result4(:,1),mean_y4,@expfun,[10^3,3e5]);
+% betaci2_e = nlparci(bhat2_e,resid_e,J_e);
 %disp(betaci2(1,:));
 %disp(betaci2(2,:));
 
-% plot relevant test points (green), fit (blue), fit error lines (red)
+% % plot relevant test points (green), fit (blue), fit error lines (red)
+% figure
+% plot(orig_result4(:,1),mean_y4,'ro')
+% hold on
+% %plot(orig_result2(:,1),expfun(betaci2(:,1),orig_result2(:,1)),'r--')
+% %plot(orig_result2(:,1),expfun(betaci2(:,2),orig_result2(:,1)),'r--')
+% plot(fitrange4,expfun(bhat2_e,fitrange4),'b')
+% plot(fitrange4,powerfun(bhat2,fitrange4),'r')
+
+
+% truncate and plot aLine, bLine, &c
 figure
-plot(orig_result4(:,1),mean_y4,'ro')
+plot(orig_result1(:,1),mean([orig_result1(:,2),orig_result1(:,3)],2),'b')
 hold on
-%plot(orig_result2(:,1),expfun(betaci2(:,1),orig_result2(:,1)),'r--')
-%plot(orig_result2(:,1),expfun(betaci2(:,2),orig_result2(:,1)),'r--')
-plot(fitrange4,expfun(bhat2_e,fitrange4),'b')
-plot(fitrange4,powerfun(bhat2,fitrange4),'r')
-
-
+%plot(fitrange1,powerfun(bhat1,fitrange1),'k')
+plot(orig_result3(:,1),mean([orig_result3(:,2),orig_result3(:,3)],2),'r')
+%plot(fitrange3,powerfun(bhat3,fitrange3),'k')
+plot(orig_result5(:,1),mean([orig_result5(:,2),orig_result5(:,3)],2),'r')
+axis([xmin xmax ymin 80])

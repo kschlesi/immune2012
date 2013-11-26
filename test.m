@@ -129,8 +129,6 @@ contourf(bchi_result(:,1),chilist,phasmat,v);
 % plot 1/chi_ instead
 overone_result = [bchi_result(:,1),1./bchi_result(:,3),1./bchi_result(:,2)];
 overone_tests = [bchi_tests(:,1),1./bchi_tests(:,2),bchi_tests(:,3:4)];
-%disp(overone_result);
-%disp(overone_tests);
 
 figure
 escapes = overone_tests(:,2).*overone_tests(:,3)==1;
