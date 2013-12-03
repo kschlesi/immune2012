@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 102;
-basecode = 'gblin';
+runnum = 601;
+basecode = 'phamesb';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -141,7 +141,7 @@ disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
     Yaxis = (1:1:Pdim1);
     logsurf(Xaxis,Yaxis,Pplot')
     axis([0 days 0 Pdim1])
-    axis([50 500 0 300])
+    axis([0 50 0 40])
     title('Pathogen Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
@@ -151,7 +151,7 @@ disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
     figure
     semilogy(tplot,Ptot,tplot,Ltot)
     axis([0 days 1 10^10])
-    axis([50 500 1 10^10])
+    %axis([50 500 1 10^10])
     title('Single-Infection Cell Populations')
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
@@ -217,6 +217,18 @@ disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
 %     ylabel('position in shape space (site)')
 %     xlabel('duration of infection (days)')
 %     legend('Lymphocytes = \mu','Location','Northeast')
+
+
+figure    % plot of P0 and L0 distributions at days+olddays
+hold on
+hold all
+plot((1:1:Pdim1),Pplot(end,:))
+plot((1:1:Ldim1),Lplot(end,:))
+title(['P0 and L0 distributions at t = ' num2str(days) ' days'])
+xlabel('location in shape space (site)')
+ylabel('population (cells/\mul)')
+legend('Pathogen','Lymphocytes')
+axis([0 50 0 12e4])
     
 %%%%%%%%%%%%%%gammas, lambdas, etc
 % % gammas & lambdas (for beta_ landscape)
