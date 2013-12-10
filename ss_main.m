@@ -10,8 +10,8 @@ stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 9;
-basecode = 'qtune';
+runnum = 4.3;
+basecode = 'ltest';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -28,10 +28,10 @@ r_ = 3.3;           % pathogen mutation rate
 h_ = 10^-5;         % pathogen killing
 sigma_ = 3;         % naive recruitment
 k_ = 10^5;          % pathogen saturation
-chi_ = 8;           % strength of mutation probability (chi_=0: no mutation)
+chi_ = 0;           % strength of mutation probability (chi_=0: no mutation)
 Gamma_ = 4;         % naive influx
 delta_ = 0.35;      % constant naive death rate
-pinit = 5;          % initial dose of pathogen
+pinit = 0;          % initial dose of pathogen
 b = 23;             % width of Gaussian affinity curve
 eps_ = 0;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
@@ -60,13 +60,14 @@ mrates = Qmatrix(Pdim1,chi_,spliton);    % initial mutation matrix
 P0 = zeros(Pdim1,1);    % initial pathogen inoculation  
 P0(x0) = pinit;    
 
-L0density = Gamma_/delta_;          % initial naive cell mean density
+Qprime = 2.1;  % ratio of R to L_tot* (i.e. R = L* times n times Qprime)
+L0density = Gamma_/(delta_ - dh_*(1-Qprime));          % initial naive cell mean density
 if (nrandon)
     L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
 else
-    L0 = L0density.*ones(Ldim1,1);        % uniform distribution of naive cells
+    L0 = L0density.*ones(Ldim1,1)-1;        % uniform distribution of naive cells
 end
-R_ = Ldim1*L0density;   % total lymphocyte threshold, above which constraint applies
+R_ = Ldim1*L0density*Qprime;   % total lymphocyte threshold, above which constraint applies
 
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%

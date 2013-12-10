@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 201;
-basecode = 'GBlinesearch';
+runnum = 4.3;
+basecode = 'ltest';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -70,12 +70,14 @@ peaks = (Pderiv<0).*(circshift(Pderiv,1)>=0);
 Ppeak = Ptot(find(peaks,1,'first'));
 %disp(Ptot(1:end-1).*peaks);
 %peakind = (derivtest<0).*(circshift(derivtest,1)>0);
+if Ppeak
 peakindex = find(Ptot==Ppeak);
 peaktime = tplot(peakindex);
 maxsite = find(Pplot(peakindex+2,:)==0,1,'first')-1;
 maxd = maxsite-x0;
 curlyL = sqrt(2/pi)/(Pdim1*chi_);
 disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
+end
 
 % Pstrains = sum(Pplot>0,2);
 % figure
@@ -137,20 +139,33 @@ disp([maxd sqrt(curlyL*Ppeak*(1-Ppeak/K_))]);
 % % 
 % % % contour plots of PL populations over time
 % % % NOTE these plots ARE ABSOLUTELY properly time-normalised
-    Xaxis = tplot;
-    Yaxis = (1:1:Pdim1);
-    logsurf(Xaxis,Yaxis,Pplot')
-    axis([0 days 0 Pdim1])
-    axis([0 50 0 100])
-    title('Pathogen Evolution in Shape Space')
-    ylabel('position in shape space (site)')
-    xlabel('duration of infection (days)')
-    %clear Pplot;
+%     Xaxis = tplot;
+%     Yaxis = (1:1:Pdim1);
+%     %logsurf(Xaxis,Yaxis,Pplot',mu_)
+%     contdata = Pplot;
+%     contdata(Pplot<mu_) = -Inf;
+%     figure
+%     v = [mu_,500,1e07:1e07:10e07];
+%     vv = [ mu_ 1 ];
+%     contourf(Xaxis,Yaxis,contdata',vv)
+%     %hold on
+%     %contourf(Xaxis,Yaxis, contdata',v,'EdgeColor','none')
+%     %clabel(C)
+%     axis([0 days 0 Pdim1])
+%     axis([0 30 0 30])
+%     title('Pathogen Evolution in Shape Space')
+%     ylabel('position in shape space (site)')
+%     xlabel('duration of infection (days)')
+%     %clear Pplot;
     
     %plot of total pathogen v. total lymphocyte population
     figure
+    hold on
     semilogy(tplot,Ptot,tplot,Ltot)
-    axis([0 days 1 10^10])
+    %plot(tplot,(Ltot(1)).*ones(size(tplot)),'r')
+    plot(tplot,(R_).*ones(size(tplot)),'--r')
+
+    %axis([0 days 1 10^10])
     %axis([50 500 1 10^10])
     title('Single-Infection Cell Populations')
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
@@ -224,11 +239,13 @@ hold on
 hold all
 plot((1:1:Pdim1),Pplot(end,:))
 plot((1:1:Ldim1),Lplot(end,:))
+plot((1:1:Ldim1),Lplot(1,:))
+plot((1:1:Ldim1),R_/Ldim1)
 title(['P0 and L0 distributions at t = ' num2str(days) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
-axis([0 100 0 2.4e4])
+%axis([0 100 0 2.4e4])
     
 %%%%%%%%%%%%%%gammas, lambdas, etc
 % % gammas & lambdas (for beta_ landscape)
