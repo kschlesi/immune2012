@@ -2,9 +2,9 @@
 
 clear
 
-runnum = 1;
-basecode = 'pldyn';
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
+runnum = 1.6;
+basecode = 'plos';
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -160,20 +160,20 @@ end
 %     %clear Pplot;
     
 %     %plot of total pathogen v. total lymphocyte population
-%     figure
-%     semilogy(tplot,Ptot,tplot,Ltot)
-%     %hold on
-%     %plot(tplot,(Ltot(1)).*ones(size(tplot)),'r')
-%     %plot(tplot,(R_).*ones(size(tplot)),'--r')
-%     axis([0 days 1 10^10])
-%     %axis([0 10 1 10^10])
-%     title('Single-Infection Cell Populations')
-% %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
-%     xlabel('duration of infection (days)')
-%     ylabel('total population (cells)')
-%     legend('Pathogen','Lymphocytes','Location','NorthWest')
-%     %clear Ptot;
-%     %clear Ltot;
+    figure
+    semilogy(tplot,Ptot,'-',tplot,Ltot,'-')
+    %hold on
+    %plot(tplot,(Ltot(1)).*ones(size(tplot)),'r')
+    %plot(tplot,(R_).*ones(size(tplot)),'--r')
+    axis([0 days 1 10^10])
+    %axis([0 10 1 10^10])
+    title('Single-Infection Cell Populations')
+%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
+    xlabel('duration of infection (days)')
+    ylabel('total population (cells)')
+    legend('Pathogen','Lymphocytes','Location','NorthWest')
+    %clear Ptot;
+    %clear Ltot;
 %     
 %     figure
 %     semilogy(tplot,Pplot(:,6))
