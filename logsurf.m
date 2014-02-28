@@ -18,7 +18,10 @@
     
     % making figure
     figure
-    surf(Xaxis,Yaxis,Dlog,'EdgeColor','none')
+    %v = [mu_ 1];
+    %contourf(Xaxis,Yaxis,Dlog,v)
+    %hold on
+    surf(Xaxis,Yaxis,Dlog,'EdgeColor','none','MeshStyle','column')
     axis([Xaxis(1) Xaxis(end) Yaxis(1) Yaxis(end)])
     logC = colorbar('Location','EastOutside');  
     formatSpec = '%3.0G';                       

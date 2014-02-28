@@ -2,9 +2,9 @@
 
 clear
 
-runnum = 4.3;
-basecode = 'ltest';
-datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
+runnum = 1;
+basecode = 'pldyn';
+datapath = ['/Users/kimberly/Google Drive/immunedata/PL/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
 Pfilename = [datapath 'P' basecode num2str(runnum) '.txt'];
@@ -139,41 +139,49 @@ end
 % % 
 % % % contour plots of PL populations over time
 % % % NOTE these plots ARE ABSOLUTELY properly time-normalised
-%     Xaxis = tplot;
-%     Yaxis = (1:1:Pdim1);
-%     %logsurf(Xaxis,Yaxis,Pplot',mu_)
+    Xaxis = tplot;
+    Yaxis = (1:1:Pdim1);
+    logsurf(Xaxis,Yaxis,Pplot')
 %     contdata = Pplot;
 %     contdata(Pplot<mu_) = -Inf;
 %     figure
 %     v = [mu_,500,1e07:1e07:10e07];
 %     vv = [ mu_ 1 ];
 %     contourf(Xaxis,Yaxis,contdata',vv)
-%     %hold on
-%     %contourf(Xaxis,Yaxis, contdata',v,'EdgeColor','none')
-%     %clabel(C)
-%     axis([0 days 0 Pdim1])
-%     axis([0 30 0 30])
-%     title('Pathogen Evolution in Shape Space')
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
+%     hold on
+%     contourf(Xaxis,Yaxis, contdata',v,'EdgeColor','none')
+%     clabel(C)
+    set(gca,'GridLineStyle','none')
+    axis([0 days 0 Pdim1])
+    axis([50 500 30 90])
+    %title('Pathogen Evolution in Shape Space')
+    %ylabel('position in shape space (site)')
+    %xlabel('duration of infection (days)')
 %     %clear Pplot;
     
-    %plot of total pathogen v. total lymphocyte population
-    figure
-    hold on
-    semilogy(tplot,Ptot,tplot,Ltot)
-    %plot(tplot,(Ltot(1)).*ones(size(tplot)),'r')
-    plot(tplot,(R_).*ones(size(tplot)),'--r')
-
-    %axis([0 days 1 10^10])
-    %axis([50 500 1 10^10])
-    title('Single-Infection Cell Populations')
-%    title(['Single-Infection Cell Populations, b = ' num2str(b)])
-    xlabel('duration of infection (days)')
-    ylabel('total population (cells)')
-    legend('Pathogen','Lymphocytes','Location','NorthWest')
-    %clear Ptot;
-    %clear Ltot;
+%     %plot of total pathogen v. total lymphocyte population
+%     figure
+%     semilogy(tplot,Ptot,tplot,Ltot)
+%     %hold on
+%     %plot(tplot,(Ltot(1)).*ones(size(tplot)),'r')
+%     %plot(tplot,(R_).*ones(size(tplot)),'--r')
+%     axis([0 days 1 10^10])
+%     %axis([0 10 1 10^10])
+%     title('Single-Infection Cell Populations')
+% %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
+%     xlabel('duration of infection (days)')
+%     ylabel('total population (cells)')
+%     legend('Pathogen','Lymphocytes','Location','NorthWest')
+%     %clear Ptot;
+%     %clear Ltot;
+%     
+%     figure
+%     semilogy(tplot,Pplot(:,6))
+%     hold on
+%     hold all
+%     semilogy(tplot,Lplot(:,6))
+%     title([basecode num2str(runnum)])
+%     %axis([0 10 0 2.6e6])
 
     
 %     Plog = ones(size(Pplot));
@@ -207,7 +215,7 @@ end
 %     Yaxis = (1:1:Ldim1);
 %     logsurf(Xaxis,Yaxis,Lplot')
 %     axis([0 days 0 Ldim1])
-%     %axis([0 500 0 Ldim1])
+%     %axis([0 10 0 100])
 %     title('Lymphocyte Evolution in Shape Space')
 %     ylabel('position in shape space (site)')
 %     xlabel('duration of infection (days)')
