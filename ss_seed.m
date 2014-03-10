@@ -84,8 +84,7 @@ if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
 clear params;
-sigma_=3;
-dh_ = 1.1e-7; %***************************************************************************
+dh_ = 1.1e-7/2; %***************************************************************************
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
