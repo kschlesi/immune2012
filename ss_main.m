@@ -10,7 +10,7 @@ stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 1.7;
+runnum = 1.8;
 basecode = 'plos';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -26,13 +26,13 @@ end
 %%%%%%%%%%%%%%%%%%%%% setting necessary parameters %%%%%%%%%%%%%%%%%%%%%%%%
 r_ = 3;           % pathogen mutation rate
 h_ = 10^-5;         % pathogen killing
-sigma_ = 2;         % naive recruitment
+sigma_ = 3;         % naive recruitment
 k_ = 10^5;          % pathogen saturation
 chi_ = 10;           % strength of mutation probability (chi_=0: no mutation)
 Gamma_ = 1;         % naive influx
 delta_ = 0.33;      % constant naive death rate
 pinit = 10;          % initial dose of pathogen
-b = 10*2;             % width of Gaussian affinity curve
+b = 20;             % width of Gaussian affinity curve
 eps_ = 0;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
 dh_ = 1.1e-7/2;         % coefficient of overall lymphocyte constraint

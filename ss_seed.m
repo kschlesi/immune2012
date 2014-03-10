@@ -84,6 +84,8 @@ if (strcmp(t1,'end'))
     olddays = params{end,2};    % days already run & saved in file
 end
 clear params;
+sigma_=3;
+dh_ = 1.1e-7; %***************************************************************************
 
 % gammas & lambdas & mrates
 gammas1D = zeros(Pdim1,Ldim1);
@@ -156,7 +158,7 @@ while (contin)
 
     % integrate until 'stopper' event...(or total days reached)
     % ('stopper.m' triggers an event whenever a population falls below mu_)
-    [ts_vec,y_out,~,~,indices] = ode45(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
+    [ts_vec,y_out,ign,ign,indices] = ode45(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
         tspan,y0,options);
 
     % once integration is stopped...

@@ -2,7 +2,7 @@
 
 clear
 
-runnum = 1.6;
+runnum = 3;
 basecode = 'plos';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -153,7 +153,7 @@ end
 %     clabel(C)
     set(gca,'GridLineStyle','none')
     axis([0 days 0 Pdim1])
-    axis([50 500 30 90])
+    %axis([50 500 30 90])
     %title('Pathogen Evolution in Shape Space')
     %ylabel('position in shape space (site)')
     %xlabel('duration of infection (days)')
@@ -212,14 +212,14 @@ end
 %     xlabel('duration of infection (days)')
 %     colorbar('Location','EastOutside')
 
-%     Yaxis = (1:1:Ldim1);
-%     logsurf(Xaxis,Yaxis,Lplot')
-%     axis([0 days 0 Ldim1])
-%     %axis([0 10 0 100])
-%     title('Lymphocyte Evolution in Shape Space')
-%     ylabel('position in shape space (site)')
-%     xlabel('duration of infection (days)')
-%     %clear Lplot;
+    Yaxis = (1:1:Ldim1);
+    logsurf(Xaxis,Yaxis,Lplot')
+    axis([0 days 0 Ldim1])
+    %axis([0 10 0 100])
+    title('Lymphocyte Evolution in Shape Space')
+    ylabel('position in shape space (site)')
+    xlabel('duration of infection (days)')
+    %clear Lplot;
       
 % % plots of cutoff levels for whole infection
 %     v = [ mu_ 1 ];
