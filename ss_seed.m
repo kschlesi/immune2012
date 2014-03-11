@@ -104,6 +104,7 @@ end
 t0 = oldtimes(t0index);
 P0 = transpose(csvread(P0filename,t0index-1,0,[t0index-1,0,t0index-1,Pdim1-1]));
 L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
+E0 = csvread(L0filename,t0index-1,Ldim1,[t0index-1,Ldim1,t0index-1,Ldim1]);
 
 % % modifying initial conditions vector (new infection?)
 % P0_add = zeros(size(P0));
@@ -130,18 +131,18 @@ L0 = transpose(csvread(L0filename,t0index-1,0,[t0index-1,0,t0index-1,Ldim1-1]));
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Gamma_;nrandon;delta_;spliton;pinit];
+    Pdim1;Ldim1;x0;chi_;Gamma_;nrandon;delta_;spliton;pinit;Cfull];
 if isnew
     writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 end
 
 % creating & saving initial conditions vector
-y0 = [P0;L0];
+y0 = [P0;L0;E0];
 
 if isnew
     dlmwrite(tfilename,t0);
     dlmwrite(Pfilename,transpose(P0));
-    dlmwrite(Lfilename,transpose(L0));
+    dlmwrite(Lfilename,[transpose(L0),E0]);
 end
 
 
@@ -177,10 +178,11 @@ while (contin)
     t_out = ts_vec(2:end);
     P_out = y_out(2:end,1:Pdim1);
     L_out = y_out(2:end,Pdim1+1:Pdim1+Ldim1);
+    E_out = y_out(2:end,end);
 
     dlmwrite(tfilename,t_out,'-append');
     dlmwrite(Pfilename,P_out,'-append');
-    dlmwrite(Lfilename,L_out,'-append');
+    dlmwrite(Lfilename,[L_out,E_out],'-append');
     
     % check for escape
     P = P_out(end,:);
