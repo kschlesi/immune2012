@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 1.72;
-basecode = 'clone';
+runnum = 4;
+basecode = 'plos';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
