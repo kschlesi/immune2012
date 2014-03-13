@@ -148,7 +148,7 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%% integrating diffeqs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 tspan = (t0:stepsize:days+olddays);
-options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_),...
+options = odeset('Events',@(t,y)stopper(t,y,mu_),...
             'OutputFcn',@(t,y,flag)escape(t,y,flag,Pdim1,mu_,K_));
 n_ts = size(oldtimes,1);
 contin = 1;
@@ -157,7 +157,7 @@ while (contin)
 
     % integrate until 'stopper' event...(or total days reached)
     % ('stopper.m' triggers an event whenever a population falls below mu_)
-    [ts_vec,y_out,~,~,indices] = ode23s(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
+    [ts_vec,y_out,~,~,indices] = ode15s(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
         tspan,y0,options);
 
     % once integration is stopped...

@@ -5,12 +5,12 @@ clear
 
 global mrates ;
 
-days = 1;       % number of days to run simulation
+days = 20;       % number of days to run simulation
 stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 1.74;
+runnum = 5.5;
 basecode = 'clone';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -35,7 +35,7 @@ pinit = 10;         % initial dose of pathogen
 b = 20;             % width of Gaussian affinity curve
 eps_ = 0;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
-dh_ = 1e-6;         % coefficient of overall lymphocyte constraint
+dh_ = 1;            % coefficient of overall lymphocyte constraint
 Cfull = 5e6;        % total number of naive clones (sites) in system
 K_ = 10^10;         % pathogen carrying capacity
 capon = 1;          % switches on/off pathogen carrying capacity
@@ -87,7 +87,7 @@ dlmwrite(Lfilename,[L0',E0]);
 
 %%%%%%%%%%%%%%%%%%%%%%%% integrating diffeqs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_)); % sets 'events' option
+options = odeset('Events',@(t,y)stopper(t,y,mu_)); % sets 'events' option
 tspan = (t0:stepsize:days); % timespan for solver                % to stop integration
 n_ts = 1;       % counts total solver timesteps                  % and enforce cutoff at mu_
 nstops = 0;     % counts number of interruptions
@@ -96,7 +96,7 @@ while (contin)
     
     % integrate until 'stopper' event...(or total days reached)
     % ('stopper.m' triggers an event whenever a population falls below mu_)
-    [ts_vec,y_out,etimes,ytimes,indices] = ode23s(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
+    [ts_vec,y_out,etimes,ytimes,indices] = ode15s(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
         tspan,y0,options);
     
     % once integration is stopped...
