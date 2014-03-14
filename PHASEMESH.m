@@ -1,7 +1,7 @@
 % PHASEMESH
 
-arange = 0:10;
-chi_range = 0:50:500;
+brange = 0:10;
+chi_range = 4.4:0.8:22;
 %arange2 = (6:10).*10^(-5);
 %chi_range2 = 0:5;
 % jumptest = 1;
@@ -17,7 +17,7 @@ bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/tests.txt'];
         
-for aa=arange
+for bb=brange
     
     realnum = realnum + 100 - mod(realnum,100);
     for chi_try=chi_range
@@ -31,8 +31,8 @@ for aa=arange
             end
         end
         clear params;
-        b0 = [aa;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
+        b0 = [r_;h_;sigma_;k_;bb;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit;Cfull];
         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/b' realbasecode '999.txt'];
         writeparams(temppath,b0,temppath);
@@ -42,7 +42,7 @@ for aa=arange
            [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
        
         %save params, runnum, and result
-        dlmwrite(savefile,[aa,chi_try,didescape,realnum],'-append');
+        dlmwrite(savefile,[bb,chi_try,didescape,realnum],'-append');
         
         realnum = realnum+1;
      
@@ -87,9 +87,9 @@ end
 
 mesh_tests_now = csvread(savefile);
 dlmwrite(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-             'alphachi_tests.txt'],mesh_tests_now,'-append');
-mesh_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-             'alphachi_tests.txt']);
+             realbasecode '_tests.txt'],mesh_tests_now,'-append');
+% mesh_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+%              'alphachi_tests.txt']);
 % mesh_tests1 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
 %             'phamesa/tests.txt']);
 % mesh_tests2 = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
