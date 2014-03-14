@@ -2,7 +2,7 @@
 
 clear
 
-runnum = 4;
+runnum = 5.721;
 basecode = 'clone';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -257,7 +257,7 @@ title(['P0 and L0 distributions at t = ' num2str(days) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
-%axis([125 175 0 10^5])
+axis([125 175 0 10^5])
     
 %%%%%%%%%%%%%%gammas, lambdas, etc
 % % gammas & lambdas (for beta_ landscape)
