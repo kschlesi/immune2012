@@ -2,8 +2,8 @@
 
 clear
 
-runnum = 4.7;
-basecode = 'plos';
+runnum = 5.6;
+basecode = 'clone';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -23,6 +23,10 @@ clear params;
 tplot = csvread(tfilename);
 Pplot = csvread(Pfilename);
 Lplot = csvread(Lfilename);
+disp(size(Lplot));
+Eplot = Lplot(:,end);
+Lplot = Lplot(:,1:Ldim1);
+
 
 n_ts = size(tplot,1);
 
@@ -174,7 +178,7 @@ end
     legend('Pathogen','Lymphocytes','Location','NorthWest')
     %clear Ptot;
     %clear Ltot;
-%     
+     
 %     figure
 %     semilogy(tplot,Pplot(:,6))
 %     hold on
@@ -220,7 +224,7 @@ end
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
     %clear Lplot;
-      
+
 % % plots of cutoff levels for whole infection
 %     v = [ mu_ 1 ];
 %     Xaxis = tplot;
@@ -259,7 +263,7 @@ title(['P0 and L0 distributions at t = ' num2str(ix) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
-%axis([0 100 0 2.4e4])
+axis([125 175 0 5e4])
     
 %%%%%%%%%%%%%%gammas, lambdas, etc
 % % gammas & lambdas (for beta_ landscape)

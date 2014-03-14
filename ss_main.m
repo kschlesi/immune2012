@@ -10,8 +10,8 @@ stepsize = 0.1; % size of steps at which to save data
 
 % information about where to save data:
 % this script will create 4 files whose names are defined here
-runnum = 4.7;
-basecode = 'plos';
+runnum = 5.6;
+basecode = 'clone';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -35,7 +35,8 @@ pinit = 10;         % initial dose of pathogen
 b = 23.9;             % width of Gaussian affinity curve
 eps_ = 0;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
-dh_ = 5e-7;         % coefficient of overall lymphocyte constraint
+dh_ = 1;            % coefficient of overall lymphocyte constraint
+Cfull = 5e6;        % total number of naive clones (sites) in system
 K_ = 10^10;         % pathogen carrying capacity
 capon = 1;          % switches on/off pathogen carrying capacity
 hsaton = 1;         % switches on/off lymphocyte constraint
@@ -60,34 +61,33 @@ mrates = Qmatrix(Pdim1,chi_,spliton);    % initial mutation matrix
 P0 = zeros(Pdim1,1);    % initial pathogen inoculation  
 P0(x0) = pinit;    
 
-Qprime = 1;  % ratio of R to L_tot* (i.e. R = L* times n times Qprime)
-L0density = Gamma_/(delta_ - dh_*(1-Qprime));          % initial naive cell mean density
+L0density = Gamma_/delta_;          % initial naive cell mean density
 if (nrandon)
     L0 = unifrndpop(Ldim1,L0density,mu_); % random distribution of naive cells
 else
-    L0 = L0density.*ones(Ldim1,1)-1;      % uniform distribution of naive cells
+    L0 = L0density.*ones(Ldim1,1);       % uniform distribution of naive cells
 end
-R_ = Ldim1*L0density*Qprime;   % total lymphocyte threshold, above which constraint applies
-
+R_ = Ldim1*L0density;   
+E0 = L0density*(Cfull-Ldim1); % total lymphocyte threshold, above which constraint applies
 
 %%%%%%%%%%%%% writing parameters and init conditions to file %%%%%%%%%%%%%%
 % saving/writing params to parameter file
 b0 = [r_;h_;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-    Pdim1;Ldim1;x0;chi_;Gamma_;nrandon;delta_;spliton;pinit];
+    Pdim1;Ldim1;x0;chi_;Gamma_;nrandon;delta_;spliton;pinit;Cfull];
 writeparams(bfilename,b0); % creates paramfile for run; returns error if file already exists
 
 % creating & saving initial conditions vector
 t0 = 0;
-y0 = [P0;L0];
+y0 = [P0;L0;E0];
 
 dlmwrite(tfilename,t0);
 dlmwrite(Pfilename,P0');
-dlmwrite(Lfilename,L0');
+dlmwrite(Lfilename,[L0',E0]);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%% integrating diffeqs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-options = odeset('AbsTol',1e-3,'Events',@(t,y)stopper(t,y,mu_)); % sets 'events' option
+options = odeset('Events',@(t,y)stopper(t,y,mu_)); % sets 'events' option
 tspan = (t0:stepsize:days); % timespan for solver                % to stop integration
 n_ts = 1;       % counts total solver timesteps                  % and enforce cutoff at mu_
 nstops = 0;     % counts number of interruptions
@@ -96,7 +96,7 @@ while (contin)
     
     % integrate until 'stopper' event...(or total days reached)
     % ('stopper.m' triggers an event whenever a population falls below mu_)
-    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
+    [ts_vec,y_out,etimes,ytimes,indices] = ode15s(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
         tspan,y0,options);
     
     % once integration is stopped...
@@ -117,10 +117,11 @@ while (contin)
     t_out = ts_vec(2:end);
     P_out = y_out(2:end,1:Pdim1);        
     L_out = y_out(2:end,Pdim1+1:Pdim1+Ldim1);
+    E_out = y_out(2:end,end);
 
     dlmwrite(tfilename,t_out,'-append');
     dlmwrite(Pfilename,P_out,'-append');
-    dlmwrite(Lfilename,L_out,'-append');
+    dlmwrite(Lfilename,[L_out,E_out],'-append');
     
     % set new initial conditions for resuming while loop integration
     t0 = ts_vec(end);

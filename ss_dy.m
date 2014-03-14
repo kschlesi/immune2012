@@ -12,7 +12,7 @@ k_ = b0(4);
 mu_ = b0(7);
 dh_ = b0(8);
 K_ = b0(9);
-R_ = b0(10);
+%R_ = b0(10);
 capon = b0(11);
 hsaton = b0(12);
 Pdim1 = b0(13);
@@ -24,13 +24,16 @@ Gamma_ = b0(17);
 delta_ = b0(19);
 spliton = b0(20);
 %pinit = b0(21);
+Cfull = b0(22);
 
 % create separate P, L vectors
 % & set all < mu_ pops to 0 in ss_dy only (not returned to ss_main)
 P = y(1:Pdim1);
 L = y(Pdim1+1:Pdim1+Ldim1);
+E = y(end);
 P = P.*(P>=mu_);
 L = L.*(L>=mu_);
+E = E*(E>mu_);
 Pis0 = (P<mu_);  % keep track of whether each site is below mu_
 
 % calculate dP (all size Pdim1 x 1)        
@@ -49,19 +52,21 @@ dP = dP.*(1-zerodP);
 
 % calculate dL's (all size Ldim1 x 1)
 if hsaton
-    Hsat = (sum(L) - R_); % for lymphocyte constraint
+    Rfull = (Gamma_/delta_)*Cfull;
+    Hsat = (sum(L) + E - Rfull); % for lymphocyte constraint
 else
     Hsat = 0; % if no constraint
 end
 Pofy = gammas1D*P;
 satfunc = Pofy./(k_.*ones(Ldim1,1)+Pofy); % pathogen saturation function
 dL = Gamma_ + (sigma_*satfunc - delta_*(1-satfunc) - dh_*Hsat).*L;
+dE = Gamma_*(Cfull-Ldim1) - (delta_ + dh_*Hsat)*E;
 
 % print to command window: time (in days) and 
 % # of sites with NO pathogen both before and after this timestep
 disp(t);
 disp(ndP);
 
-dy = [dP;dL];
+dy = [dP;dL;dE];
 
 end
