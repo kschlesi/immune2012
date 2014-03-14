@@ -29,7 +29,7 @@ orig_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
         legend('early escape','chronic infection','early clearance')
         
                 
-        overone_tests = [orig_tests(:,1),1./orig_tests(:,2),orig_tests(:,3:4)];
+        overone_tests = [orig_tests(:,1),1./(Pdim1.*orig_tests(:,2)),orig_tests(:,3:4)];
 
 figure
 escapes = overone_tests(:,2).*(overone_tests(:,3)==1);
@@ -39,7 +39,7 @@ plot(overone_tests(:,1),escapes,'xr',...
      overone_tests(:,1),chronics,'*b',...
      overone_tests(:,1),clears,'og')
 %axis([xmin xmax 1/ymax 1/ymin])
-axis([xmin 20 1/ymax 0.02])
+axis([xmin 20 1/ymax 0.1])
 
 orig_tests=overone_tests;
 
@@ -108,7 +108,7 @@ plot(aLine(:,1),mean([aLine(:,2),aLine(:,3)],2),'g')
 hold on
 plot([bLine(:,1);13.1],[mean([bLine(:,2),bLine(:,3)],2);0],'r')
 plot(cLine(:,1),mean([cLine(:,2),cLine(:,3)],2),'b')
-axis([xmin 20 1/ymax 0.02])
+%axis([xmin 20 1/ymax 0.02])
 
 
 

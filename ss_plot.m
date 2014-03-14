@@ -2,7 +2,7 @@
 
 clear
 
-runnum = 5.721;
+runnum = 3.2;
 basecode = 'clone';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -163,9 +163,9 @@ end
     %xlabel('duration of infection (days)')
 %     %clear Pplot;
     
-    %plot of total pathogen v. total lymphocyte population
+%     %plot of total pathogen v. total lymphocyte population
     figure
-    semilogy(tplot,Ptot,tplot,Ltot)
+    semilogy(tplot,Ptot,'-',tplot,Ltot,'-')
     %hold on
     %plot(tplot,(Ltot(1)).*ones(size(tplot)),'r')
     %plot(tplot,(R_).*ones(size(tplot)),'--r')
@@ -176,9 +176,9 @@ end
     xlabel('duration of infection (days)')
     ylabel('total population (cells)')
     legend('Pathogen','Lymphocytes','Location','NorthWest')
-%     %clear Ptot;
-%     %clear Ltot;
-%     
+    %clear Ptot;
+    %clear Ltot;
+     
 %     figure
 %     semilogy(tplot,Pplot(:,6))
 %     hold on
@@ -223,8 +223,8 @@ end
     title('Lymphocyte Evolution in Shape Space')
     ylabel('position in shape space (site)')
     xlabel('duration of infection (days)')
-%     %clear Lplot;
-      
+    %clear Lplot;
+
 % % plots of cutoff levels for whole infection
 %     v = [ mu_ 1 ];
 %     Xaxis = tplot;
@@ -245,15 +245,21 @@ end
 %     xlabel('duration of infection (days)')
 %     legend('Lymphocytes = \mu','Location','Northeast')
 
+ix=100;
+Pline = Pplot(find(tplot>ix,1,'first'),:);
+Lline = Lplot(find(tplot>ix,1,'first'),:);
 
 figure    % plot of P0 and L0 distributions at days+olddays
 hold on
 hold all
-plot((1:1:Pdim1),Pplot(end,:))
-plot((1:1:Ldim1),Lplot(end,:))
-plot((1:1:Ldim1),Lplot(1,:))
-plot((1:1:Ldim1),R_/Ldim1)
-title(['P0 and L0 distributions at t = ' num2str(days) ' days'])
+%plot((1:1:Pdim1),Pplot(end,:))
+%plot((1:1:Ldim1),Lplot(end,:))
+%plot((1:1:Ldim1),Lplot(1,:))
+%plot((1:1:Ldim1),R_/Ldim1)
+%title(['P0 and L0 distributions at t = ' num2str(days) ' days'])
+plot((1:1:Pdim1),Pline(end,:))
+plot((1:1:Ldim1),Lline(end,:))
+title(['P0 and L0 distributions at t = ' num2str(ix) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')

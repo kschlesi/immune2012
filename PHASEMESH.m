@@ -13,7 +13,8 @@ bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/tests.txt'];
-tic        
+
+        tic        
 for bb=brange
     
     realnum = realnum + 100 - mod(realnum,100);
@@ -47,7 +48,7 @@ for bb=brange
     
     
 end
-toc
+
 % for aa=arange2
 %     
 %     realnum = realnum + 100 - mod(realnum,100);

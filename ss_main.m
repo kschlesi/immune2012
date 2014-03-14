@@ -35,7 +35,7 @@ pinit = 10;         % initial dose of pathogen
 b = 20;             % width of Gaussian affinity curve
 eps_ = 0;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
-dh_ = 5e-5;         % coefficient of overall lymphocyte constraint
+dh_ = 5e-7;         % coefficient of overall lymphocyte constraint
 Cfull = 5e6;        % total number of naive clones (sites) in system
 K_ = 10^10;         % pathogen carrying capacity
 capon = 1;          % switches on/off pathogen carrying capacity
@@ -87,7 +87,7 @@ dlmwrite(Lfilename,[L0',E0]);
 
 %%%%%%%%%%%%%%%%%%%%%%%% integrating diffeqs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-options = odeset('AbsTol',1e-1,'Events',@(t,y)stopper(t,y,mu_)); % sets 'events' option
+options = odeset('Events',@(t,y)stopper(t,y,mu_)); % sets 'events' option
 tspan = (t0:stepsize:days); % timespan for solver                % to stop integration
 n_ts = 1;       % counts total solver timesteps                  % and enforce cutoff at mu_
 nstops = 0;     % counts number of interruptions
@@ -96,7 +96,7 @@ while (contin)
     
     % integrate until 'stopper' event...(or total days reached)
     % ('stopper.m' triggers an event whenever a population falls below mu_)
-    [ts_vec,y_out,etimes,ytimes,indices] = ode45(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
+    [ts_vec,y_out,etimes,ytimes,indices] = ode15s(@(t,y)ss_dy(t,y,b0,gammas1D,lambdas1D),...
         tspan,y0,options);
     
     % once integration is stopped...
@@ -146,9 +146,9 @@ end
 %%%%%%%%%%%%%%%% plotting initial & final distributions %%%%%%%%%%%%%%%%%%%
 
 figure    % plot of P0 and L0 distributions at days
+plot((1:1:400),P_out(end,:)')
 hold on
 hold all
-plot((1:1:400),P_out(end,:)')
 plot((1:1:400),L_out(end,:)')
 title(['P0 and L0 distributions at t = ' num2str(ts_vec(end)) ' days'])
 xlabel('location in shape space (site)')
