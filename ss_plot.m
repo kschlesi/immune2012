@@ -1,9 +1,9 @@
 % mutation 1D plotter
 
-clear
+clear -except mesh_tests
 
-runnum = 3.2;
-basecode = 'clone';
+runnum = 516;
+basecode = 'cmeshone';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -157,8 +157,9 @@ end
 %     clabel(C)
     set(gca,'GridLineStyle','none')
     axis([0 days 0 Pdim1])
-    %axis([50 500 30 90])
-    %title('Pathogen Evolution in Shape Space')
+    %axis([0 40 0 Pdim1])
+    title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ...
+        ', \mu = ' num2str(2.2e-4/chi_)])
     %ylabel('position in shape space (site)')
     %xlabel('duration of infection (days)')
 %     %clear Pplot;
@@ -252,18 +253,18 @@ Lline = Lplot(find(tplot>ix,1,'first'),:);
 figure    % plot of P0 and L0 distributions at days+olddays
 hold on
 hold all
-%plot((1:1:Pdim1),Pplot(end,:))
-%plot((1:1:Ldim1),Lplot(end,:))
-%plot((1:1:Ldim1),Lplot(1,:))
-%plot((1:1:Ldim1),R_/Ldim1)
-%title(['P0 and L0 distributions at t = ' num2str(days) ' days'])
-plot((1:1:Pdim1),Pline(end,:))
-plot((1:1:Ldim1),Lline(end,:))
-title(['P0 and L0 distributions at t = ' num2str(ix) ' days'])
+plot((1:1:Pdim1),Pplot(end,:))
+plot((1:1:Ldim1),Lplot(end,:))
+plot((1:1:Ldim1),Lplot(1,:))
+plot((1:1:Ldim1),R_/Ldim1)
+title(['P0 and L0 distributions at t = ' num2str(days) ' days'])
+% plot((1:1:Pdim1),Pline(end,:))
+% plot((1:1:Ldim1),Lline(end,:))
+% title(['P0 and L0 distributions at t = ' num2str(ix) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
-axis([125 175 0 10^5])
+axis([205 245 0 10^5])
     
 %%%%%%%%%%%%%%gammas, lambdas, etc
 % % gammas & lambdas (for beta_ landscape)
