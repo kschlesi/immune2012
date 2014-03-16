@@ -1,7 +1,7 @@
 % PHASEMESH
 
 brange = 4:4:40;
-chi_range = 0.4:0.8:22;
+chi_range = 4.4:0.8:22;
 %arange2 = (6:10).*10^(-5);
 %chi_range2 = 0:5;
 seednum = 5.712;
