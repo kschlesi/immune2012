@@ -1,9 +1,9 @@
 % mutation 1D plotter
 
-clear -except mesh_tests
+clear all -except mesh_tests
 
-runnum = 516;
-basecode = 'cmeshone';
+runnum = 607;
+basecode = 'cmeshtwo';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -157,7 +157,7 @@ end
 %     clabel(C)
     set(gca,'GridLineStyle','none')
     axis([0 days 0 Pdim1])
-    %axis([0 40 0 Pdim1])
+    %axis([0 22 0 Pdim1])
     title(['Pathogen Evolution in Shape Space, b = ' num2str(b) ...
         ', \mu = ' num2str(2.2e-4/chi_)])
     %ylabel('position in shape space (site)')
@@ -264,7 +264,7 @@ title(['P0 and L0 distributions at t = ' num2str(days) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')
 legend('Pathogen','Lymphocytes')
-axis([205 245 0 10^5])
+axis([225 275 0 10^5])
     
 %%%%%%%%%%%%%%gammas, lambdas, etc
 % % gammas & lambdas (for beta_ landscape)
