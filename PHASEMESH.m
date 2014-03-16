@@ -4,11 +4,11 @@ brange = 4:4:40;
 chi_range = 4.4:0.8:22;
 %arange2 = (6:10).*10^(-5);
 %chi_range2 = 0:5;
-seednum = 5.712;
-seedbasecode = 'clone';
+seednum = 6.1;
+seedbasecode = 'plos';
 
 realnum = 0;
-realbasecode = 'cmeshone';
+realbasecode = 'cmeshtwo';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
@@ -30,7 +30,7 @@ for bb=brange
         end
         clear params;
         b0 = [r_;h_;sigma_;k_;bb;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit;Cfull];
+            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/b' realbasecode '999.txt'];
         writeparams(temppath,b0,temppath);
