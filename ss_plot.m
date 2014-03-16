@@ -253,8 +253,12 @@ hold all
 %plot((1:1:Ldim1),Lplot(1,:))
 %plot((1:1:Ldim1),R_/Ldim1)
 %title(['P0 and L0 distributions at t = ' num2str(days) ' days'])
+if Pline
+    if Lline
 plot((1:1:Pdim1),Pline(end,:))
 plot((1:1:Ldim1),Lline(end,:))
+    end
+end
 title(['P0 and L0 distributions at t = ' num2str(ix) ' days'])
 xlabel('location in shape space (site)')
 ylabel('population (cells/\mul)')

@@ -116,7 +116,7 @@ mesh_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
 % mesh_tests = [mesh_tests1;mesh_tests2;mesh_tests3;mesh_tests4;mesh_tests5;...
 %    bchi_tests;mesh_tests_now];
 
-
+mesh_tests = mesh_tests_now;
 figure
 escapes = mesh_tests(:,2).*(mesh_tests(:,3)==1);
 chronics = mesh_tests(:,2).*(~mesh_tests(:,3));
