@@ -1,14 +1,14 @@
 % PHASEMESH
 
-brange = 4:4:40;
-chi_range = 4.4:0.8:22;
+brange = 0:2e-6:2e-5;
+gamma_range = 0.1:0.3:4;
 %arange2 = (6:10).*10^(-5);
 %chi_range2 = 0:5;
-seednum = 6.1;
-seedbasecode = 'plos';
+seednum = 507;
+seedbasecode = 'cmeshtwo';
 
 realnum = 0;
-realbasecode = 'cmeshtwo';
+realbasecode = 'cmeshthree';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
@@ -18,7 +18,7 @@ tic
 for bb=brange
     
     realnum = realnum + 100 - mod(realnum,100);
-    for chi_try=chi_range
+    for gamma_try=gamma_range
         
         % create new paramfile from bseedfile & specified changes
         params = setparams(bseedfile);
@@ -29,8 +29,8 @@ for bb=brange
             end
         end
         clear params;
-        b0 = [r_;h_;sigma_;k_;bb;eps_;mu_;dh_;K_;R_;capon;hsaton;...
-            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
+        b0 = [r_;bb;sigma_;k_;b;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_;gamma_try;nrandon;delta_;spliton;pinit];
         temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
             realbasecode '/b' realbasecode '999.txt'];
         writeparams(temppath,b0,temppath);
@@ -40,14 +40,13 @@ for bb=brange
            [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
        
         %save params, runnum, and result
-        dlmwrite(savefile,[bb,chi_try,didescape,realnum],'-append');
+        dlmwrite(savefile,[bb,gamma_try,didescape,realnum],'-append');
         
         realnum = realnum+1;
      
-    end   
-    
-    
+    end      
 end
+toc
 
 % for aa=arange2
 %     
@@ -116,7 +115,7 @@ mesh_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
 % mesh_tests = [mesh_tests1;mesh_tests2;mesh_tests3;mesh_tests4;mesh_tests5;...
 %    bchi_tests;mesh_tests_now];
 
-mesh_tests = mesh_tests_now;
+%mesh_tests = mesh_tests_now;
 figure
 escapes = mesh_tests(:,2).*(mesh_tests(:,3)==1);
 chronics = mesh_tests(:,2).*(~mesh_tests(:,3));
