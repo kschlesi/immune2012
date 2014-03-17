@@ -28,11 +28,11 @@ r_ = 3;             % pathogen mutation rate
 h_ = 10^-5;         % pathogen killing
 sigma_ = 3;         % naive recruitment
 k_ = 10^5;          % pathogen saturation
-chi_ = 22;          % strength of mutation probability (chi_=0: no mutation)
+chi_ = 18;          % strength of mutation probability (chi_=0: no mutation)
 Gamma_ = 1;         % naive influx
 delta_ = 0.33;      % constant naive death rate
 pinit = 10;         % initial dose of pathogen
-b = 24;             % width of Gaussian affinity curve
+b = 36;             % width of Gaussian affinity curve
 eps_ = 0;           % controls fall-off of fitness landscape at edges
 mu_ = 1;            % minimum cell-per-site density
 dh_ = 5e-7;         % coefficient of overall lymphocyte constraint

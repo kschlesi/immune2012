@@ -2,7 +2,7 @@
 
 clear
 
-runnum = 507;
+runnum = 917;
 basecode = 'cmeshtwo';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -153,7 +153,7 @@ end
 %     clabel(C)
     set(gca,'GridLineStyle','none')
     axis([0 days 0 Pdim1])
-    %axis([50 500 30 90])
+    axis([50 2000 0 300])
     %title('Pathogen Evolution in Shape Space')
     %ylabel('position in shape space (site)')
     %xlabel('duration of infection (days)')
@@ -166,7 +166,7 @@ end
     %plot(tplot,(Ltot(1)).*ones(size(tplot)),'r')
     %plot(tplot,(R_).*ones(size(tplot)),'--r')
     axis([0 days 1 10^10])
-    %axis([0 10 1 10^10])
+    axis([50 2000 1 10^10])
     title('Single-Infection Cell Populations')
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
