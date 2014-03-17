@@ -2,8 +2,8 @@
 
 clear all -except mesh_tests
 
-runnum = 507;
-basecode = 'cmeshtwo';
+runnum = 6.1;
+basecode = 'plos';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
