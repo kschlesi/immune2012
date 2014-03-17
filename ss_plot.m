@@ -1,6 +1,6 @@
 % mutation 1D plotter
 
-clear
+clear all -except mesh_tests
 
 runnum = 917;
 basecode = 'cmeshtwo';
@@ -166,7 +166,7 @@ end
     %plot(tplot,(Ltot(1)).*ones(size(tplot)),'r')
     %plot(tplot,(R_).*ones(size(tplot)),'--r')
     axis([0 days 1 10^10])
-    axis([50 2000 1 10^10])
+    axis([0 25 1 10^10])
     title('Single-Infection Cell Populations')
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')
