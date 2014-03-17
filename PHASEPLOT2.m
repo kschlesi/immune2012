@@ -123,110 +123,16 @@ plot(cLine(:,1),mean([cLine(:,2),cLine(:,3)],2),'bo')
 plot(dLine(:,1),mean([dLine(:,2),dLine(:,3)],2),'ko')
 plot(eLine(:,1),mean([eLine(:,2),eLine(:,3)],2),'bo')
 
+
+tomoves=(dLine(:,1)>35).*(dLine(:,2)<2e-5);
+d1Line = dLine(tomoves>0,:);
+d2Line = dLine(~tomoves,:);
+
 figure
 plot(aLine(:,1),mean([aLine(:,2),aLine(:,3)],2),'k-')
 hold on
 plot(bLine(:,1),mean([bLine(:,2),bLine(:,3)],2),'k-')
-plot(cLine(:,1),mean([cLine(:,2),cLine(:,3)],2),'k-')
+plot(d1Line(:,1),mean([d1Line(:,2),d1Line(:,3)],2),'k-')
+plot(d2Line(:,1),mean([d2Line(:,2),d2Line(:,3)],2),'k-')
 
-
-
-%%%%%%%%%%%%%%%%%%aLine plot%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% % preparing to fit a curve to the relevant phaseline points
-% orig_result1 = aLine;
-% mean_y1 = mean([orig_result1(:,2),orig_result1(:,3)],2);
-% 
-% % plot original guess of fit parameters
-% figure
-% plot(expfun([10^4,3e5],(orig_result1(1,1):xresolution:orig_result1(end,1))))
-% %plot(powerfun([10^5,3],(orig_result1(1,1):xresolution:orig_result1(end,1))))
-% 
-% % interactively plot power-law fit
-% % nlintool(orig_result1(:,1),mean_y1,@powerfun,[10^5,3]);
-% 
-% % calculate power-law fit and error on fit
-% [bhat1,resid,J] = nlinfit(orig_result1(:,1),mean_y1,@powerfun,[10^-14,2]);
-% betaci1 = nlparci(bhat1,resid,J);
-% disp(betaci1(1,:));
-% disp(betaci1(2,:));
-% 
-% % plot relevant test points (green), fit (blue), fit error lines (red)
-% figure
-% plot(orig_result1(:,1),mean_y1,'go')
-% hold on
-% plot(orig_result1(:,1),powerfun(betaci1(:,1),orig_result1(:,1)),'r--')
-% plot(orig_result1(:,1),powerfun(betaci1(:,2),orig_result1(:,1)),'r--')
-% plot(orig_result1(:,1),powerfun(bhat1,orig_result1(:,1)),'b')
-
-%%%%%%%%%%%%%%%%%%%%%%%%%bLine plot%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% % preparing to fit a curve to the relevant phaseline points
-% orig_result2 = bLine;
-% mean_y2 = mean([orig_result2(:,2),orig_result2(:,3)],2);
-% 
-% % plot original guess of fit parameters
-% figure
-% plot(expfun([10^3,3e5],orig_result2(:,1)))
-% 
-% % calculate power-law fit and error on fit
-% % ...or exponential??
-% [bhat2,resid,J] = nlinfit(orig_result2(:,1),mean_y2,@expfun,[10^3,3e5]);
-% betaci2 = nlparci(bhat2,resid,J);
-% disp(betaci2(1,:));
-% disp(betaci2(2,:));
-% 
-% % plot relevant test points (green), fit (blue), fit error lines (red)
-% figure
-% plot(orig_result2(:,1),mean_y2,'ro')
-% hold on
-% plot(orig_result2(:,1),expfun(betaci2(:,1),orig_result2(:,1)),'r--')
-% plot(orig_result2(:,1),expfun(betaci2(:,2),orig_result2(:,1)),'r--')
-% plot(orig_result2(:,1),expfun(bhat2,orig_result2(:,1)),'b')
-
-%%%%%%%%%%%%%%%%%%%%%%%%%bLine plot%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% % preparing to fit a curve to the relevant phaseline points
-% keep_indx = find(bLine(:,2)~=max(bLine(:,2)));
-% orig_result3 = bLine(keep_indx,:);
-% mean_y3 = mean([orig_result3(:,2),orig_result3(:,3)],2);
-% 
-% % plot original guess of fit parameters
-% figure
-% plot(powerfun([10^-8,2],orig_result3(:,1)))
-% %plot(expfun([10^3,3e5],orig_result(:,1)))
-% 
-% % calculate power-law fit and error on fit
-% % ...or exponential??
-% [bhat3,resid,J] = nlinfit(orig_result3(:,1),mean_y3,@powerfun,[10^-8,2]);
-% betaci3 = nlparci(bhat3,resid,J);
-% disp(betaci3(1,:));
-% disp(betaci3(2,:));
-% 
-% % plot relevant test points (green), fit (blue), fit error lines (red)
-% figure
-% plot(orig_result3(:,1),mean_y3,'ro')
-% hold on
-% plot(orig_result3(:,1),powerfun(betaci3(:,1),orig_result3(:,1)),'r--')
-% plot(orig_result3(:,1),powerfun(betaci3(:,2),orig_result3(:,1)),'r--')
-% plot(orig_result3(:,1),powerfun(bhat3,orig_result3(:,1)),'b')
-
-%%%%%%%%%%%%%%%%%%%final plot%%%%%%%%%%%%%%%%%%%%%%%
-figure
-plot(aLine(:,1),mean([aLine(:,2),aLine(:,3)],2),'go')
-hold on
-plot(bLine(:,1),mean([bLine(:,2),bLine(:,3)],2),'ro')
-plot(cLine(:,1),mean([cLine(:,2),cLine(:,3)],2),'bo')
-
-%plot(orig_result1(:,1),powerfun(betaci1(:,1),orig_result1(:,1)),'b--')
-%plot(orig_result1(:,1),powerfun(betaci1(:,2),orig_result1(:,1)),'b--')
-%plot(xaxis(2:end),powerfun(bhat1,xaxis(2:end)),'k')
-%plot(orig_result1(:,1),powerfun(bhat1,orig_result1(:,1)),'g')
-
-%plot(orig_result3(:,1),powerfun(betaci3(:,1),orig_result3(:,1)),'b--')
-%plot(orig_result3(:,1),powerfun(betaci3(:,2),orig_result3(:,1)),'b--')
-%plot(orig_result3(:,1),powerfun(bhat3,orig_result3(:,1)),'r')
-%plot(xaxis(2:end),powerfun(bhat3,xaxis(2:end)),'k')
-
-axis([xmin xmax ymin ymax])
 

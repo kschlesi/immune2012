@@ -3,8 +3,8 @@
 clear all -except mesh_tests
 
 
-runnum = 6.1;
-basecode = 'plos';
+runnum = 1501;
+basecode = 'cmeshtwo';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
 tfilename = [datapath 't' basecode num2str(runnum) '.txt'];
@@ -167,7 +167,7 @@ end
     %plot(tplot,(Ltot(1)).*ones(size(tplot)),'r')
     %plot(tplot,(R_).*ones(size(tplot)),'--r')
     axis([0 days 1 10^10])
-    axis([0 25 1 10^10])
+    %axis([0 25 1 10^10])
     title('Single-Infection Cell Populations')
 %    title(['Single-Infection Cell Populations, b = ' num2str(b)])
     xlabel('duration of infection (days)')

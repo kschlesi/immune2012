@@ -1,13 +1,13 @@
 % PHASEMESH
 
-brange = 0:2e-6:2e-5;
+brange = 1.6e-5:2e-6:2e-5;
 gamma_range = 0.1:0.3:4;
 %arange2 = (6:10).*10^(-5);
 %chi_range2 = 0:5;
 seednum = 507;
 seedbasecode = 'cmeshtwo';
 
-realnum = 0;
+realnum = 900;
 realbasecode = 'cmeshthree';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
