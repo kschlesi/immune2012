@@ -48,9 +48,13 @@ x_hist = histc(orig_tests(:,1),xaxis);
 aLine = zeros(floor(size(orig_tests,1)/3),3);
 bLine = zeros(size(aLine));
 cLine = zeros(size(aLine));
+dLine = zeros(size(aLine));
+eLine = zeros(size(aLine));
 current_arow = 1;
 current_brow = 1;
 current_crow = 1;
+current_drow = 1;
+current_erow = 1;
 
 % for loop that searches each x-value for phaseline points & saves them to
 % matrices aLine and bLine
@@ -69,8 +73,7 @@ for i=1:size(x_hist,1)
                 current_arow = current_arow+1;
                 end
             else
-                if ( ~x_chunk(grab_index(j),3) && x_chunk(grab_index(j)+1,3)==-1 ) ||...
-               ( x_chunk(grab_index(j),3)==-1 && ~x_chunk(grab_index(j)+1,3) )
+                if ( ~x_chunk(grab_index(j),3) && x_chunk(grab_index(j)+1,3)==-1 ) 
                 if x_chunk(grab_index(j),1)==x_chunk(grab_index(j)+1,1) && x_chunk(grab_index(j),2)
                 bLine(current_brow,:) = ...
                     [x_chunk(grab_index(j),1),x_chunk(grab_index(j),2),x_chunk(grab_index(j)+1,2)];
@@ -83,6 +86,21 @@ for i=1:size(x_hist,1)
                     current_crow = current_crow+1;
                 end
                 end
+                
+                if ( x_chunk(grab_index(j),3)==-1 && ~x_chunk(grab_index(j)+1,3) ) 
+                if x_chunk(grab_index(j),1)==x_chunk(grab_index(j)+1,1) && x_chunk(grab_index(j),2)
+                dLine(current_drow,:) = ...
+                    [x_chunk(grab_index(j),1),x_chunk(grab_index(j),2),x_chunk(grab_index(j)+1,2)];
+                current_drow = current_drow+1;
+                end
+                else
+                if x_chunk(grab_index(j),1)==x_chunk(grab_index(j)+1,1) && x_chunk(grab_index(j),2)
+                    eLine(current_erow,:) = ...
+                        [x_chunk(grab_index(j),1),x_chunk(grab_index(j),2),x_chunk(grab_index(j)+1,2)];
+                    current_erow = current_erow+1;
+                end
+                end
+               
             end
         end
         end
@@ -95,11 +113,15 @@ end
 aLine = aLine(1:current_arow-1,:);
 bLine = bLine(1:current_brow-1,:);
 cLine = cLine(1:current_crow-1,:);
+dLine = dLine(1:current_drow-1,:);
+eLine = eLine(1:current_erow-1,:);
 figure
 plot(aLine(:,1),mean([aLine(:,2),aLine(:,3)],2),'go')
 hold on
 plot(bLine(:,1),mean([bLine(:,2),bLine(:,3)],2),'ro')
 plot(cLine(:,1),mean([cLine(:,2),cLine(:,3)],2),'bo')
+plot(dLine(:,1),mean([dLine(:,2),dLine(:,3)],2),'ko')
+plot(eLine(:,1),mean([eLine(:,2),eLine(:,3)],2),'bo')
 
 figure
 plot(aLine(:,1),mean([aLine(:,2),aLine(:,3)],2),'k-')
