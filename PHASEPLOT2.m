@@ -1,11 +1,9 @@
-%%%%% PHASEPLOTS 2 %%%%%
+%%%%% PHASEPLOTS 2 %%%%% FOR B MU PHASE DIAGRAMS
 % in which plots are made of the phase diagrams that have appropriate
 % colors and things.
 
-twovars = 'bchi';
-xvar = 'b';
-yvar = 'chi_';
-windowsize = 0.25; % y-resolution
+twovars = 'cmeshtwo';
+windowsize = 1e-6; % y-resolution (MU, not chi_)
 xresolution = 1;
 % twovars = 'Gammabeta';
 % xvar = 'one';
@@ -15,15 +13,16 @@ xresolution = 1;
 
 % first, we load the necessary files
 orig_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-            twovars '_tests.txt']);
+            twovars '/tests.txt']);
+        orig_tests(:,2) = 2.2e-4./orig_tests(:,2);
     % .... and make a quick plot of all tests.
         ymax = max(orig_tests(:,2));
-        ymin = windowsize;
+        ymin = min(orig_tests(:,2));
         yaxis = ymin:windowsize:ymax;
         xmin = min(orig_tests(:,1));
         xmax = max(orig_tests(:,1));
         xaxis = xmin:xresolution:xmax;
-        %disp([xmin xmax ymin ymax]);
+
         figure
         escapes = orig_tests(:,2).*(orig_tests(:,3)==1);
         chronics = orig_tests(:,2).*(~orig_tests(:,3));
@@ -101,6 +100,13 @@ plot(aLine(:,1),mean([aLine(:,2),aLine(:,3)],2),'go')
 hold on
 plot(bLine(:,1),mean([bLine(:,2),bLine(:,3)],2),'ro')
 plot(cLine(:,1),mean([cLine(:,2),cLine(:,3)],2),'bo')
+
+figure
+plot(aLine(:,1),mean([aLine(:,2),aLine(:,3)],2),'k-')
+hold on
+plot(bLine(:,1),mean([bLine(:,2),bLine(:,3)],2),'k-')
+plot(cLine(:,1),mean([cLine(:,2),cLine(:,3)],2),'k-')
+
 
 
 %%%%%%%%%%%%%%%%%%aLine plot%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
