@@ -154,7 +154,11 @@ end
 %     clabel(C)
     set(gca,'GridLineStyle','none')
     axis([0 days 0 Pdim1])
+<<<<<<< HEAD
     axis([0 50 0 100])
+=======
+    axis([0 50 0 Pdim1])
+>>>>>>> 0666d7a7463f6f4426ff11da720c7a41160b014c
     %title('Pathogen Evolution in Shape Space')
     %ylabel('position in shape space (site)')
     %xlabel('duration of infection (days)')
