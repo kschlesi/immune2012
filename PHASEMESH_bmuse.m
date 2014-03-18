@@ -1,12 +1,201 @@
 % PHASEMESH for b v. mu diagram, plosruns, etc.
 % fleshing out cmeshtwo
 
-brange = 20;
-mu_range = [0.7e-5:1e-6:1e-5-1e-6,4.2e-5:1e-6:5e-5-1e-6];
+%one
+brange = 34:2:38;
+mu_range = 3.3e-5:1e-6:3.8e-5;
 seednum = 507;
 seedbasecode = 'cmeshtwo';
 
-realnum = 1700;
+realnum = 3000;
+realbasecode = 'cmeshtwo';
+bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
+    '/b' seedbasecode num2str(seednum) '.txt' ];
+savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/tests.txt'];
+
+tic        
+for bb=brange
+    
+    realnum = realnum + 100 - mod(realnum,100);
+    for mu_try=mu_range
+        chi_try = 2.2e-4/mu_try;
+        
+        % create new paramfile from bseedfile & specified changes
+        params = setparams(bseedfile);
+        for i=1:size(params,1)
+            if ~strcmp(char(params{i,1}),'days')
+                eval([char(params{i,1}) ' = ' num2str(params{i,2}) ';']);
+                eval([char(params{i,1}) 'units = char(params{i,3});']);
+            end
+        end
+        clear params;
+        b0 = [r_;h_;sigma_;k_;bb;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
+        temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/b' realbasecode '999.txt'];
+        writeparams(temppath,b0,temppath);
+        
+        % call ss_seed from seedfile run with new paramfile
+        didescape = ss_seed([seedbasecode num2str(seednum)],...
+           [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
+       
+        %save params, runnum, and result
+        dlmwrite(savefile,[bb,chi_try,didescape,realnum],'-append');
+        
+        realnum = realnum+1;
+     
+    end      
+end
+toc
+
+%two
+brange = 24:2:26;
+mu_range = 1.2e-5:1e-6:1.4e-5;
+seednum = 507;
+seedbasecode = 'cmeshtwo';
+
+realbasecode = 'cmeshtwo';
+bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
+    '/b' seedbasecode num2str(seednum) '.txt' ];
+savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/tests.txt'];
+
+tic        
+for bb=brange
+    
+    realnum = realnum + 100 - mod(realnum,100);
+    for mu_try=mu_range
+        chi_try = 2.2e-4/mu_try;
+        
+        % create new paramfile from bseedfile & specified changes
+        params = setparams(bseedfile);
+        for i=1:size(params,1)
+            if ~strcmp(char(params{i,1}),'days')
+                eval([char(params{i,1}) ' = ' num2str(params{i,2}) ';']);
+                eval([char(params{i,1}) 'units = char(params{i,3});']);
+            end
+        end
+        clear params;
+        b0 = [r_;h_;sigma_;k_;bb;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
+        temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/b' realbasecode '999.txt'];
+        writeparams(temppath,b0,temppath);
+        
+        % call ss_seed from seedfile run with new paramfile
+        didescape = ss_seed([seedbasecode num2str(seednum)],...
+           [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
+       
+        %save params, runnum, and result
+        dlmwrite(savefile,[bb,chi_try,didescape,realnum],'-append');
+        
+        realnum = realnum+1;
+     
+    end      
+end
+toc
+
+%three
+brange = 22;
+mu_range = 0.9e-5:1e-6:1e-5;
+seednum = 507;
+seedbasecode = 'cmeshtwo';
+
+realbasecode = 'cmeshtwo';
+bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
+    '/b' seedbasecode num2str(seednum) '.txt' ];
+savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/tests.txt'];
+
+tic        
+for bb=brange
+    
+    realnum = realnum + 100 - mod(realnum,100);
+    for mu_try=mu_range
+        chi_try = 2.2e-4/mu_try;
+        
+        % create new paramfile from bseedfile & specified changes
+        params = setparams(bseedfile);
+        for i=1:size(params,1)
+            if ~strcmp(char(params{i,1}),'days')
+                eval([char(params{i,1}) ' = ' num2str(params{i,2}) ';']);
+                eval([char(params{i,1}) 'units = char(params{i,3});']);
+            end
+        end
+        clear params;
+        b0 = [r_;h_;sigma_;k_;bb;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
+        temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/b' realbasecode '999.txt'];
+        writeparams(temppath,b0,temppath);
+        
+        % call ss_seed from seedfile run with new paramfile
+        didescape = ss_seed([seedbasecode num2str(seednum)],...
+           [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
+       
+        %save params, runnum, and result
+        dlmwrite(savefile,[bb,chi_try,didescape,realnum],'-append');
+        
+        realnum = realnum+1;
+     
+    end      
+end
+toc
+
+%four
+brange = 36;
+mu_range = 3.6e-5:1e-6:3.9e-5;
+seednum = 507;
+seedbasecode = 'cmeshtwo';
+
+realbasecode = 'cmeshtwo';
+bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
+    '/b' seedbasecode num2str(seednum) '.txt' ];
+savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/tests.txt'];
+
+tic        
+for bb=brange
+    
+    realnum = realnum + 100 - mod(realnum,100);
+    for mu_try=mu_range
+        chi_try = 2.2e-4/mu_try;
+        
+        % create new paramfile from bseedfile & specified changes
+        params = setparams(bseedfile);
+        for i=1:size(params,1)
+            if ~strcmp(char(params{i,1}),'days')
+                eval([char(params{i,1}) ' = ' num2str(params{i,2}) ';']);
+                eval([char(params{i,1}) 'units = char(params{i,3});']);
+            end
+        end
+        clear params;
+        b0 = [r_;h_;sigma_;k_;bb;eps_;mu_;dh_;K_;R_;capon;hsaton;...
+            Pdim1;Ldim1;x0;chi_try;Gamma_;nrandon;delta_;spliton;pinit];
+        temppath = ['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            realbasecode '/b' realbasecode '999.txt'];
+        writeparams(temppath,b0,temppath);
+        
+        % call ss_seed from seedfile run with new paramfile
+        didescape = ss_seed([seedbasecode num2str(seednum)],...
+           [realbasecode '999'],0,300,0.1,realbasecode,realnum,1);
+       
+        %save params, runnum, and result
+        dlmwrite(savefile,[bb,chi_try,didescape,realnum],'-append');
+        
+        realnum = realnum+1;
+     
+    end      
+end
+toc
+
+%five
+brange = 38:2:40;
+mu_range = 4.1e-5:1e-6:4.9e-5;
+seednum = 507;
+seedbasecode = 'cmeshtwo';
+
 realbasecode = 'cmeshtwo';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];

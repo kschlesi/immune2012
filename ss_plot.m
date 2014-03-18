@@ -3,7 +3,7 @@
 clear all -except mesh_tests
 
 
-runnum = 1501;
+runnum = 600;
 basecode = 'cmeshtwo';
 datapath = ['/Users/kimberly/Google Drive/immunedata/PL13/' basecode '/'];
 bfilename = [datapath 'b' basecode num2str(runnum) '.txt'];
@@ -154,7 +154,7 @@ end
 %     clabel(C)
     set(gca,'GridLineStyle','none')
     axis([0 days 0 Pdim1])
-    axis([50 2000 0 300])
+    axis([0 50 0 Pdim1])
     %title('Pathogen Evolution in Shape Space')
     %ylabel('position in shape space (site)')
     %xlabel('duration of infection (days)')
