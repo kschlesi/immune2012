@@ -1,13 +1,13 @@
 % PHASEMESH for b v. mu diagram, plosruns, etc.
 % fleshing out cmeshtwo
 
-brange = 20;
-mu_range = [0.7e-5:1e-6:1e-5-1e-6,4.2e-5:1e-6:5e-5-1e-6];
+brange = [50,48:-2:30];
+mu_range = 1e-5:1e-6:2.8e-5;
 seednum = 507;
-seedbasecode = 'cmeshtwo';
+seedbasecode = 'cmeshtwoA';
 
-realnum = 1700;
-realbasecode = 'cmeshtwo';
+realnum = 2000;
+realbasecode = 'cmeshtwoA';
 bseedfile = ['/Users/kimberly/Google Drive/immunedata/PL13/' seedbasecode...
     '/b' seedbasecode num2str(seednum) '.txt' ];
 savefile = ['/Users/kimberly/Google Drive/immunedata/PL13/'...

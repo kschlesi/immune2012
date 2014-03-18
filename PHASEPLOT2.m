@@ -2,7 +2,7 @@
 % in which plots are made of the phase diagrams that have appropriate
 % colors and things.
 
-twovars = 'cmeshtwo';
+twovars = 'cmeshtwoA';
 windowsize = 1e-6; % y-resolution (MU, not chi_)
 xresolution = 1;
 % twovars = 'Gammabeta';
@@ -30,7 +30,7 @@ orig_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
         plot(orig_tests(:,1).*(escapes>0),escapes,'xr',...
             orig_tests(:,1).*(chronics>0),chronics,'*b',...
             orig_tests(:,1).*(clears>0),clears,'.g')
-        axis([xmin xmax ymin ymax])
+        axis([xmin xmax ymin ymax+1e-6])
         %axis([xmin 40 ymin 1000])
         legend('early escape','chronic infection','early clearance')
 
@@ -124,9 +124,11 @@ plot(dLine(:,1),mean([dLine(:,2),dLine(:,3)],2),'ko')
 plot(eLine(:,1),mean([eLine(:,2),eLine(:,3)],2),'bo')
 
 
-tomoves=(dLine(:,1)>35).*(dLine(:,2)<2e-5);
-d1Line = dLine(tomoves>0,:);
-d2Line = dLine(~tomoves,:);
+% tomoves=(dLine(:,1)>30).*(dLine(:,2)<2e-5);
+% d1Line = dLine(tomoves>0,:);
+% d2Line = dLine(~tomoves,:);
+% tomoves = (aLine(:,1)>12).*(aLine(:,2)<2e-5);
+% aLine = aLine(~tomoves,:);
 
 figure
 plot(aLine(:,1),mean([aLine(:,2),aLine(:,3)],2),'k-')
@@ -134,5 +136,6 @@ hold on
 plot(bLine(:,1),mean([bLine(:,2),bLine(:,3)],2),'k-')
 plot(d1Line(:,1),mean([d1Line(:,2),d1Line(:,3)],2),'k-')
 plot(d2Line(:,1),mean([d2Line(:,2),d2Line(:,3)],2),'k-')
+axis([11 60 1e-5 5e-5])
 
 
