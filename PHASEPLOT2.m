@@ -2,7 +2,7 @@
 % in which plots are made of the phase diagrams that have appropriate
 % colors and things.
 
-twovars = 'cmeshtwoA';
+twovars = 'cmeshtwo';
 windowsize = 1e-6; % y-resolution (MU, not chi_)
 xresolution = 1;
 % twovars = 'Gammabeta';
@@ -12,9 +12,9 @@ xresolution = 1;
 % xresolution = 0.025e-4;
 
 % first, we load the necessary files
-%orig_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
-%            twovars '/tests.txt']);
-        orig_tests = csvread('tests.txt');        
+orig_tests = csvread(['/Users/kimberly/Google Drive/immunedata/PL13/'...
+            twovars '/tests.txt']);
+%        orig_tests = csvread('tests.txt');        
         orig_tests(:,2) = 2.2e-4./orig_tests(:,2);
     % .... and make a quick plot of all tests.
         ymax = max(orig_tests(:,2));
